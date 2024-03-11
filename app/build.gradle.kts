@@ -39,7 +39,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.9"
     }
     packaging {
         resources {
@@ -67,8 +67,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     /* Hilt*/
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.46")
+    kapt("com.google.dagger:hilt-android-compiler:2.46")
 
     /* Retrofit*/
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
