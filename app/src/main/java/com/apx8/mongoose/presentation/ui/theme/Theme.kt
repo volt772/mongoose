@@ -1,4 +1,4 @@
-package com.apx8.mongoose.ui.theme
+package com.apx8.mongoose.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

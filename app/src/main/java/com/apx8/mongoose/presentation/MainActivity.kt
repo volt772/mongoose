@@ -1,4 +1,4 @@
-package com.apx8.mongoose
+package com.apx8.mongoose.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.apx8.mongoose.ui.theme.MongooseTheme
+import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
