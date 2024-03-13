@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                             state = vm.state,
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-//                        WeatherForecast(state = vm.state)
+                        WeatherForecast(state = vm.state)
                     }
 
                     if (vm.state.isLoading) {

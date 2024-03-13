@@ -14,13 +14,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.domain.weather.WeatherData
+import com.apx8.mongoose.presentation.ui.theme.TextGray
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 @Composable
 fun HourlyWeatherDisplay(
     weatherData: WeatherData,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.White
+    textColor: Color = Color.Black
 ) {
     val formattedTime = remember(weatherData) {
         weatherData.time.format(
@@ -35,7 +37,7 @@ fun HourlyWeatherDisplay(
     ) {
         Text(
             text = formattedTime,
-            color = Color.LightGray
+            color = TextGray
         )
         Image(
             painter = painterResource(id = weatherData.weatherType.iconRes),
@@ -43,7 +45,7 @@ fun HourlyWeatherDisplay(
             modifier = Modifier.width(40.dp)
         )
         Text(
-            text = "${weatherData.temperatureCelsius}°C",
+            text = "${weatherData.temperatureCelsius.roundToInt()}°C",
             color = textColor,
             fontWeight = FontWeight.Bold
         )

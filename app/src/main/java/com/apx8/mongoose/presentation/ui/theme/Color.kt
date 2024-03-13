@@ -23,3 +23,5 @@ val BgSnowy = Color(0xffa0e6ec)
 val BgHeavySnow	= Color(0xff94f2f4)
 val BgRainyThunder = Color(0xff3c5369)
 val BgThunder =	Color(0xff3f5781)
+
+val TextGray =	Color(0xFF6F6278)
