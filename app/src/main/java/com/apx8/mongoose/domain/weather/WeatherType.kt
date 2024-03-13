@@ -1,119 +1,150 @@
 package com.apx8.mongoose.domain.weather
 
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.compose.ui.graphics.Color
 import com.apx8.mongoose.R
+import com.apx8.mongoose.presentation.ui.theme.*
 
 sealed class WeatherType(
     val weatherDesc: String,
     @DrawableRes val iconRes: Int,
+    @ColorRes val bgColor: Color
 ) {
     data object ClearSky : WeatherType(
         weatherDesc = "Clear sky",
-        iconRes = R.drawable.ic_sunny
+        iconRes = R.drawable.ic_sunny,
+        bgColor = BgSunny
     )
     data object MainlyClear : WeatherType(
         weatherDesc = "Mainly clear",
-        iconRes = R.drawable.ic_cloudy
+        iconRes = R.drawable.ic_cloudy,
+        bgColor = BgCloudy
     )
     data object PartlyCloudy : WeatherType(
         weatherDesc = "Partly cloudy",
-        iconRes = R.drawable.ic_cloudy
+        iconRes = R.drawable.ic_cloudy,
+        bgColor = BgCloudy
     )
     data object Overcast : WeatherType(
         weatherDesc = "Overcast",
-        iconRes = R.drawable.ic_cloudy
+        iconRes = R.drawable.ic_cloudy,
+        bgColor = BgCloudy
     )
     data object Foggy : WeatherType(
         weatherDesc = "Foggy",
-        iconRes = R.drawable.ic_very_cloudy
+        iconRes = R.drawable.ic_very_cloudy,
+        bgColor = BgVeryCloudy
     )
     data object DepositingRimeFog : WeatherType(
         weatherDesc = "Depositing rime fog",
-        iconRes = R.drawable.ic_very_cloudy
+        iconRes = R.drawable.ic_very_cloudy,
+        bgColor = BgVeryCloudy
     )
     data object LightDrizzle : WeatherType(
         weatherDesc = "Light drizzle",
-        iconRes = R.drawable.ic_rainshower
+        iconRes = R.drawable.ic_rainshower,
+        bgColor = BgRainShower
     )
     data object ModerateDrizzle : WeatherType(
         weatherDesc = "Moderate drizzle",
-        iconRes = R.drawable.ic_rainshower
+        iconRes = R.drawable.ic_rainshower,
+        bgColor = BgRainShower
     )
     data object DenseDrizzle : WeatherType(
         weatherDesc = "Dense drizzle",
-        iconRes = R.drawable.ic_rainshower
+        iconRes = R.drawable.ic_rainshower,
+        bgColor = BgRainShower
     )
     data object LightFreezingDrizzle : WeatherType(
         weatherDesc = "Slight freezing drizzle",
-        iconRes = R.drawable.ic_snowyrainy
+        iconRes = R.drawable.ic_snowyrainy,
+        bgColor = BgSnowyRainy
     )
     data object DenseFreezingDrizzle : WeatherType(
         weatherDesc = "Dense freezing drizzle",
-        iconRes = R.drawable.ic_snowyrainy
+        iconRes = R.drawable.ic_snowyrainy,
+        bgColor = BgRainShower
     )
     data object SlightRain : WeatherType(
         weatherDesc = "Slight rain",
-        iconRes = R.drawable.ic_rainy
+        iconRes = R.drawable.ic_rainy,
+        bgColor = BgRainy
     )
     data object ModerateRain : WeatherType(
         weatherDesc = "Rainy",
-        iconRes = R.drawable.ic_rainy
+        iconRes = R.drawable.ic_rainy,
+        bgColor = BgRainy
     )
     data object HeavyRain : WeatherType(
         weatherDesc = "Heavy rain",
-        iconRes = R.drawable.ic_rainy
+        iconRes = R.drawable.ic_rainy,
+        bgColor = BgRainy
     )
     data object HeavyFreezingRain: WeatherType(
         weatherDesc = "Heavy freezing rain",
-        iconRes = R.drawable.ic_snowyrainy
+        iconRes = R.drawable.ic_snowyrainy,
+        bgColor = BgSnowyRainy
     )
     data object SlightSnowFall: WeatherType(
         weatherDesc = "Slight snow fall",
-        iconRes = R.drawable.ic_snowy
+        iconRes = R.drawable.ic_snowy,
+        bgColor = BgSnowy
     )
     data object ModerateSnowFall: WeatherType(
         weatherDesc = "Moderate snow fall",
-        iconRes = R.drawable.ic_heavysnow
+        iconRes = R.drawable.ic_heavysnow,
+        bgColor = BgHeavySnow
     )
     data object HeavySnowFall: WeatherType(
         weatherDesc = "Heavy snow fall",
-        iconRes = R.drawable.ic_heavysnow
+        iconRes = R.drawable.ic_heavysnow,
+        bgColor = BgHeavySnow
     )
     data object SnowGrains: WeatherType(
         weatherDesc = "Snow grains",
-        iconRes = R.drawable.ic_heavysnow
+        iconRes = R.drawable.ic_heavysnow,
+        bgColor = BgHeavySnow
     )
     data object SlightRainShowers: WeatherType(
         weatherDesc = "Slight rain showers",
-        iconRes = R.drawable.ic_rainshower
+        iconRes = R.drawable.ic_rainshower,
+        bgColor = BgRainShower
     )
     data object ModerateRainShowers: WeatherType(
         weatherDesc = "Moderate rain showers",
-        iconRes = R.drawable.ic_rainshower
+        iconRes = R.drawable.ic_rainshower,
+        bgColor = BgRainShower
     )
     data object ViolentRainShowers: WeatherType(
         weatherDesc = "Violent rain showers",
-        iconRes = R.drawable.ic_rainshower
+        iconRes = R.drawable.ic_rainshower,
+        bgColor = BgRainShower
     )
     data object SlightSnowShowers: WeatherType(
         weatherDesc = "Light snow showers",
-        iconRes = R.drawable.ic_snowy
+        iconRes = R.drawable.ic_snowy,
+        bgColor = BgSnowy
     )
     data object HeavySnowShowers: WeatherType(
         weatherDesc = "Heavy snow showers",
-        iconRes = R.drawable.ic_snowy
+        iconRes = R.drawable.ic_snowy,
+        bgColor = BgSnowy
     )
     data object ModerateThunderstorm: WeatherType(
         weatherDesc = "Moderate thunderstorm",
-        iconRes = R.drawable.ic_thunder
+        iconRes = R.drawable.ic_thunder,
+        bgColor = BgThunder
     )
     data object SlightHailThunderstorm: WeatherType(
         weatherDesc = "Thunderstorm with slight hail",
-        iconRes = R.drawable.ic_rainythunder
+        iconRes = R.drawable.ic_rainythunder,
+        bgColor = BgRainyThunder
     )
     data object HeavyHailThunderstorm: WeatherType(
         weatherDesc = "Thunderstorm with heavy hail",
-        iconRes = R.drawable.ic_rainythunder
+        iconRes = R.drawable.ic_rainythunder,
+        bgColor = BgRainyThunder
     )
 
     companion object {
