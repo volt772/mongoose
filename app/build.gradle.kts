@@ -81,6 +81,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
+
 
 
 }
