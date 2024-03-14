@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.Mongoose" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Starting-->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground">@color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_logo_app_png</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.Mongoose</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_logo_project</item>
+    </style>
 </resources>

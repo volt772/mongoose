@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.apx8.mongoose.presentation.ui.theme.DeepBlue
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -36,6 +37,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition {
+            false
+        }
 
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
