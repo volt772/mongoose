@@ -13,6 +13,8 @@ val Pink40 = Color(0xFF7D5260)
 val DarkBlue = Color(0xFF1B3B5A)
 val DeepBlue = Color(0xFF102840)
 
+val AppColor = Color(0xFFFA3708)
+
 val BgSunny = Color(0xffffc508)
 val BgCloudy = Color(0xffd6e4ed)
 val BgVeryCloudy = Color(0xffd0e2ed)

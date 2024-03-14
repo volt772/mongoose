@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.apx8.mongoose.presentation.ui.theme.AppColor
 import com.apx8.mongoose.presentation.ui.theme.DeepBlue
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -55,13 +58,18 @@ class MainActivity : ComponentActivity() {
         ))
 
         setContent {
+            val scrollState = rememberScrollState()
+
             MongooseTheme {
                 vm.state.let { _state ->
 
                     SetStatusBarColor()
 
                     Box(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(state = scrollState)
+                            .background(Color.White)
                     ) {
                         Column(
                             modifier = Modifier
@@ -78,7 +86,7 @@ class MainActivity : ComponentActivity() {
                         if (_state.isLoading) {
                             CircularProgressIndicator(
                                 modifier = Modifier.align(Alignment.Center),
-                                color = Color.White
+                                color = AppColor
                             )
                         }
 
