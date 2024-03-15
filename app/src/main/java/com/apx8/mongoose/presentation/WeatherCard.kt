@@ -46,7 +46,7 @@ fun WeatherCard(
         Card(
             colors = CardDefaults.cardColors(containerColor = weatherInfo.currentWeatherData?.weatherType?.bgColor?: DeepBlue),
             shape = RoundedCornerShape(10.dp),
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             weatherInfo.currentWeatherData?.let { currentData ->
                 Column(
