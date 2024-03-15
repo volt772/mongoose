@@ -7,13 +7,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -23,11 +26,14 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.apx8.mongoose.R
 import com.apx8.mongoose.presentation.ui.theme.AppColor
-import com.apx8.mongoose.presentation.ui.theme.DeepBlue
+import com.apx8.mongoose.presentation.ui.theme.ErrorGray
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -89,13 +95,26 @@ class MainActivity : ComponentActivity() {
                                 color = AppColor
                             )
                         }
+                    }
 
-                        _state.error?.let { error ->
+                    _state.error?.let { error ->
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.ic_error),
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(ErrorGray)
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
                             Text(
+                                modifier = Modifier.padding(horizontal = 30.dp),
                                 text = error,
-                                color = Color.Red,
+                                color = ErrorGray,
                                 textAlign = TextAlign.Center,
-                                modifier = Modifier.align(Alignment.Center)
                             )
                         }
                     }
