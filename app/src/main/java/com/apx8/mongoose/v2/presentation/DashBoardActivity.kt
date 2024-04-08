@@ -39,7 +39,7 @@ class DashBoardActivity : ComponentActivity() {
         setContent {
 
             Column {
-                Text(text = "hamster!!")
+                Text(text = "meerkat!!")
             }
         }
     }
