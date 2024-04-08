@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mongoose" >
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".v2.presentation.DashBoardActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting"
             android:label="@string/app_name" >
@@ -27,6 +27,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+<!--        <activity-->
+<!--            android:name=".v1.MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:theme="@style/Theme.App.Starting"-->
+<!--            android:label="@string/app_name" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
     </application>
 
 </manifest>
