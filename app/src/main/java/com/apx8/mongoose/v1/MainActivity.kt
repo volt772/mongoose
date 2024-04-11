@@ -38,7 +38,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apx8.mongoose.R
+import com.apx8.mongoose.v1.domain.weather.CommonState
 import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
 import com.apx8.mongoose.v1.presentation.ui.theme.ErrorGray
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
@@ -74,6 +76,31 @@ class MainActivity : ComponentActivity() {
             val scrollState = rememberScrollState()
 
             MongooseTheme {
+//                val aa = vm.feed.collectAsStateWithLifecycle().value
+//                when(aa) {
+//                    is CommonState.Success -> {}
+//                    is CommonState.Loading -> {}
+//                    is CommonState.Error -> {}
+//                }
+                when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
+                    is CommonState.Loading -> { }
+                    is CommonState.Error -> { }
+                    is CommonState.Success -> {
+                        println("probe :: main activity : ${state.data}")
+                    }
+                }
+
+//                when(val dd = vm.feed.collectAsStateWithLifecycle().value) {
+//                    CommonState.Loading -> { }
+//                    CurrentWeatherState.Empty -> { }
+//                    is CurrentWeatherState.Success -> {
+//                        println("probe :: this hamster :${dd.dummy}")
+//                    }
+//                    is CurrentWeatherState.Error -> { }
+//                }
+
+
+
                 vm.state.let { _state ->
 
                     SetStatusBarColor()
@@ -90,7 +117,9 @@ class MainActivity : ComponentActivity() {
                                 .background(Color.White)
                         ) {
                             Row(
-                                modifier = Modifier.fillMaxWidth().padding(end = 5.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(end = 5.dp),
                                 horizontalArrangement = Arrangement.End
                             ) {
                                 IconButton(onClick = { }) {

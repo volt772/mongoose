@@ -1,7 +1,9 @@
 package com.apx8.mongoose.v1.data.mappers
 
+import com.apx8.mongoose.v1.data.remote.CurrentWeatherDto
 import com.apx8.mongoose.v1.data.remote.WeatherDataDto
 import com.apx8.mongoose.v1.data.remote.WeatherDto
+import com.apx8.mongoose.v1.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.v1.domain.weather.WeatherData
 import com.apx8.mongoose.v1.domain.weather.WeatherInfo
 import java.time.LocalDateTime
@@ -48,5 +50,17 @@ fun WeatherDto.toWeatherInfo(): WeatherInfo {
     return WeatherInfo(
         weatherDataPerDay = weatherDataMap,
         currentWeatherData = currentWeatherData
+    )
+}
+
+fun CurrentWeatherDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
+    val weatherData = this.weatherData.first()
+    return CurrentWeatherInfo(
+        id = weatherData.id,
+        main = weatherData.main,
+        description = weatherData.description,
+        icon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
+        name = this.name,
+        cod = this.cod
     )
 }
