@@ -9,6 +9,7 @@ import com.apx8.mongoose.domain.weather.WeatherInfo
 import com.apx8.mongoose.domain.weather.WeatherType
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 private data class IndexedWeatherData(
     val index: Int,
@@ -60,6 +61,8 @@ fun CurrentWeatherDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
         id = weatherData.id,
         main = weatherData.main,
         description = weatherData.description,
+        temp = this.main.temp.roundToInt(),
+        feelsLike = this.main.feelsLike.roundToInt(),
         icon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
         name = this.name,
         cod = this.cod

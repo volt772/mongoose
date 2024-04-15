@@ -6,6 +6,9 @@ data class CurrentWeatherDto(
     @field:Json(name = "weather")
     val weatherData: List<CurrentWeatherDataDto>,
 
+    @field:Json(name = "main")
+    val main: CurrentWeatherMainDto,
+
     @field:Json(name = "name")
     val name: String,
 
