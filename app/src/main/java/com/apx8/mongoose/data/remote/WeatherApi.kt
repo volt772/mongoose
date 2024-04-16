@@ -19,4 +19,12 @@ interface WeatherApi {
         @Query("appid") appId: String,
         @Query("units") units: String?= "metric",
     ): CurrentWeatherDto
+
+    @GET("data/2.5/forecast")
+    suspend fun getForecastWeatherData(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("appid") appId: String,
+        @Query("units") units: String?= "metric",
+    ): ForecastWeatherDto
 }

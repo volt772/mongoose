@@ -1,18 +1,23 @@
 package com.apx8.mongoose.data.repository
 
 import com.apx8.mongoose.data.mappers.toCurrentWeatherInfo
+import com.apx8.mongoose.data.mappers.toForecastWeatherInfo
 import com.apx8.mongoose.data.mappers.toWeatherInfo
 import com.apx8.mongoose.data.remote.WeatherApi
+import com.apx8.mongoose.di.DefaultDispatcher
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
+import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.util.Resource
 import com.apx8.mongoose.domain.util.Resource2
 import com.apx8.mongoose.domain.weather.WeatherInfo
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val api: WeatherApi
 ): WeatherRepository {
     override suspend fun getWeatherData(lat: Double, long: Double): Resource<WeatherInfo> {
@@ -38,6 +43,20 @@ class WeatherRepositoryImpl @Inject constructor(
             ).toCurrentWeatherInfo()
 
             flowOf(Resource2.Success(currentWeatherInfo))
+        } catch (e: Exception) {
+            flowOf(Resource2.Failed(e.message?: "Error Occurred"))
+        }
+    }
+
+    override suspend fun getForecastWeatherInfo(lat: Double, lon: Double, appId: String): Flow<Resource2<ForecastWeatherInfo>> {
+        return try {
+            val forecastWeatherInfo = api.getForecastWeatherData(
+                lat = lat,
+                lon = lon,
+                appId = appId
+            ).toForecastWeatherInfo(defaultDispatcher)
+
+            flowOf(Resource2.Success(forecastWeatherInfo))
         } catch (e: Exception) {
             flowOf(Resource2.Failed(e.message?: "Error Occurred"))
         }

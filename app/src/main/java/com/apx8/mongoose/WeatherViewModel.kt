@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apx8.mongoose.MongooseApp.Companion.apiKey
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
+import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.location.LocationTracker
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
@@ -30,10 +31,24 @@ class WeatherViewModel @Inject constructor(
     val currentWeather: StateFlow<CommonState<CurrentWeatherInfo>> = _currentWeather
 //    private val _category: MutableStateFlow<State<List<CmdCategory>>> = MutableStateFlow(State.loading())
 //    val category: StateFlow<State<List<CmdCategory>>> = _category
+    private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
+    val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
 
 
     var state by mutableStateOf(WeatherState())
         private set
+
+    fun loadForecastInfo() {
+        viewModelScope.launch {
+            weatherRepository.getForecastWeatherInfo(
+                lat = 37.4132, lon = 127.0016, appId = apiKey
+            )
+            .map { resource -> CommonState.fromResource(resource) }
+            .collect { state ->
+                _forecastWeather.value = state
+            }
+        }
+    }
 
     fun loadWeatherInfo() {
         viewModelScope.launch {

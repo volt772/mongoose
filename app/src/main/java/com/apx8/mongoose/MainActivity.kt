@@ -64,6 +64,7 @@ class MainActivity : ComponentActivity() {
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             vm.loadWeatherInfo()
+            vm.loadForecastInfo()
         }
 
         permissionLauncher.launch(arrayOf(
@@ -85,7 +86,15 @@ class MainActivity : ComponentActivity() {
                     is CommonState.Loading -> { }
                     is CommonState.Error -> { }
                     is CommonState.Success -> {
-                        println("probe :: main activity : ${state.data}")
+                        println("probe :: main activity Current : ${state.data}")
+                    }
+                }
+
+                when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
+                    is CommonState.Loading -> { }
+                    is CommonState.Error -> { }
+                    is CommonState.Success -> {
+                        println("probe :: main activity Forecast : ${state.data}")
                     }
                 }
 

@@ -1,12 +1,18 @@
 package com.apx8.mongoose.data.mappers
 
 import com.apx8.mongoose.data.remote.CurrentWeatherDto
-import com.apx8.mongoose.data.remote.WeatherDataDto
+import com.apx8.mongoose.data.remote.ForecastWeatherDto
+import com.apx8.mongoose.data.remote.WeatherDataDto2
 import com.apx8.mongoose.data.remote.WeatherDto
+import com.apx8.mongoose.di.DefaultDispatcher
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
+import com.apx8.mongoose.domain.dto.ForecastListInfo
+import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.weather.WeatherData
 import com.apx8.mongoose.domain.weather.WeatherInfo
 import com.apx8.mongoose.domain.weather.WeatherType
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
@@ -16,7 +22,7 @@ private data class IndexedWeatherData(
     val data: WeatherData
 )
 
-fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>> {
+fun WeatherDataDto2.toWeatherDataMap(): Map<Int, List<WeatherData>> {
     return time.mapIndexed { index, time ->
         val temperature = temperatures[index]
         val weatherCode = weatherCodes[index]
@@ -58,13 +64,39 @@ fun WeatherDto.toWeatherInfo(): WeatherInfo {
 fun CurrentWeatherDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
     val weatherData = this.weatherData.first()
     return CurrentWeatherInfo(
-        id = weatherData.id,
-        main = weatherData.main,
-        description = weatherData.description,
+        weatherId = weatherData.id,
+        weatherMain = weatherData.main,
+        weatherDescription = weatherData.description,
         temp = this.main.temp.roundToInt(),
+        humidity = this.main.humidity,
         feelsLike = this.main.feelsLike.roundToInt(),
-        icon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
-        name = this.name,
+        weatherIcon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
+        cityName = this.name,
         cod = this.cod
     )
 }
+
+suspend fun ForecastWeatherDto.toForecastWeatherInfo(
+    defaultDispatcher: CoroutineDispatcher
+): ForecastWeatherInfo {
+    val forecastDto = this
+    return withContext(defaultDispatcher) {
+        val forecast = forecastDto.list.map {
+            val weatherData = it.weather.first()
+            ForecastListInfo(
+                dt = it.dt,
+                temp = it.main.temp.roundToInt(),
+                dtTxt = it.dtTxt,
+                weatherId = weatherData.id,
+                weatherMain = weatherData.main,
+                weatherIcon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
+            )
+        }
+
+        ForecastWeatherInfo(
+            cityName = forecastDto.city.name,
+            forecastList = forecast
+        )
+    }
+}
+
