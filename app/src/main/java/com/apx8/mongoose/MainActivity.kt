@@ -39,12 +39,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
 import com.apx8.mongoose.v1.presentation.ui.theme.ErrorGray
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -63,8 +65,11 @@ class MainActivity : ComponentActivity() {
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
-            vm.loadWeatherInfo()
-            vm.loadForecastInfo()
+            lifecycleScope.launch {
+                vm.fetch()
+            }
+//            vm.loadWeatherInfo()
+//            vm.loadForecastInfo()
         }
 
         permissionLauncher.launch(arrayOf(

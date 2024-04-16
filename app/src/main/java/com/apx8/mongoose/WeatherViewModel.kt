@@ -12,6 +12,9 @@ import com.apx8.mongoose.domain.location.LocationTracker
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -37,6 +40,16 @@ class WeatherViewModel @Inject constructor(
 
     var state by mutableStateOf(WeatherState())
         private set
+
+    suspend fun fetch() =
+        coroutineScope {
+            val response = listOf(
+                async { loadWeatherInfo() },
+                async { loadForecastInfo() }
+            )
+
+            response.awaitAll()
+        }
 
     fun loadForecastInfo() {
         viewModelScope.launch {
