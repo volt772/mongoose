@@ -44,40 +44,33 @@ class WeatherViewModel @Inject constructor(
     suspend fun fetch() =
         coroutineScope {
             val response = listOf(
-                async { loadWeatherInfo() },
+                async { loadCurrentWeatherInfo() },
                 async { loadForecastInfo() }
             )
 
             response.awaitAll()
         }
 
-    fun loadForecastInfo() {
-        viewModelScope.launch {
-            weatherRepository.getForecastWeatherInfo(
-                lat = 37.4132, lon = 127.0016, appId = apiKey
-            )
-            .map { resource -> CommonState.fromResource(resource) }
-            .collect { state ->
-                _forecastWeather.value = state
-            }
-        }
-    }
-
-    fun loadWeatherInfo() {
+    private fun loadCurrentWeatherInfo() {
         viewModelScope.launch {
             weatherRepository.getCurrentWeatherInfo(
                 lat = 37.4132, lon = 127.0016, appId = apiKey
             )
                 .map { resource -> CommonState.fromResource(resource) }
-                .collect { state ->
-                    _currentWeather.value = state
-//                try {
-//                    _viewState.value = CurrentWeatherState.Success(result)
-//                } catch (e: Exception) {
-//                    _viewState.value = CurrentWeatherState.Error(e)
-//                }
-            }
+                .collect { state -> _currentWeather.value = state }
         }
+    }
+
+    private fun loadForecastInfo() {
+        viewModelScope.launch {
+            weatherRepository.getForecastWeatherInfo(
+                lat = 37.4132, lon = 127.0016, appId = apiKey
+            )
+            .map { resource -> CommonState.fromResource(resource) }
+            .collect { state -> _forecastWeather.value = state }
+        }
+    }
+
 
 //        viewModelScope.launch {
 //            state = state.copy(isLoading = true, error = null)
@@ -106,5 +99,4 @@ class WeatherViewModel @Inject constructor(
 //                )
 //            }
 //        }
-    }
 }
