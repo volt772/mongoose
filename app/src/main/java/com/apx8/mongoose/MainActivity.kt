@@ -9,11 +9,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -30,8 +28,8 @@ import androidx.lifecycle.lifecycleScope
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
-import com.apx8.mongoose.view.current.CurrentWeatherScreen
-import com.apx8.mongoose.view.current.ForecastWeatherScreen
+import com.apx8.mongoose.view.CurrentWeatherScreen
+import com.apx8.mongoose.view.ForecastWeatherScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -101,7 +99,7 @@ class MainActivity : ComponentActivity() {
                             }
                             is CommonState.Error -> { }
                             is CommonState.Success -> {
-                                ForecastWeatherScreen(state = state.data, modifier = Modifier)
+                                ForecastWeatherScreen(forecastState = state.data, modifier = Modifier)
                             }
                         } 
                         

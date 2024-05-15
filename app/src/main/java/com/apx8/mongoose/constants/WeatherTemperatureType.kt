@@ -1,4 +1,4 @@
-package com.apx8.mongoose.v1.presentation.constants
+package com.apx8.mongoose.constants
 
 sealed class WeatherTemperatureType(
     val index: Int,

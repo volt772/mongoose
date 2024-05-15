@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view.current
+package com.apx8.mongoose.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
