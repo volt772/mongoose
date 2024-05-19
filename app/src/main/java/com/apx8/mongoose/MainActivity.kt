@@ -28,8 +28,8 @@ import androidx.lifecycle.lifecycleScope
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
-import com.apx8.mongoose.view.CurrentWeatherScreen
-import com.apx8.mongoose.view.ForecastWeatherScreen
+import com.apx8.mongoose.view.screen.CurrentWeatherScreen
+import com.apx8.mongoose.view.screen.ForecastWeatherScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

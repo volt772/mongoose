@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view
+package com.apx8.mongoose.view.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

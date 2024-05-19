@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view
+package com.apx8.mongoose.view.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,7 +67,7 @@ fun CurrentWeatherScreen(
 
         }
         Text(
-            text = "서울종합운동장",
+            text = "운동장",
             fontWeight = FontWeight.W400,
             fontSize = 20.sp,
             color = Color.White

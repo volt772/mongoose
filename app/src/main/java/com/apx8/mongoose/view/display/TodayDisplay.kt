@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
-import com.apx8.mongoose.view.item.WeatherTypeA
 
 @Composable
 fun TodayDisplay(
@@ -47,9 +46,9 @@ fun TodayDisplay(
         // 18시 경기는 밤경기로
 
 
-        val aa = forecastState.forecastList.filter {
-            it.dtTxt
-        }
+//        val aa = forecastState.forecastList.filter {
+//            it.dtTxt
+//        }
 //        WeatherTypeA(
 //
 ////                weatherMain: String, // Clouds ..
@@ -61,7 +60,7 @@ fun TodayDisplay(
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painterResource(id = R.drawable.ic_team_dsb_symbol),
+                painterResource(id = R.drawable.ic_team_ncd_symbol),
                 contentDescription = null,
 //                    colorFilter = ColorFilter.tint(ErrorGray)
             )
@@ -100,7 +99,7 @@ fun TodayDisplay(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painterResource(id = R.drawable.ic_team_kat_symbol),
+                painterResource(id = R.drawable.ic_team_ltg_symbol),
                 contentDescription = null,
 //                    colorFilter = ColorFilter.tint(ErrorGray)
             )
