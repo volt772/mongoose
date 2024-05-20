@@ -56,8 +56,8 @@ class WeatherViewModel @Inject constructor(
             weatherRepository.getCurrentWeatherInfo(
                 lat = 37.4132, lon = 127.0016, appId = apiKey
             )
-                .map { resource -> CommonState.fromResource(resource) }
-                .collect { state -> _currentWeather.value = state }
+            .map { resource -> CommonState.fromResource(resource) }
+            .collect { state -> _currentWeather.value = state }
         }
     }
 

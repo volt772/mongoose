@@ -35,7 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity: ComponentActivity() {
 
     private val vm: WeatherViewModel by viewModels()
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
@@ -54,8 +54,6 @@ class MainActivity : ComponentActivity() {
             lifecycleScope.launch {
                 vm.fetch()
             }
-//            vm.loadWeatherInfo()
-//            vm.loadForecastInfo()
         }
 
         permissionLauncher.launch(arrayOf(
