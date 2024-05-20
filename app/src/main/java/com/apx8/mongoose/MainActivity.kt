@@ -104,7 +104,7 @@ class MainActivity: ComponentActivity() {
                     }
                 }
 
-                /* Current Screen*/
+//                /* Current Screen*/
 //                when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
 //                    is CommonState.Loading -> {
 //                        LoadingProgressIndicator()
