@@ -94,4 +94,7 @@ dependencies {
 
     /* Location Services*/
     implementation("com.google.android.gms:play-services-location:21.2.0")
+
+    /* Joda Time*/
+    implementation("net.danlew:android.joda:2.12.5")
 }
