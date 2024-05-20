@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.constants.WeatherTemperatureType
-import com.apx8.mongoose.v1.presentation.dto.WeatherTemperature
+import com.apx8.mongoose.dto.WeatherTemperature
 import com.apx8.mongoose.v1.presentation.ui.theme.DeepBlue
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt

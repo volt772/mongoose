@@ -3,6 +3,7 @@ package com.apx8.mongoose.view.item
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,13 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
-import com.apx8.mongoose.constants.PlayTimeType
-import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 
 @Composable
 fun WeatherStatusMidItem(
     weatherMain: String,        // Clouds ..
-    temperature: Int,           // 15
+    dayTemperature: Int,           // 15
+    nightTemperature: Int,           // 15
     date: String,               // 4월 17일
     modifier: Modifier = Modifier
 ) {
@@ -39,13 +39,29 @@ fun WeatherStatusMidItem(
             painterResource(id = R.drawable.ic_team_ncd_symbol),
             contentDescription = null,
         )
-        Text(
-            text = "$temperature°C",
-            fontWeight = FontWeight.W400,
-            fontSize = 20.sp,
-            color = Color.White,
-            modifier = modifier.align(Alignment.CenterHorizontally)
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "$dayTemperature°C",
+                fontWeight = FontWeight.W400,
+                fontSize = 20.sp,
+                color = Color.White,
+            )
+            Text(
+                text = " | ",
+                fontWeight = FontWeight.W400,
+                fontSize = 20.sp,
+                color = Color.White,
+            )
+            Text(
+                text = "$nightTemperature°C",
+                fontWeight = FontWeight.W400,
+                fontSize = 20.sp,
+                color = Color.White,
+            )
+        }
     }
 }
 
@@ -54,7 +70,8 @@ fun WeatherStatusMidItem(
 fun PreviewWeatherStatusMidItem() {
     WeatherStatusMidItem(
         weatherMain = "Clouds",
-        temperature = 15,
+        dayTemperature = 30,
+        nightTemperature = 25,
         date = "4월 17일"
     )
 }

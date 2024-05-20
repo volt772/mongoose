@@ -19,6 +19,7 @@ import kotlin.math.abs
 const val DOC_DATE_FORMAT_HYPHEN = "yyyy-MM-dd"
 const val DOC_DATE_FORMAT_DOT = "yy.MM.dd"
 const val DOC_TIME_FORMAT = "HH:mm"
+const val DOC_TIME_FORMAT_FULL = "HH:mm:ss"
 const val DOC_FULL_FORMAT = "yy.MM.dd HH:mm"
 const val DOC_RESP_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
 
@@ -27,6 +28,26 @@ val currMillis: Long
     get() {
         return System.currentTimeMillis()
     }
+
+fun getDateAfter2DaysWithTomorrow(): List<String> {
+    return mutableListOf<String>().also { list ->
+        list.add(getDateAfterTomorrow(1))
+        list.add(getDateAfterTomorrow(2))
+        list.add(getDateAfterTomorrow(3))
+    }
+}
+
+internal fun getDateAfterTomorrow(afterDay: Int): String {
+    return LocalDate.now().plusDays(afterDay).toString(DOC_DATE_FORMAT_HYPHEN)
+}
+
+///**
+// * 모레, 글피 일자 가져오기
+// * @return Pair<tomorrow, 2 days after tomorrow>
+// */
+//fun getDateAfter2Days(): Pair<String, String> {
+//    return (getDateAfterTomorrow(1) to getDateAfterTomorrow(2))
+//}
 
 /**
  * Joda DateTime 이 올바른 값인지 검사.
@@ -172,19 +193,34 @@ fun getTimeUsingInWorkRequest() : Long {
     return dueDate.timeInMillis - currentDate.timeInMillis
 }
 
-//fun getTodaySeparate(type: String): Int {
-//    val localDate = LocalDate()
-//    val today = localDate.toString()
-//    val todayArr = today.splitExt("-")
-//
-//    when (type) {
-//        CmdConstants.Date.YEAR -> return Integer.parseInt(todayArr[0])
-//        CmdConstants.Date.MONTH -> return Integer.parseInt(todayArr[1])
-//        CmdConstants.Date.DAY -> return Integer.parseInt(todayArr[2])
-//    }
-//
-//    return 0
-//}
+fun String.getDateTo24Hour(): Int {
+    if (this.isBlank()) return 0
+
+    val spd = this.splitExt(" ")
+    val hourDt = spd.last()
+
+    if (!hourDt.contains(":")) {
+        return 0
+    }
+
+    val hourSpd = hourDt.splitExt(":")
+    return hourSpd.first().toInt()
+}
+
+fun String.getDateToDay(): String {
+    if (this.isBlank()) return "UNKNOWN"
+
+    val spd = this.splitExt(" ")
+    val dayDt = spd.first()
+
+    if (!dayDt.contains("-")) {
+        return "UNKNOWN"
+    }
+
+    val daySpd = dayDt.splitExt("-")
+    return "${daySpd[1]}월${daySpd[2]}일"
+}
+
 
 fun String.getDateToAbbr(divider: String): String {
     if (this.isBlank()) return ""

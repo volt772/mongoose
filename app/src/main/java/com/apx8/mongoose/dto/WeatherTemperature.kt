@@ -1,4 +1,4 @@
-package com.apx8.mongoose.v1.presentation.dto
+package com.apx8.mongoose.dto
 
 import com.apx8.mongoose.constants.WeatherTemperatureType
 
