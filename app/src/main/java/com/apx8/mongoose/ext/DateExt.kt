@@ -29,6 +29,14 @@ val currMillis: Long
         return System.currentTimeMillis()
     }
 
+fun getDateAfter2DaysWithToday(): List<String> {
+    return mutableListOf<String>().also { list ->
+        (0..3).forEach {
+            list.add(getDateAfterTomorrow(it))
+        }
+    }
+}
+
 fun getDateAfter2DaysWithTomorrow(): List<String> {
     return mutableListOf<String>().also { list ->
         list.add(getDateAfterTomorrow(1))

@@ -11,8 +11,7 @@ import com.apx8.mongoose.R
  * CNP (창원 NC 파크)
  * GCF (광주-기아 챔피언스 필드)
  * BSJ (사직야구장)
- * BDP (대전 한화생명 이글스파크/베이스볼 드림파크)
-     * -> 25년부터 `베이스볼 드림파크`로 사용하여, 코드명 수정
+ * BDP (대전 한화생명 이글스파크/베이스볼 드림파크) -> 25년부터 `베이스볼 드림파크`로 사용하여, 코드명 수정
  * DSP (대구 삼성 라이온즈 파크)
  * SOG (고척 스카이돔)
  * UMS (울산 문수 야구장)
@@ -117,7 +116,6 @@ sealed class Stadium(
         lat = 37.549,
         lon = 126.991
     )
-
 
     companion object {
         fun fromCode(code: String): Stadium {

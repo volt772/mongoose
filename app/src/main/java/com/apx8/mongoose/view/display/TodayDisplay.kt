@@ -1,6 +1,5 @@
 package com.apx8.mongoose.view.display
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,20 +13,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.apx8.mongoose.R
-import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
+import com.apx8.mongoose.constants.PlayTimeType
+import com.apx8.mongoose.dto.WeatherDisplayItem
+import com.apx8.mongoose.ext.getDateToDay
+import com.apx8.mongoose.view.item.WeatherStatusTopItem
 
 @Composable
 fun TodayDisplay(
-    forecastState: ForecastWeatherInfo,
+    item: WeatherDisplayItem,
     modifier: Modifier = Modifier
 ) {
 
@@ -41,44 +39,14 @@ fun TodayDisplay(
 
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        // 오늘 객체만 추출 (ForecastListInfo)
-        // 15시 경기는 낮경기로
-        // 18시 경기는 밤경기로
 
-
-//        val aa = forecastState.forecastList.filter {
-//            it.dtTxt
-//        }
-//        WeatherTypeA(
-//
-////                weatherMain: String, // Clouds ..
-////            temperature: Int,   // 15
-////            playTime: PlayTimeType, //
-//        )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Image(
-                painterResource(id = R.drawable.ic_team_ncd_symbol),
-                contentDescription = null,
-//                    colorFilter = ColorFilter.tint(ErrorGray)
-            )
-            Text(
-                text = "20°C",
-                fontWeight = FontWeight.W400,
-                fontSize = 20.sp,
-                color = Color.White,
-                modifier = modifier.align(Alignment.CenterHorizontally)
-            )
-            Text(
-                text = "낮경기",
-                fontWeight = FontWeight.W400,
-                fontSize = 18.sp,
-                color = Color.White,
-                modifier = modifier.align(Alignment.CenterHorizontally)
-            )
-        }
+        /* 낮경기*/
+        WeatherStatusTopItem(
+            weatherMain = item.dWeather,
+            temperature = item.dTemp,
+            playTime = PlayTimeType.DAY
+        )
+        /* 구분자*/
         Divider(
             color = Color.White,
             modifier = Modifier
@@ -87,7 +55,7 @@ fun TodayDisplay(
         )
         Column(
         ) {
-            Text("4월 16일")
+            Text(item.date)
         }
         Divider(
             color = Color.White,
@@ -95,28 +63,28 @@ fun TodayDisplay(
                 .fillMaxHeight()
                 .width(2.dp)
         )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painterResource(id = R.drawable.ic_team_ltg_symbol),
-                contentDescription = null,
-//                    colorFilter = ColorFilter.tint(ErrorGray)
-            )
-            Text(
-                text = "20°C",
-                fontWeight = FontWeight.W400,
-                fontSize = 20.sp,
-                color = Color.White,
-                modifier = modifier.align(Alignment.CenterHorizontally)
-            )
-            Text(
-                text = "저녁경기",
-                fontWeight = FontWeight.W400,
-                fontSize = 18.sp,
-                color = Color.White,
-                modifier = modifier.align(Alignment.CenterHorizontally)
-            )
-        }
+        /* 저녁경기*/
+        WeatherStatusTopItem(
+            weatherMain = item.nWeather,
+            temperature = item.nTemp,
+            playTime = PlayTimeType.NIGHT
+        )
     }
+}
+
+@Preview
+@Composable
+fun PreviewTodayDisplay() {
+    val todayForecast = WeatherDisplayItem(
+        date="2024-05-21 15:00:00".getDateToDay(),
+        dWeather="Clear",
+        nWeather="Clouds",
+        dWeatherIcon="https://openweathermap.org/img/wn/01n.png",
+        nWeatherIcon="https://openweathermap.org/img/wn/03n.png",
+        dTemp=20,
+        nTemp=18
+    )
+    TodayDisplay(
+        item = todayForecast
+    )
 }
