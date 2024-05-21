@@ -3,6 +3,7 @@ package com.apx8.mongoose.view.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -39,14 +40,24 @@ fun StadiumListScreen(
         }
     }
 
-    Surface(modifier = modifier.fillMaxWidth()) {
-        LazyColumn(
-            modifier = Modifier.verticalScroll(scrollState).height(IntrinsicSize.Max)
+    println("probe :: stadiumList : ${stadiumList}")
 
+    Surface(modifier = modifier.height(IntrinsicSize.Max)) {
+        LazyColumn(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .height(IntrinsicSize.Max)
         ) {
+
+            item {
+                Header()
+            }
 
             items(stadiumList) { stadium ->
                 StadiumItemView(stadium)
+            }
+            item {
+                Footer()
             }
         }
     }
@@ -78,6 +89,20 @@ fun StadiumListScreen(
 //            }
 //        }
 //    }
+}
+
+@Composable
+fun Header() {
+    Box() {
+       Text(text = "this is header")
+    }
+}
+
+@Composable
+fun Footer() {
+    Box() {
+        Text(text = "this is footer")
+    }
 }
 
 @Composable

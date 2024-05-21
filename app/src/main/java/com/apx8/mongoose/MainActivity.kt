@@ -30,7 +30,6 @@ import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.view.screen.ForecastWeatherScreen
-import com.apx8.mongoose.view.screen.StadiumListScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -68,6 +67,9 @@ class MainActivity: ComponentActivity() {
             MongooseTheme {
                 SetStatusBarColor()
 
+                /* Later To do*/
+//                StadiumListScreen()
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -79,7 +81,6 @@ class MainActivity: ComponentActivity() {
                             .fillMaxSize()
                             .background(Color.White)
                     ) {
-                        StadiumListScreen()
 
                         /* Column1 : Current Screen*/
                         when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
@@ -105,100 +106,6 @@ class MainActivity: ComponentActivity() {
                         
                     }
                 }
-
-//                /* Current Screen*/
-//                when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
-//                    is CommonState.Loading -> {
-//                        LoadingProgressIndicator()
-//                    }
-//                    is CommonState.Error -> { }
-//                    is CommonState.Success -> {
-//                        println("probe :: main activity Current : ${state.data}")
-//                    }
-//                }
-
-                /* Forecast Screen*/
-//                when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-//                    is CommonState.Loading -> {
-//                        LoadingProgressIndicator()
-//                    }
-//                    is CommonState.Error -> { }
-//                    is CommonState.Success -> {
-////                        println("probe :: main activity Forecast : ${state.data}")
-//                    }
-//                }
-
-
-                //////////////////
-
-//                vm.state.let { _state ->
-//
-//                    SetStatusBarColor()
-//
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .verticalScroll(state = scrollState)
-//                            .background(Color.White)
-//                    ) {
-//                        Column(
-//                            modifier = Modifier
-//                                .fillMaxSize()
-//                                .background(Color.White)
-//                        ) {
-//                            Row(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .padding(end = 5.dp),
-//                                horizontalArrangement = Arrangement.End
-//                            ) {
-//                                IconButton(onClick = { }) {
-//                                    Icon(
-//                                        imageVector = Icons.Rounded.KeyboardArrowUp,
-//                                        contentDescription = "Info",
-//                                        tint = Color.Gray,
-//                                        modifier = Modifier.size(30.dp)
-//                                    )
-//                                }
-//                            }
-//
-//                            WeatherCard(
-//                                state = _state,
-//                            )
-//                            Spacer(modifier = Modifier.height(16.dp))
-//                            WeatherForecast(state = _state)
-//                        }
-//
-//                        if (_state.isLoading) {
-//                            CircularProgressIndicator(
-//                                modifier = Modifier.align(Alignment.Center),
-//                                color = AppColor
-//                            )
-//                        }
-//                    }
-//
-//                    _state.error?.let { error ->
-//                        Column(
-//                            modifier = Modifier
-//                                .fillMaxSize(),
-//                            verticalArrangement = Arrangement.Center,
-//                            horizontalAlignment = Alignment.CenterHorizontally
-//                        ) {
-//                            Image(
-//                                painterResource(id = R.drawable.ic_error),
-//                                contentDescription = null,
-//                                colorFilter = ColorFilter.tint(ErrorGray)
-//                            )
-//                            Spacer(modifier = Modifier.height(16.dp))
-//                            Text(
-//                                modifier = Modifier.padding(horizontal = 30.dp),
-//                                text = error,
-//                                color = ErrorGray,
-//                                textAlign = TextAlign.Center,
-//                            )
-//                        }
-//                    }
-//                }
             }
         }
     }
