@@ -30,6 +30,7 @@ import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.view.screen.ForecastWeatherScreen
+import com.apx8.mongoose.view.screen.StadiumListScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -78,6 +79,7 @@ class MainActivity: ComponentActivity() {
                             .fillMaxSize()
                             .background(Color.White)
                     ) {
+                        StadiumListScreen()
 
                         /* Column1 : Current Screen*/
                         when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {

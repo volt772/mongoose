@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
@@ -90,4 +91,24 @@ fun CurrentWeatherScreen(
 //                                    println("probe :: main activity Current : ${state.data}")
     }
 
+}
+
+@Preview
+@Composable
+fun PreviewCurrentWeatherScreen() {
+    val state = CurrentWeatherInfo(
+        weatherId=800,
+        weatherMain="Clear",
+        weatherDescription="clear sky",
+        temp=27,
+        humidity=42,
+        feelsLike=27,
+        weatherIcon="https://openweathermap.org/img/wn/01d.png",
+        cityName="Gwacheon",
+        cod=200
+    )
+
+    CurrentWeatherScreen(
+        state = state
+    )
 }

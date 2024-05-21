@@ -34,7 +34,6 @@ fun ForecastWeatherScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        println("probe :: forecastState : $forecastState")
 
         val forecastByDay = forecastState.forecastList.groupBy {
             val spd = it.dtTxt.split(" ")
@@ -43,7 +42,6 @@ fun ForecastWeatherScreen(
 
         /* DateList [오늘, 내일, 모레, 글피]*/
         val days = getDateAfter2DaysWithToday()
-        println("probe :: days : $days")
 
         /* DataSet : 오늘 경기장 날씨*/
         val todayForecast = forecastByDay[days.first()]?.let { fbd ->
@@ -61,17 +59,21 @@ fun ForecastWeatherScreen(
             }
         }
 
-        /* 오늘 날씨 예보(낮경기, 저녁경기)*/
+        /* Layout Inflate : 오늘 날씨 예보(낮경기, 저녁경기)*/
         todayForecast?.let {
             TodayDisplay(item = todayForecast, modifier = modifier)
         }?: run {
-            // 로딩중
+            // 로딩실패
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        /* 익일 ~ 3일간 날씨 예보(낮경기, 저녁경기)*/
-        DayAfterTomorrowDisplay(items = dayAfterForecast, modifier = modifier)
+        /* Layout Inflate : 익일 ~ 3일간 날씨 예보(낮경기, 저녁경기)*/
+        if (dayAfterForecast.isNotEmpty()) {
+            DayAfterTomorrowDisplay(items = dayAfterForecast, modifier = modifier)
+        } else {
+            // 로딩실패
+        }
     }
 }
 
