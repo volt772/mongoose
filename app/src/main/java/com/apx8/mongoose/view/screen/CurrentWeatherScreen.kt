@@ -24,14 +24,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
+import com.apx8.mongoose.view.routes.Routes
 
 @Composable
 fun CurrentWeatherScreen(
     state: CurrentWeatherInfo,
     modifier: Modifier = Modifier
 ) {
+
+    val navController = rememberNavController()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -85,6 +90,11 @@ fun CurrentWeatherScreen(
                 }
                 .padding(12.dp, 6.dp)
                 .clickable {
+                    println("probe :: navcontroller : $navController")
+
+                    navController.navigate(Routes.Stadium.route)
+//                    navController.navigate("StadiumListScreen")
+
                     println("probe :: main :: this hamster!!")
                 },
         )

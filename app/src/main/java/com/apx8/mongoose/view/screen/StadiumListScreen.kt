@@ -23,44 +23,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.constants.Stadium2
 
 @Composable
 fun StadiumListScreen(
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    val scrollState = rememberScrollState()
-
-    val stadiumList = mutableListOf<Stadium2>().also { list ->
-        Stadium2.entries.forEach { _entry ->
-            if (_entry != Stadium2.UNKNOWN) {
-                list.add(_entry)
-            }
-        }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(text = " StadiumListScreen !!")
     }
-
-    println("probe :: stadiumList : ${stadiumList}")
-
-    Surface(modifier = modifier.height(IntrinsicSize.Max)) {
-        LazyColumn(
-            modifier = Modifier
-                .verticalScroll(scrollState)
-                .height(IntrinsicSize.Max)
-        ) {
-
-            item {
-                Header()
-            }
-
-            items(stadiumList) { stadium ->
-                StadiumItemView(stadium)
-            }
-            item {
-                Footer()
-            }
-        }
-    }
+//    val scrollState = rememberScrollState()
+//
+//    val stadiumList = mutableListOf<Stadium2>().also { list ->
+//        Stadium2.entries.forEach { _entry ->
+//            if (_entry != Stadium2.UNKNOWN) {
+//                list.add(_entry)
+//            }
+//        }
+//    }
+//
+//    println("probe :: stadiumList : ${stadiumList}")
+//
+//    Surface(modifier = modifier.height(IntrinsicSize.Max)) {
+//        LazyColumn(
+//            modifier = Modifier
+//                .verticalScroll(scrollState)
+//                .height(IntrinsicSize.Max)
+//        ) {
+//
+//            item {
+//                Header()
+//            }
+//
+//            items(stadiumList) { stadium ->
+//                StadiumItemView(stadium)
+//            }
+//            item {
+//                Footer()
+//            }
+//        }
+//    }
 
 
 
@@ -122,6 +130,6 @@ fun StadiumItemView(stadium: Stadium2) {
 @Composable
 fun PreviewStadiumListScreen() {
 
-    StadiumListScreen(
-    )
+//    StadiumListScreen(
+//    )
 }
