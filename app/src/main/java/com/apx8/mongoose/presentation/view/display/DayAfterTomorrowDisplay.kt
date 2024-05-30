@@ -10,13 +10,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.dto.WeatherDisplayItem
-import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.view.item.WeatherStatusMidItem
 
 @Composable
@@ -65,9 +64,9 @@ fun PreviewDayAfterTomorrowDisplay() {
         )
     )
     val fList = mutableListOf<WeatherDisplayItem>().also { list ->
-        list.add(WeatherDisplayItem(date="05월22일", dWeather="Clouds", nWeather="Clouds", dWeatherIcon="https://openweathermap.org/img/wn/04n.png", nWeatherIcon="https://openweathermap.org/img/wn/04n.png", dTemp=18, nTemp=17 ),)
-        list.add(WeatherDisplayItem(date="05월23일", dWeather="Clouds", nWeather="Clear", dWeatherIcon="https://openweathermap.org/img/wn/02n.png", nWeatherIcon="https://openweathermap.org/img/wn/04n.png", dTemp=18, nTemp=17 ),)
-        list.add(WeatherDisplayItem(date="05월24일", dWeather="Clouds", nWeather="Clouds", dWeatherIcon="https://openweathermap.org/img/wn/04n.png", nWeatherIcon="https://openweathermap.org/img/wn/04n.png", dTemp=19, nTemp=19 ),)
+        list.add(WeatherDisplayItem(date="05월22일", dWeather="Clouds", nWeather="Clouds", dWeatherId = 800, nWeatherId = 200, dWeatherIcon="https://openweathermap.org/img/wn/04n.png", nWeatherIcon="https://openweathermap.org/img/wn/04n.png", dTemp=18, nTemp=17 ),)
+        list.add(WeatherDisplayItem(date="05월23일", dWeather="Clouds", nWeather="Clear",  dWeatherId = 800, nWeatherId = 200, dWeatherIcon="https://openweathermap.org/img/wn/02n.png", nWeatherIcon="https://openweathermap.org/img/wn/04n.png", dTemp=18, nTemp=17 ),)
+        list.add(WeatherDisplayItem(date="05월24일", dWeather="Clouds", nWeather="Clouds", dWeatherId = 800, nWeatherId = 200, dWeatherIcon="https://openweathermap.org/img/wn/04n.png", nWeatherIcon="https://openweathermap.org/img/wn/04n.png", dTemp=19, nTemp=19 ),)
     }
     DayAfterTomorrowDisplay(
         items = fList

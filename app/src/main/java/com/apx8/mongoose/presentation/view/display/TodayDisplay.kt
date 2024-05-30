@@ -1,27 +1,35 @@
 package com.apx8.mongoose.presentation.view.display
 
+import android.provider.CalendarContract
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.constants.PlayTimeType
 import com.apx8.mongoose.dto.WeatherDisplayItem
 import com.apx8.mongoose.presentation.ext.getDateToDay
-import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ext.getWeatherType
+import com.apx8.mongoose.presentation.ui.theme.MgMainBlue
+import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.view.item.WeatherStatusTopItem
 
 @Composable
@@ -29,6 +37,9 @@ fun TodayDisplay(
     item: WeatherDisplayItem,
     modifier: Modifier = Modifier
 ) {
+
+    val dWeatherType = item.dWeatherId.getWeatherType()
+    val nWeatherType = item.nWeatherId.getWeatherType()
 
     Row(
         modifier = modifier
@@ -43,7 +54,7 @@ fun TodayDisplay(
 
         /* 낮경기*/
         WeatherStatusTopItem(
-            weatherMain = item.dWeather,
+            weatherType = dWeatherType,
             temperature = item.dTemp,
             playTime = PlayTimeType.DAY
         )
@@ -52,21 +63,33 @@ fun TodayDisplay(
             color = Color.White,
             modifier = Modifier
                 .fillMaxHeight()
-                .width(2.dp)
+                .padding(vertical = 20.dp)
+                .width(1.dp)
         )
+        /* 오늘 일자*/
         Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxHeight()
         ) {
-            Text(item.date)
+            Text(
+                text = item.date,
+                fontWeight = FontWeight.W400,
+                fontSize = 20.sp,
+                color = Color.White,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
         }
+        /* 구분자*/
         Divider(
             color = Color.White,
             modifier = Modifier
                 .fillMaxHeight()
-                .width(2.dp)
+                .padding(vertical = 20.dp)
+                .width(1.dp)
         )
         /* 저녁경기*/
         WeatherStatusTopItem(
-            weatherMain = item.nWeather,
+            weatherType = nWeatherType,
             temperature = item.nTemp,
             playTime = PlayTimeType.NIGHT
         )
@@ -80,6 +103,8 @@ fun PreviewTodayDisplay() {
         date="2024-05-21 15:00:00".getDateToDay(),
         dWeather="Clear",
         nWeather="Clouds",
+        dWeatherId = 800,
+        nWeatherId = 300,
         dWeatherIcon="https://openweathermap.org/img/wn/01n.png",
         nWeatherIcon="https://openweathermap.org/img/wn/03n.png",
         dTemp=20,

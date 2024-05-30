@@ -32,7 +32,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
-import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
+import com.apx8.mongoose.presentation.ui.theme.AppColor
+import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgMainBlue
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
@@ -87,7 +89,7 @@ class MainActivity: ComponentActivity() {
                         .fillMaxSize()
                         .verticalScroll(state = scrollState)
                         .height(IntrinsicSize.Max)
-                        .background(Color.White),
+                        .background(MgBlue),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column(
@@ -103,7 +105,7 @@ class MainActivity: ComponentActivity() {
 
                             is CommonState.Error -> {}
                             is CommonState.Success -> {
-                                CurrentWeatherScreen(state = state.data, stadium = Stadium.SOJ, modifier = Modifier)
+                                CurrentWeatherScreen(info = state.data, stadium = Stadium.SOJ, modifier = Modifier)
                             }
                         }
 
@@ -114,7 +116,7 @@ class MainActivity: ComponentActivity() {
                             }
                             is CommonState.Error -> { }
                             is CommonState.Success -> {
-                                ForecastWeatherScreen(forecastState = state.data, modifier = Modifier)
+                                ForecastWeatherScreen(info = state.data, modifier = Modifier)
                             }
                         }
 

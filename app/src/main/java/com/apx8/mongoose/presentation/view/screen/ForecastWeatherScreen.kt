@@ -4,14 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
@@ -19,26 +17,28 @@ import com.apx8.mongoose.dto.WeatherDisplayItem
 import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
 import com.apx8.mongoose.presentation.ext.getDateTo24Hour
 import com.apx8.mongoose.presentation.ext.getDateToDay
-import com.apx8.mongoose.v1.presentation.ui.theme.MgMainBlue
-import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgMainBlue
+import com.apx8.mongoose.presentation.ui.theme.MgRed
 import com.apx8.mongoose.presentation.view.display.DayAfterTomorrowDisplay
 import com.apx8.mongoose.presentation.view.display.TodayDisplay
 
 @Composable
 fun ForecastWeatherScreen(
-    forecastState: ForecastWeatherInfo,
+    info: ForecastWeatherInfo,
     modifier: Modifier = Modifier
 ) {
+    println("probe :: info : $info")
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MgMainBlue)
+            .background(MgBlue)
             .padding(20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        val forecastByDay = forecastState.forecastList.groupBy {
+        val forecastByDay = info.forecastList.groupBy {
             val spd = it.dtTxt.split(" ")
             spd.first()
         }
@@ -97,6 +97,8 @@ private fun getTodayForecast(forecast: List<ForecastListInfo>): WeatherDisplayIt
         date = dayGame.dtTxt.getDateToDay(),
         dWeather = dayGame.weatherMain,
         nWeather = nightGame.weatherMain,
+        dWeatherId = dayGame.weatherId,
+        nWeatherId = nightGame.weatherId,
         dWeatherIcon = dayGame.weatherIcon,
         nWeatherIcon = nightGame.weatherIcon,
         dTemp = dayGame.temp,

@@ -4,13 +4,13 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 import com.apx8.mongoose.R
-import com.apx8.mongoose.v1.presentation.ui.theme.MgAtmosphere
-import com.apx8.mongoose.v1.presentation.ui.theme.MgClear
-import com.apx8.mongoose.v1.presentation.ui.theme.MgClouds
-import com.apx8.mongoose.v1.presentation.ui.theme.MgDrizzle
-import com.apx8.mongoose.v1.presentation.ui.theme.MgRain
-import com.apx8.mongoose.v1.presentation.ui.theme.MgSnow
-import com.apx8.mongoose.v1.presentation.ui.theme.MgThunderStorm
+import com.apx8.mongoose.presentation.ui.theme.MgAtmosphere
+import com.apx8.mongoose.presentation.ui.theme.MgClear
+import com.apx8.mongoose.presentation.ui.theme.MgClouds
+import com.apx8.mongoose.presentation.ui.theme.MgDrizzle
+import com.apx8.mongoose.presentation.ui.theme.MgRain
+import com.apx8.mongoose.presentation.ui.theme.MgSnow
+import com.apx8.mongoose.presentation.ui.theme.MgThunderStorm
 
 sealed class WeatherType(
     val code: Int,

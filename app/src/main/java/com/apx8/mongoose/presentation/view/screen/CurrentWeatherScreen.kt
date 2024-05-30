@@ -28,42 +28,32 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
-import com.apx8.mongoose.domain.constants.WeatherType
-import com.apx8.mongoose.v1.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.v1.presentation.ui.theme.MgButton
-import com.apx8.mongoose.v1.presentation.ui.theme.MgFontWhite
+import com.apx8.mongoose.presentation.ext.getWeatherType
+import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgButton
+import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
 import com.apx8.mongoose.presentation.view.routes.Routes
 
 @Composable
 fun CurrentWeatherScreen(
-    state: CurrentWeatherInfo,
+    info: CurrentWeatherInfo,
     stadium: Stadium,
     modifier: Modifier = Modifier
 ) {
 
     val navController = rememberNavController()
-//    val bgColor = if (state.weatherId == 800) MgGreen else MgBlue
-//    println("probe :: state : ${state.weatherId}")
 
     /**
      * WeatherType
      * @return WeatherType
      */
-    val weatherType = (state.weatherId / 100 to state.weatherId % 100).let {
-        if (it.first == 8 && it.second > 0) {
-            WeatherType.from(WeatherType.Clouds.code)
-        } else {
-            WeatherType.from(it.first)
-        }
-    }
-
-    println("probe :: state : ${state}, weatherCode : $weatherType")
+    val weatherType = info.weatherId.getWeatherType()
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(MgBlue)
-            .padding(horizontal = 20.dp, vertical = 80.dp),
+            .padding(20.dp, 60.dp, 20.dp, 40.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -80,7 +70,7 @@ fun CurrentWeatherScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${state.temp}",
+                text = "${info.temp}",
                 fontWeight = FontWeight.W400,
                 fontSize = 50.sp,
                 color = MgFontWhite
@@ -142,12 +132,12 @@ fun PreviewCurrentWeatherScreen() {
         humidity=42,
         feelsLike=27,
         weatherIcon="https://openweathermap.org/img/wn/01d.png",
-        cityName="Gwacheon",
+        cityName="Seoul",
         cod=200
     )
 
     CurrentWeatherScreen(
-        state = state,
+        info = state,
         stadium = Stadium.SOJ
     )
 }
