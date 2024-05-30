@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.constants.PlayTimeType
 import com.apx8.mongoose.dto.WeatherDisplayItem
 import com.apx8.mongoose.ext.getDateToDay
+import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.view.item.WeatherStatusTopItem
 
 @Composable
@@ -34,7 +35,7 @@ fun TodayDisplay(
             .height(IntrinsicSize.Min)
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(6.dp))
-            .background(Color.Red),
+            .background(MgSubBlue),
 //                .border(width = 5.dp, color = Color.Blue, shape = RectangleShape),
 
         horizontalArrangement = Arrangement.SpaceEvenly

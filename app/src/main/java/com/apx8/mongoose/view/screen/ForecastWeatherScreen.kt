@@ -19,6 +19,8 @@ import com.apx8.mongoose.dto.WeatherDisplayItem
 import com.apx8.mongoose.ext.getDateAfter2DaysWithToday
 import com.apx8.mongoose.ext.getDateTo24Hour
 import com.apx8.mongoose.ext.getDateToDay
+import com.apx8.mongoose.v1.presentation.ui.theme.MgMainBlue
+import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.view.display.DayAfterTomorrowDisplay
 import com.apx8.mongoose.view.display.TodayDisplay
 
@@ -30,7 +32,7 @@ fun ForecastWeatherScreen(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.DarkGray)
+            .background(MgMainBlue)
             .padding(20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
