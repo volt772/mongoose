@@ -45,47 +45,47 @@ class TestActivity: ComponentActivity() {
             val scrollState = rememberScrollState()
 
             MongooseTheme {
-                SetStatusBarColor()
-
-                /* Later To do*/
-//                StadiumListScreen()
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(state = scrollState)
-                        .background(Color.White)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.White)
-                    ) {
-
-                        /* Column1 : Current Screen*/
-                        when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
-                            is CommonState.Loading -> {
-                                LoadingProgressIndicator()
-                            }
-                            is CommonState.Error -> { }
-                            is CommonState.Success -> {
-                                CurrentWeatherScreen(state = state.data, modifier = Modifier)
-                            }
-                        }
-
-                        /* Column2 : Forecast Screen*/
-                        when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-                            is CommonState.Loading -> {
-                                LoadingProgressIndicator()
-                            }
-                            is CommonState.Error -> { }
-                            is CommonState.Success -> {
-                                ForecastWeatherScreen(forecastState = state.data, modifier = Modifier)
-                            }
-                        }
-
-                    }
-                }
+//                SetStatusBarColor()
+//
+//                /* Later To do*/
+////                StadiumListScreen()
+//
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .verticalScroll(state = scrollState)
+//                        .background(Color.White)
+//                ) {
+//                    Column(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .background(Color.White)
+//                    ) {
+//
+//                        /* Column1 : Current Screen*/
+//                        when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
+//                            is CommonState.Loading -> {
+//                                LoadingProgressIndicator()
+//                            }
+//                            is CommonState.Error -> { }
+//                            is CommonState.Success -> {
+//                                CurrentWeatherScreen(state = state.data, modifier = Modifier)
+//                            }
+//                        }
+//
+//                        /* Column2 : Forecast Screen*/
+//                        when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
+//                            is CommonState.Loading -> {
+//                                LoadingProgressIndicator()
+//                            }
+//                            is CommonState.Error -> { }
+//                            is CommonState.Success -> {
+//                                ForecastWeatherScreen(forecastState = state.data, modifier = Modifier)
+//                            }
+//                        }
+//
+//                    }
+//                }
             }
         }
     }

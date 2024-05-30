@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -39,7 +40,7 @@ fun CurrentWeatherScreen(
 
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .background(Color.Red)
             .padding(20.dp),
         verticalArrangement = Arrangement.Center,
@@ -53,8 +54,8 @@ fun CurrentWeatherScreen(
         )
 
         Row(
-            modifier = modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "${state.temp}",
@@ -72,33 +73,39 @@ fun CurrentWeatherScreen(
             )
 
         }
-        Text(
-            text = "운동장",
-            fontWeight = FontWeight.W400,
-            fontSize = 20.sp,
-            color = Color.White
-        )
-        Spacer(modifier = modifier.height(10.dp))
-        Text(
-            "다른 구장 보기",
-            modifier = modifier
-                .drawBehind {
-                    drawRoundRect(
-                        Color(0xFFBBAAEE),
-                        cornerRadius = CornerRadius(10.dp.toPx())
-                    )
-                }
-                .padding(12.dp, 6.dp)
-                .clickable {
-                    println("probe :: navcontroller : $navController")
 
-                    navController.navigate(Routes.Stadium.route)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "운동장",
+                fontWeight = FontWeight.W400,
+                fontSize = 20.sp,
+                color = Color.White
+            )
+            Spacer(modifier = modifier.height(10.dp))
+            Text(
+                "다른 구장 보기",
+                modifier = modifier
+                    .drawBehind {
+                        drawRoundRect(
+                            Color(0xFFBBAAEE),
+                            cornerRadius = CornerRadius(10.dp.toPx())
+                        )
+                    }
+                    .padding(12.dp, 6.dp)
+                    .clickable {
+                        println("probe :: navcontroller : $navController")
+
+                        navController.navigate(Routes.Stadium.route)
 //                    navController.navigate("StadiumListScreen")
 
-                    println("probe :: main :: this hamster!!")
-                },
-        )
+                        println("probe :: main :: this hamster!!")
+                    },
+            )
 //                                    println("probe :: main activity Current : ${state.data}")
+        }
     }
 
 }

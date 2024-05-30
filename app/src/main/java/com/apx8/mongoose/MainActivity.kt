@@ -9,13 +9,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -70,15 +74,16 @@ class MainActivity: ComponentActivity() {
                 /* Later To do*/
 //                StadiumListScreen()
 
-                Box(
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(state = scrollState)
-                        .background(Color.White)
+                        .height(IntrinsicSize.Max)
+                        .background(Color.White),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column(
                         modifier = Modifier
-                            .fillMaxSize()
                             .background(Color.White)
                     ) {
 
@@ -87,7 +92,8 @@ class MainActivity: ComponentActivity() {
                             is CommonState.Loading -> {
                                 LoadingProgressIndicator()
                             }
-                            is CommonState.Error -> { }
+
+                            is CommonState.Error -> {}
                             is CommonState.Success -> {
                                 CurrentWeatherScreen(state = state.data, modifier = Modifier)
                             }
@@ -102,8 +108,8 @@ class MainActivity: ComponentActivity() {
                             is CommonState.Success -> {
                                 ForecastWeatherScreen(forecastState = state.data, modifier = Modifier)
                             }
-                        } 
-                        
+                        }
+
                     }
                 }
             }
