@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.dto.WeatherDisplayItem
+import com.apx8.mongoose.presentation.ext.getWeatherType
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.view.item.WeatherStatusMidItem
 
@@ -30,15 +31,14 @@ fun DayAfterTomorrowDisplay(
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(6.dp))
             .background(MgSubBlue),
-//                .border(width = 5.dp, color = Color.Blue, shape = RectangleShape),
 
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
 
         items.forEach { item ->
             /* Item Composition*/
             WeatherStatusMidItem(
-                weatherMain = item.dWeather,        // 메인날씨 기준 : `낮경기` 기준으로 표시
+                weatherType = item.dWeatherId.getWeatherType(),        // 메인날씨 기준 : `낮경기` 기준으로 표시
                 dayTemperature = item.dTemp,        // 낮경기 기온 : `낮경기` 기준으로 표시
                 nightTemperature = item.nTemp,      // 저녁경기 기온 : `저녁경기` 기준으로 표시
                 date = item.date                   // 일자 : `낮경기` 기준으로 표시
