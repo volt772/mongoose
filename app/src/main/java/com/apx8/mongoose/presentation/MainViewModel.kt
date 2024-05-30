@@ -1,11 +1,8 @@
-package com.apx8.mongoose
+package com.apx8.mongoose.presentation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.apx8.mongoose.MongooseApp.Companion.apiKey
+import com.apx8.mongoose.presentation.MongooseApp.Companion.apiKey
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.location.LocationTracker
@@ -37,9 +34,6 @@ class WeatherViewModel @Inject constructor(
     private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
 
-
-    var state by mutableStateOf(WeatherState())
-        private set
 
     suspend fun fetch() =
         coroutineScope {

@@ -1,4 +1,4 @@
-package com.apx8.mongoose.domain.constants
+package com.apx8.mongoose.constants
 
 import androidx.annotation.DrawableRes
 import com.apx8.mongoose.R
@@ -18,104 +18,26 @@ import com.apx8.mongoose.R
  * POH (포항 야구장)
  * CJB (청주종합운동장 야구장)
  */
-sealed class Stadium(
-    val name: String,
+enum class Stadium(
+    val signBoard: String,
     val code: String,
-    @DrawableRes val iconRes: Int,
+    @DrawableRes val signature: Int,
     val lat: Double,
     val lon: Double
 ) {
-    data object SOJ : Stadium(
-        name = "서울종합운동장 야구장",
-        code = "SOJ",
-        iconRes = R.drawable.ic_sunny,
-        lat = 37.512,
-        lon = 127.071
-    )
-    data object SKW : Stadium(
-        name = "수원 케이티 위즈 파크",
-        code = "SKW",
-        iconRes = R.drawable.ic_sunny,
-        lat = 37.299,
-        lon = 127.010
-    )
-    data object ILF : Stadium(
-        name = "인천 SSG 랜더스필드",
-        code = "ILF",
-        iconRes = R.drawable.ic_sunny,
-        lat = 37.436,
-        lon = 126.693
-    )
-    data object CNP : Stadium(
-        name = "창원 NC 파크",
-        code = "CNP",
-        iconRes = R.drawable.ic_sunny,
-        lat = 35.222,
-        lon = 128.582
-    )
-    data object GCF : Stadium(
-        name = "광주-기아 챔피언스 필드",
-        code = "GCF",
-        iconRes = R.drawable.ic_sunny,
-        lat = 35.168,
-        lon = 126.889
-    )
-    data object BSJ : Stadium(
-        name = "사직야구장",
-        code = "BSJ",
-        iconRes = R.drawable.ic_sunny,
-        lat = 35.193,
-        lon = 129.061
-    )
-    data object BDP : Stadium(
-        name = "대전 한화생명 이글스 파크",
-        code = "DEP",
-        iconRes = R.drawable.ic_sunny,
-        lat = 36.316,
-        lon = 127.429
-    )
-    data object DSP : Stadium(
-        name = "대구 삼성 라이온즈 파크",
-        code = "DSP",
-        iconRes = R.drawable.ic_sunny,
-        lat = 35.841,
-        lon = 128.681
-    )
-    data object SOG : Stadium(
-        name = "고척 스카이돔",
-        code = "SOG",
-        iconRes = R.drawable.ic_sunny,
-        lat = 37.497,
-        lon = 126.867
-    )
-    data object UMS : Stadium(
-        name = "울산 문수 야구장",
-        code = "UMS",
-        iconRes = R.drawable.ic_sunny,
-        lat = 35.531,
-        lon = 129.265
-    )
-    data object POH : Stadium(
-        name = "포항 야구장",
-        code = "POH",
-        iconRes = R.drawable.ic_sunny,
-        lat = 36.007,
-        lon = 129.359
-    )
-    data object CJB : Stadium(
-        name = "청주종합운동장 야구장",
-        code = "CJB",
-        iconRes = R.drawable.ic_sunny,
-        lat = 36.638,
-        lon = 127.470
-    )
-    data object UNKNOWN : Stadium(
-        name = "알수없음",
-        code = "UNKNOWN",
-        iconRes = R.drawable.ic_sunny,
-        lat = 37.549,
-        lon = 126.991
-    )
+    SOJ("서울종합운동장 야구장", "SOJ",R.drawable.ic_sunny, 37.512, 127.071),
+    SKW("수원 케이티 위즈 파크", "SKW", R.drawable.ic_sunny, 37.299, 127.010),
+    ILF("인천 SSG 랜더스필드", "ILF", R.drawable.ic_sunny, 37.436, 126.693),
+    CNP("창원 NC 파크", "CNP", R.drawable.ic_sunny, 35.222, 128.582),
+    GCF("광주-기아 챔피언스 필드", "GCF", R.drawable.ic_sunny, 35.168, 126.889),
+    BSJ("사직야구장", "BSJ", R.drawable.ic_sunny, 35.193, 129.061),
+    BDP("대전 한화생명 이글스 파크", "DEP", R.drawable.ic_sunny, 36.316, 127.429),
+    DSP("대구 삼성 라이온즈 파크", "DSP", R.drawable.ic_sunny, 35.841, 128.681),
+    SOG("고척 스카이돔", "SOG", R.drawable.ic_sunny, 37.497, 126.867),
+    UMS("울산 문수 야구장", "UMS", R.drawable.ic_sunny, 35.531, 129.265),
+    POH("포항 야구장", "POH", R.drawable.ic_sunny, 36.007, 129.359),
+    CJB("청주종합운동장 야구장", "CJB", R.drawable.ic_sunny, 36.638, 127.470),
+    UNKNOWN("알수없음", "UNKNOWN", R.drawable.ic_sunny, 37.549, 126.991);
 
     companion object {
         fun fromCode(code: String): Stadium {
