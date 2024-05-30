@@ -97,4 +97,7 @@ dependencies {
 
     /* Joda Time*/
     implementation("net.danlew:android.joda:2.12.5")
+
+    /* AdMob*/
+    implementation("com.google.android.gms:play-services-ads:23.1.0")
 }

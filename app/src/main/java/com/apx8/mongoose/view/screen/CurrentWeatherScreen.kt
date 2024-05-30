@@ -42,7 +42,7 @@ fun CurrentWeatherScreen(
         modifier = modifier
             .fillMaxWidth()
             .background(Color.Red)
-            .padding(20.dp),
+            .padding(horizontal = 20.dp, vertical = 80.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
