@@ -18,7 +18,7 @@ interface WeatherApi {
         @Query("lon") lon: Double,
         @Query("appid") appId: String,
         @Query("units") units: String?= "metric",
-    ): CurrentWeatherDto
+    ): CurrentResponseDto
 
     @GET("data/2.5/forecast")
     suspend fun getForecastWeatherData(
@@ -26,5 +26,5 @@ interface WeatherApi {
         @Query("lon") lon: Double,
         @Query("appid") appId: String,
         @Query("units") units: String?= "metric",
-    ): ForecastWeatherDto
+    ): ForecastResponseDto
 }

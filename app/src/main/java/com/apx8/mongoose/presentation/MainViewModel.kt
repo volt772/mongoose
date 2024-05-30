@@ -2,6 +2,7 @@ package com.apx8.mongoose.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.presentation.MongooseApp.Companion.apiKey
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
@@ -20,7 +21,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class WeatherViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
     private val locationTracker: LocationTracker
 ): ViewModel() {
@@ -34,31 +35,33 @@ class WeatherViewModel @Inject constructor(
     private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
 
+    private val _stadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.SOJ)
+    val stadium: StateFlow<Stadium> = _stadium
 
-    suspend fun fetch() =
+    suspend fun fetch(stadium: Stadium) =
         coroutineScope {
             val response = listOf(
-                async { loadCurrentWeatherInfo() },
-                async { loadForecastInfo() }
+                async { loadCurrentWeatherInfo(stadium) },
+                async { loadForecastInfo(stadium) }
             )
 
             response.awaitAll()
         }
 
-    private fun loadCurrentWeatherInfo() {
+    private fun loadCurrentWeatherInfo(stadium: Stadium) {
         viewModelScope.launch {
             weatherRepository.getCurrentWeatherInfo(
-                lat = 37.4132, lon = 127.0016, appId = apiKey
+                lat = stadium.lat, lon = stadium.lon, appId = apiKey
             )
             .map { resource -> CommonState.fromResource(resource) }
             .collect { state -> _currentWeather.value = state }
         }
     }
 
-    private fun loadForecastInfo() {
+    private fun loadForecastInfo(stadium: Stadium) {
         viewModelScope.launch {
             weatherRepository.getForecastWeatherInfo(
-                lat = 37.4132, lon = 127.0016, appId = apiKey
+                lat = stadium.lat, lon = stadium.lon, appId = apiKey
             )
             .map { resource -> CommonState.fromResource(resource) }
             .collect { state -> _forecastWeather.value = state }

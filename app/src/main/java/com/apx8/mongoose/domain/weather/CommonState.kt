@@ -1,6 +1,6 @@
 package com.apx8.mongoose.domain.weather
 
-import com.apx8.mongoose.domain.util.Resource2
+import com.apx8.mongoose.domain.util.Resource
 
 
 sealed class CommonState<T> {
@@ -39,9 +39,9 @@ sealed class CommonState<T> {
         /**
          * Returns [CommonState] from [Resource]
          */
-        fun <T> fromResource(resource: Resource2<T>): CommonState<T> = when (resource) {
-            is Resource2.Success -> success(resource.data)
-            is Resource2.Failed -> error(resource.message)
+        fun <T> fromResource(resource: Resource<T>): CommonState<T> = when (resource) {
+            is Resource.Success -> success(resource.data)
+            is Resource.Failed -> error(resource.message)
         }
     }
 }

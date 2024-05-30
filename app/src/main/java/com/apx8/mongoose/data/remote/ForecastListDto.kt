@@ -10,7 +10,7 @@ data class ForecastListDto(
     val main: WeatherMainDto,
 
     @field:Json(name = "weather")
-    val weather: List<WeatherDataDto>,
+    val weather: List<WeatherDto>,
 
     @field:Json(name = "dt_txt")
     val dtTxt: String,

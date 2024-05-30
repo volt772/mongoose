@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view.screen
+package com.apx8.mongoose.presentation.view.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.dto.WeatherDisplayItem
-import com.apx8.mongoose.ext.getDateAfter2DaysWithToday
-import com.apx8.mongoose.ext.getDateTo24Hour
-import com.apx8.mongoose.ext.getDateToDay
+import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
+import com.apx8.mongoose.presentation.ext.getDateTo24Hour
+import com.apx8.mongoose.presentation.ext.getDateToDay
 import com.apx8.mongoose.v1.presentation.ui.theme.MgMainBlue
 import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
-import com.apx8.mongoose.view.display.DayAfterTomorrowDisplay
-import com.apx8.mongoose.view.display.TodayDisplay
+import com.apx8.mongoose.presentation.view.display.DayAfterTomorrowDisplay
+import com.apx8.mongoose.presentation.view.display.TodayDisplay
 
 @Composable
 fun ForecastWeatherScreen(

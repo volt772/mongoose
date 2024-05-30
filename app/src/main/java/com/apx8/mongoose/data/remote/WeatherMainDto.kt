@@ -2,7 +2,7 @@ package com.apx8.mongoose.data.remote
 
 import com.squareup.moshi.Json
 
-data class CurrentMainDto(
+data class WeatherMainDto(
     @field:Json(name = "temp")
     val temp: Double,
 

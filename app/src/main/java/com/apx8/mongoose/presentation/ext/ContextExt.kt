@@ -1,4 +1,4 @@
-package com.apx8.mongoose.ext
+package com.apx8.mongoose.presentation.ext
 
 import android.content.Context
 import android.content.Intent

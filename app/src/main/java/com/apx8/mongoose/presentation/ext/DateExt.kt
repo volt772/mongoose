@@ -1,4 +1,4 @@
-package com.apx8.mongoose.ext
+package com.apx8.mongoose.presentation.ext
 
 import com.apx8.mongoose.R
 import org.joda.time.DateTime

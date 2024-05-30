@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view.display
+package com.apx8.mongoose.presentation.view.display
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,11 +18,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.apx8.mongoose.constants.PlayTimeType
+import com.apx8.mongoose.domain.constants.PlayTimeType
 import com.apx8.mongoose.dto.WeatherDisplayItem
-import com.apx8.mongoose.ext.getDateToDay
+import com.apx8.mongoose.presentation.ext.getDateToDay
 import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
-import com.apx8.mongoose.view.item.WeatherStatusTopItem
+import com.apx8.mongoose.presentation.view.item.WeatherStatusTopItem
 
 @Composable
 fun TodayDisplay(

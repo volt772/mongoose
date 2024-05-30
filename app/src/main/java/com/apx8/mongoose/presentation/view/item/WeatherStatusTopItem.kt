@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view.item
+package com.apx8.mongoose.presentation.view.item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
-import com.apx8.mongoose.constants.PlayTimeType
+import com.apx8.mongoose.domain.constants.PlayTimeType
 
 @Composable
 fun WeatherStatusTopItem(

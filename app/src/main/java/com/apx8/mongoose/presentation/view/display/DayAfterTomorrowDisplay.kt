@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view.display
+package com.apx8.mongoose.presentation.view.display
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +17,7 @@ import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.dto.WeatherDisplayItem
 import com.apx8.mongoose.v1.presentation.ui.theme.MgSubBlue
-import com.apx8.mongoose.view.item.WeatherStatusMidItem
+import com.apx8.mongoose.presentation.view.item.WeatherStatusMidItem
 
 @Composable
 fun DayAfterTomorrowDisplay(
@@ -52,7 +52,7 @@ fun DayAfterTomorrowDisplay(
 @Composable
 fun PreviewDayAfterTomorrowDisplay() {
     val forecastWeatherInfo = ForecastWeatherInfo(
-        cityName = "Gwacheon",
+//        cityName = "Gwacheon",
         forecastList = listOf(
             ForecastListInfo(
                 dt = 1716174000L,

@@ -1,6 +1,6 @@
-package com.apx8.mongoose.ext
+package com.apx8.mongoose.presentation.ext
 
-import com.apx8.mongoose.MongooseApp.Companion.appContext
+import com.apx8.mongoose.presentation.MongooseApp.Companion.appContext
 
 /**
  * 문자열을 리스트로 분리

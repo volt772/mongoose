@@ -1,7 +1,7 @@
 package com.apx8.mongoose.data.mappers
 
-import com.apx8.mongoose.data.remote.CurrentWeatherDto
-import com.apx8.mongoose.data.remote.ForecastWeatherDto
+import com.apx8.mongoose.data.remote.CurrentResponseDto
+import com.apx8.mongoose.data.remote.ForecastResponseDto
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
@@ -53,7 +53,7 @@ import kotlin.math.roundToInt
 //    )
 //}
 
-fun CurrentWeatherDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
+fun CurrentResponseDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
     val weatherData = this.weatherData.first()
     return CurrentWeatherInfo(
         weatherId = weatherData.id,
@@ -68,7 +68,7 @@ fun CurrentWeatherDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
     )
 }
 
-suspend fun ForecastWeatherDto.toForecastWeatherInfo(
+suspend fun ForecastResponseDto.toForecastWeatherInfo(
     defaultDispatcher: CoroutineDispatcher
 ): ForecastWeatherInfo {
     val forecastDto = this
@@ -86,7 +86,6 @@ suspend fun ForecastWeatherDto.toForecastWeatherInfo(
         }
 
         ForecastWeatherInfo(
-            cityName = forecastDto.city.name,
             forecastList = forecast
         )
     }

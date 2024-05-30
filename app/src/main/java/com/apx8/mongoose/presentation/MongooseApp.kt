@@ -1,7 +1,8 @@
-package com.apx8.mongoose
+package com.apx8.mongoose.presentation
 
 import android.app.Application
 import android.content.Context
+import com.apx8.mongoose.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

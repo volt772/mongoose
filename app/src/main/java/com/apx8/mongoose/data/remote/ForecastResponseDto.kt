@@ -2,12 +2,9 @@ package com.apx8.mongoose.data.remote
 
 import com.squareup.moshi.Json
 
-data class ForecastWeatherDto(
+data class ForecastResponseDto(
     @field:Json(name = "list")
     val list: List<ForecastListDto>,
-
-    @field:Json(name = "city")
-    val city: CityDto,
 
     @field:Json(name = "cnt")
     val cnt: Int,

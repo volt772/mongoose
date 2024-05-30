@@ -1,7 +1,6 @@
 package com.apx8.mongoose.domain.dto
 
 data class ForecastWeatherInfo(
-    val cityName: String,
     val forecastList: List<ForecastListInfo>
 )
 

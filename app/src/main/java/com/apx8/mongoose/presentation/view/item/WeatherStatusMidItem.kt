@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view.item
+package com.apx8.mongoose.presentation.view.item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

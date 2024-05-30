@@ -1,4 +1,4 @@
-package com.apx8.mongoose.constants
+package com.apx8.mongoose.domain.constants
 
 import androidx.annotation.DrawableRes
 import com.apx8.mongoose.R
@@ -40,7 +40,7 @@ enum class Stadium(
     UNKNOWN("알수없음", "UNKNOWN", R.drawable.ic_sunny, 37.549, 126.991);
 
     companion object {
-        fun fromCode(code: String): Stadium {
+        fun from(code: String): Stadium {
             return when(code) {
                 "SOJ" -> SOJ
                 "SKW" -> SKW

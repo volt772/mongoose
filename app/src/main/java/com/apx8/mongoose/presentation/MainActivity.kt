@@ -1,4 +1,4 @@
-package com.apx8.mongoose
+package com.apx8.mongoose.presentation
 
 import android.Manifest
 import android.os.Bundle
@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
@@ -31,11 +30,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.v1.presentation.ui.theme.AppColor
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
-import com.apx8.mongoose.view.screen.CurrentWeatherScreen
-import com.apx8.mongoose.view.screen.ForecastWeatherScreen
+import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
+import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -47,12 +47,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
 
-    private val vm: WeatherViewModel by viewModels()
+    private val vm: MainViewModel by viewModels()
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         MobileAds.initialize(this)
 
@@ -65,7 +64,7 @@ class MainActivity: ComponentActivity() {
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
             lifecycleScope.launch {
-                vm.fetch()
+                vm.fetch(Stadium.SOJ)
             }
         }
 
@@ -104,7 +103,7 @@ class MainActivity: ComponentActivity() {
 
                             is CommonState.Error -> {}
                             is CommonState.Success -> {
-                                CurrentWeatherScreen(state = state.data, modifier = Modifier)
+                                CurrentWeatherScreen(state = state.data, stadium = Stadium.SOJ, modifier = Modifier)
                             }
                         }
 

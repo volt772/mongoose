@@ -1,4 +1,4 @@
-package com.apx8.mongoose.view.screen
+package com.apx8.mongoose.presentation.view.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,10 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -31,41 +26,50 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberAsyncImagePainter
-import com.apx8.mongoose.R
+import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
-import com.apx8.mongoose.domain.weather.WeatherType
+import com.apx8.mongoose.domain.constants.WeatherType
 import com.apx8.mongoose.v1.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.v1.presentation.ui.theme.MgButton
-import com.apx8.mongoose.v1.presentation.ui.theme.MgFontGrayBig
-import com.apx8.mongoose.v1.presentation.ui.theme.MgFontGrayMid
 import com.apx8.mongoose.v1.presentation.ui.theme.MgFontWhite
-import com.apx8.mongoose.v1.presentation.ui.theme.MgGreen
-import com.apx8.mongoose.v1.presentation.ui.theme.MgMainBlue
-import com.apx8.mongoose.view.routes.Routes
+import com.apx8.mongoose.presentation.view.routes.Routes
 
 @Composable
 fun CurrentWeatherScreen(
     state: CurrentWeatherInfo,
+    stadium: Stadium,
     modifier: Modifier = Modifier
 ) {
 
     val navController = rememberNavController()
-    val bgColor = if (state.weatherId == 800) MgGreen else MgBlue
-    println("probe :: state : ${state.weatherId}")
+//    val bgColor = if (state.weatherId == 800) MgGreen else MgBlue
+//    println("probe :: state : ${state.weatherId}")
+
+    /**
+     * WeatherType
+     * @return WeatherType
+     */
+    val weatherType = (state.weatherId / 100 to state.weatherId % 100).let {
+        if (it.first == 8 && it.second > 0) {
+            WeatherType.from(WeatherType.Clouds.code)
+        } else {
+            WeatherType.from(it.first)
+        }
+    }
+
+    println("probe :: state : ${state}, weatherCode : $weatherType")
 
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(bgColor)
+            .background(MgBlue)
             .padding(horizontal = 20.dp, vertical = 80.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = modifier.height(20.dp))
         Image(
-//            painter = rememberAsyncImagePainter(state.weatherIcon),
-            painterResource(id = R.drawable.ic_rainy),
+            painterResource(id = weatherType.mainRes),
             contentDescription = null,
             colorFilter = ColorFilter.tint(Color.White),
             modifier = Modifier.size(200.dp)
@@ -89,7 +93,6 @@ fun CurrentWeatherScreen(
                 color = MgFontWhite,
                 modifier = modifier.align(Alignment.CenterVertically)
             )
-
         }
 
         Column(
@@ -97,7 +100,7 @@ fun CurrentWeatherScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "서울종합운동장",
+                text = stadium.signBoard,
                 fontWeight = FontWeight.W400,
                 fontSize = 20.sp,
                 color = MgFontWhite
@@ -144,6 +147,7 @@ fun PreviewCurrentWeatherScreen() {
     )
 
     CurrentWeatherScreen(
-        state = state
+        state = state,
+        stadium = Stadium.SOJ
     )
 }

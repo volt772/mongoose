@@ -1,4 +1,4 @@
-package com.apx8.mongoose.ext
+package com.apx8.mongoose.presentation.ext
 
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager

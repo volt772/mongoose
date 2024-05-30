@@ -1,4 +1,4 @@
-package com.apx8.mongoose.domain.weather
+package com.apx8.mongoose.domain.constants
 
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -76,7 +76,7 @@ sealed class WeatherType(
     )
 
     companion object {
-        fun fromWMO(code: Int): WeatherType {
+        fun from(code: Int): WeatherType {
             return when(code) {
                 Thunderstorm.code -> Thunderstorm
                 Drizzle.code -> Drizzle

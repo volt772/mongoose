@@ -7,7 +7,7 @@ import com.apx8.mongoose.di.DefaultDispatcher
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.repository.WeatherRepository
-import com.apx8.mongoose.domain.util.Resource2
+import com.apx8.mongoose.domain.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -31,7 +31,7 @@ class WeatherRepositoryImpl @Inject constructor(
 //        }
 //    }
 
-    override suspend fun getCurrentWeatherInfo(lat: Double, lon: Double, appId: String): Flow<Resource2<CurrentWeatherInfo>> {
+    override suspend fun getCurrentWeatherInfo(lat: Double, lon: Double, appId: String): Flow<Resource<CurrentWeatherInfo>> {
         return try {
             val currentWeatherInfo = api.getCurrentWeatherData(
                 lat = lat,
@@ -39,13 +39,13 @@ class WeatherRepositoryImpl @Inject constructor(
                 appId = appId
             ).toCurrentWeatherInfo()
 
-            flowOf(Resource2.Success(currentWeatherInfo))
+            flowOf(Resource.Success(currentWeatherInfo))
         } catch (e: Exception) {
-            flowOf(Resource2.Failed(e.message?: "Error Occurred"))
+            flowOf(Resource.Failed(e.message?: "Error Occurred"))
         }
     }
 
-    override suspend fun getForecastWeatherInfo(lat: Double, lon: Double, appId: String): Flow<Resource2<ForecastWeatherInfo>> {
+    override suspend fun getForecastWeatherInfo(lat: Double, lon: Double, appId: String): Flow<Resource<ForecastWeatherInfo>> {
         return try {
             val forecastWeatherInfo = api.getForecastWeatherData(
                 lat = lat,
@@ -53,9 +53,9 @@ class WeatherRepositoryImpl @Inject constructor(
                 appId = appId
             ).toForecastWeatherInfo(defaultDispatcher)
 
-            flowOf(Resource2.Success(forecastWeatherInfo))
+            flowOf(Resource.Success(forecastWeatherInfo))
         } catch (e: Exception) {
-            flowOf(Resource2.Failed(e.message?: "Error Occurred"))
+            flowOf(Resource.Failed(e.message?: "Error Occurred"))
         }
     }
 }
