@@ -1,11 +1,8 @@
 package com.apx8.mongoose.presentation
 
-import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -34,10 +31,9 @@ import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.ui.theme.AppColor
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.presentation.ui.theme.MgMainBlue
-import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
+import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -50,7 +46,6 @@ import kotlinx.coroutines.launch
 class MainActivity: ComponentActivity() {
 
     private val vm: MainViewModel by viewModels()
-    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,18 +57,9 @@ class MainActivity: ComponentActivity() {
             false
         }
 
-        permissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) {
-            lifecycleScope.launch {
-                vm.fetch(Stadium.SOJ)
-            }
+        lifecycleScope.launch {
+            vm.fetch(Stadium.SOJ)
         }
-
-        permissionLauncher.launch(arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-        ))
 
         setContent {
             val scrollState = rememberScrollState()
@@ -164,13 +150,6 @@ fun BannersAds() {
     )
 }
 
-//private fun SetLoadingStatue() {
-//    CircularProgressIndicator(
-//        modifier = Modifier.align(Alignment.Center),
-//        color = AppColor
-//    )
-//}
-
 @Composable
 private fun SetStatusBarColor() {
     val systemUiController = rememberSystemUiController()
@@ -186,11 +165,7 @@ private fun SetStatusBarColor() {
             darkIcons = useDarkIcons
         )
         systemUiController.setStatusBarColor(
-            color = if (useDarkIcons) {
-                Color.Gray
-            } else {
-                Color.Black
-            },
+            color = MgBlue,
             darkIcons = useDarkIcons
         )
 
