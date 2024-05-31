@@ -13,7 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -109,17 +114,39 @@ fun CurrentWeatherScreen(
                     .clickable {
                         println("probe :: navcontroller : $navController")
 
-                        navController.navigate(Routes.Stadium.route)
+//                        navController.navigate(Routes.Stadium.route)
 //                    navController.navigate("StadiumListScreen")
 
                         println("probe :: main :: this hamster!!")
                     },
             )
-//                                    println("probe :: main activity Current : ${state.data}")
         }
     }
-
 }
+
+
+//@Composable
+//fun YourComposable() {
+//    var show by remember {
+//        mutableStateOf(false)
+//    }
+//    if (show) {
+//        BottomSheetDialog(
+//            onDismissRequest = {
+//                show = false
+//            },
+//            properties = BottomSheetDialogProperties(
+//                ...
+//        )
+//        ) {
+//            // content
+//            Surface {
+//                ...
+//            }
+//        }
+//    }
+//}
+
 
 @Preview
 @Composable
