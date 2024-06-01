@@ -35,6 +35,9 @@ class MainViewModel @Inject constructor(
     private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
 
+    private val _currentStadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.NAN)
+    val currentStadium: StateFlow<Stadium> = _currentStadium
+
     private val _stadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.SOJ)
     val stadium: StateFlow<Stadium> = _stadium
 
@@ -65,6 +68,12 @@ class MainViewModel @Inject constructor(
             )
             .map { resource -> CommonState.fromResource(resource) }
             .collect { state -> _forecastWeather.value = state }
+        }
+    }
+
+    fun setCurrentStadium(code: String) {
+        viewModelScope.launch {
+            _currentStadium.emit(Stadium.from(code))
         }
     }
 

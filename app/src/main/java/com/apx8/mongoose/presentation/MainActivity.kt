@@ -48,6 +48,10 @@ class MainActivity: ComponentActivity() {
 
     private val vm: MainViewModel by viewModels()
 
+    private fun setCurrentStadium(code: String) {
+        vm.setCurrentStadium(code)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -103,7 +107,7 @@ class MainActivity: ComponentActivity() {
 
                                 is CommonState.Error -> {}
                                 is CommonState.Success -> {
-                                    CurrentWeatherScreen(info = state.data, stadium = Stadium.SOJ, modifier = Modifier)
+                                    CurrentWeatherScreen(info = state.data, stadium = Stadium.SOJ, modifier = Modifier, ::setCurrentStadium)
                                 }
                             }
 

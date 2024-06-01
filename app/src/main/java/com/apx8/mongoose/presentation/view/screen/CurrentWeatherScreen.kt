@@ -53,7 +53,8 @@ import com.apx8.mongoose.presentation.ui.theme.MgWhite
 fun CurrentWeatherScreen(
     info: CurrentWeatherInfo,
     stadium: Stadium,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    selectStadium: (String) -> Unit
 ) {
 
     val navController = rememberNavController()
@@ -61,7 +62,7 @@ fun CurrentWeatherScreen(
     var showSheet by remember { mutableStateOf(false) }
 
     if (showSheet) {
-        BottomSheet() {
+        BottomSheet(selectStadium = selectStadium) {
             showSheet = false
         }
     }
@@ -158,7 +159,7 @@ fun CurrentWeatherScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheet(onDismiss: () -> Unit) {
+fun BottomSheet(selectStadium: (String)->Unit, onDismiss: () -> Unit) {
     val modalBottomSheetState = rememberModalBottomSheetState()
 
     ModalBottomSheet(
@@ -166,12 +167,69 @@ fun BottomSheet(onDismiss: () -> Unit) {
         sheetState = modalBottomSheetState,
         dragHandle = { BottomSheetDefaults.DragHandle() },
     ) {
-        CountryList()
+//        CountryList(onDismiss)
+
+        val stadiums = mutableListOf<BottomSheetStadium>().also { list ->
+            Stadium.entries.forEach { entry ->
+                if (entry != Stadium.NAN) {
+                    list.add(
+                        BottomSheetStadium(
+                            name = entry.signBoard,
+                            flag = 1234,
+                            code = entry.code
+                        )
+                    )
+//                    list.add(entry.signBoard to "hhh")
+                }
+            }
+        }
+
+
+//        val countries = listOf(
+//            Pair("United States", "\uD83C\uDDFA\uD83C\uDDF8"),
+//            Pair("Canada", "\uD83C\uDDE8\uD83C\uDDE6"),
+//            Pair("India", "\uD83C\uDDEE\uD83C\uDDF3"),
+//            Pair("Germany", "\uD83C\uDDE9\uD83C\uDDEA"),
+//            Pair("France", "\uD83C\uDDEB\uD83C\uDDF7"),
+//            Pair("Japan", "\uD83C\uDDEF\uD83C\uDDF5"),
+//            Pair("China", "\uD83C\uDDE8\uD83C\uDDF3"),
+//            Pair("Brazil", "\uD83C\uDDE7\uD83C\uDDF7"),
+//            Pair("Australia", "\uD83C\uDDE6\uD83C\uDDFA"),
+//            Pair("Russia", "\uD83C\uDDF7\uD83C\uDDFA"),
+//            Pair("United Kingdom", "\uD83C\uDDEC\uD83C\uDDE7"),
+//        )
+        LazyColumn {
+            items(stadiums) { stadium ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp, horizontal = 20.dp)
+                        .clickable {
+                            selectStadium.invoke(stadium.code)
+                            onDismiss.invoke()
+                            println("probe :: this hamster !! : ${stadium.code}")
+                        }
+                ) {
+                    Text(
+                        text = "${stadium.flag}",
+                        modifier = Modifier.padding(end = 20.dp)
+                    )
+                    Text(text = stadium.name)
+                }
+            }
+        }
     }
 }
 
+// 나중에 favorite 추가
+data class BottomSheetStadium(
+    val name: String,
+    val flag: Int,
+    val code: String,
+)
+
 @Composable
-fun CountryList() {
+fun CountryList(onDismiss: () -> Unit) {
     val stadiums = mutableListOf<Pair<String, String>>().also { list ->
         Stadium.entries.forEach { entry ->
             if (entry != Stadium.NAN) {
@@ -201,6 +259,7 @@ fun CountryList() {
                     .fillMaxWidth()
                     .padding(vertical = 10.dp, horizontal = 20.dp)
                     .clickable {
+                        onDismiss.invoke()
                         println("probe :: this hamster !! : $signboard")
                     }
             ) {
@@ -248,8 +307,8 @@ fun PreviewCurrentWeatherScreen() {
         cod=200
     )
 
-    CurrentWeatherScreen(
-        info = state,
-        stadium = Stadium.SOJ
-    )
+//    CurrentWeatherScreen(
+//        info = state,
+//        stadium = Stadium.SOJ
+//    )
 }
