@@ -22,6 +22,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -69,51 +70,58 @@ class MainActivity: ComponentActivity() {
 
                 /* Later To do*/
 //                StadiumListScreen()
-
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(state = scrollState)
-                        .background(MgBlue),
-                    verticalArrangement = Arrangement.SpaceBetween
+                    modifier = Modifier.fillMaxSize().background(MgBlue),
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .background(Color.White)
-                    ) {
 
-                        /* Column1 : Current Screen*/
-                        when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
-                            is CommonState.Loading -> {
-                                LoadingProgressIndicator()
-                            }
-
-                            is CommonState.Error -> {}
-                            is CommonState.Success -> {
-                                CurrentWeatherScreen(info = state.data, stadium = Stadium.SOJ, modifier = Modifier)
-                            }
-                        }
-
-                        /* Column2 : Forecast Screen*/
-                        when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-                            is CommonState.Loading -> {
-                                LoadingProgressIndicator()
-                            }
-                            is CommonState.Error -> { }
-                            is CommonState.Success -> {
-                                ForecastWeatherScreen(info = state.data, modifier = Modifier)
-                            }
-                        }
-
-                    }
-
+                    /* AD*/
                     Column(
                         modifier = Modifier
                             .background(Color.White)
                     ) {
                         BannersAds()
                     }
+
+                    /* Content*/
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(state = scrollState)
+                            .background(MgBlue),
+                        verticalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .background(Color.White)
+                        ) {
+
+                            /* Column1 : Current Screen*/
+                            when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
+                                is CommonState.Loading -> {
+                                    LoadingProgressIndicator()
+                                }
+
+                                is CommonState.Error -> {}
+                                is CommonState.Success -> {
+                                    CurrentWeatherScreen(info = state.data, stadium = Stadium.SOJ, modifier = Modifier)
+                                }
+                            }
+
+                            /* Column2 : Forecast Screen*/
+                            when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
+                                is CommonState.Loading -> {
+                                    LoadingProgressIndicator()
+                                }
+                                is CommonState.Error -> { }
+                                is CommonState.Success -> {
+                                    ForecastWeatherScreen(info = state.data, modifier = Modifier)
+                                }
+                            }
+
+                        }
+                    }
                 }
+
             }
         }
     }

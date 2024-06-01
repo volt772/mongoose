@@ -13,12 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -37,7 +33,7 @@ import com.apx8.mongoose.presentation.ext.getWeatherType
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgButton
 import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
-import com.apx8.mongoose.presentation.view.routes.Routes
+import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
 @Composable
 fun CurrentWeatherScreen(
@@ -58,11 +54,12 @@ fun CurrentWeatherScreen(
         modifier = modifier
             .fillMaxWidth()
             .background(MgBlue)
-            .padding(20.dp, 60.dp, 20.dp, 40.dp),
+            .padding(horizontal = 20.dp, vertical = 40.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = modifier.height(20.dp))
+        /* 아이콘*/
         Image(
             painterResource(id = weatherType.mainRes),
             contentDescription = null,
@@ -70,10 +67,12 @@ fun CurrentWeatherScreen(
             modifier = Modifier.size(200.dp)
         )
 
+        /* 기온*/
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            /* 기온*/
             Text(
                 text = "${info.temp}",
                 fontWeight = FontWeight.W400,
@@ -81,6 +80,7 @@ fun CurrentWeatherScreen(
                 color = MgFontWhite
             )
             Spacer(modifier = modifier.width(5.dp))
+            /* 단위*/
             Text(
                 text = "°C",
                 fontWeight = FontWeight.W400,
@@ -88,12 +88,28 @@ fun CurrentWeatherScreen(
                 color = MgFontWhite,
                 modifier = modifier.align(Alignment.CenterVertically)
             )
+            Spacer(modifier = modifier.width(10.dp))
+            /* 구분선*/
+            VerticalDivider(
+                modifier = Modifier.height(30.dp),
+                color = MgWhite
+            )
+            Spacer(modifier = modifier.width(10.dp))
+
+            /* 설명*/
+            Text(
+                text = info.weatherDescription,
+                fontWeight = FontWeight.W400,
+                fontSize = 30.sp,
+                color = MgFontWhite
+            )
         }
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            /* 경기장이름*/
             Text(
                 text = stadium.signBoard,
                 fontWeight = FontWeight.W400,
@@ -101,6 +117,7 @@ fun CurrentWeatherScreen(
                 color = MgFontWhite
             )
             Spacer(modifier = modifier.height(10.dp))
+            /* 경기장변경*/
             Text(
                 "다른 구장 보기",
                 modifier = modifier
@@ -154,7 +171,7 @@ fun PreviewCurrentWeatherScreen() {
     val state = CurrentWeatherInfo(
         weatherId=800,
         weatherMain="Clear",
-        weatherDescription="clear sky",
+        weatherDescription="맑음",
         temp=27,
         humidity=42,
         feelsLike=27,
