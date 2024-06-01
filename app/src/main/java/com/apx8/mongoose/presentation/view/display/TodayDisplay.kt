@@ -49,8 +49,7 @@ fun TodayDisplay(
             Spacer(modifier = Modifier.height(5.dp))
 
             /* Horizontal List*/
-            LazyRow(
-            ) {
+            LazyRow {
                 items(infoList.size) {
                     TodayWeatherItem(index = it, infoList = infoList)
                 }

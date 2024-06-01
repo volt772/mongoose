@@ -12,9 +12,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -33,6 +45,8 @@ import com.apx8.mongoose.presentation.ext.getWeatherType
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgButton
 import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
+import com.apx8.mongoose.presentation.ui.theme.MgRed
+import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
 @Composable
@@ -43,6 +57,14 @@ fun CurrentWeatherScreen(
 ) {
 
     val navController = rememberNavController()
+
+    var showSheet by remember { mutableStateOf(false) }
+
+    if (showSheet) {
+        BottomSheet() {
+            showSheet = false
+        }
+    }
 
     /**
      * WeatherType
@@ -117,52 +139,98 @@ fun CurrentWeatherScreen(
                 color = MgFontWhite
             )
             Spacer(modifier = modifier.height(10.dp))
+
             /* 경기장변경*/
-            Text(
-                "다른 구장 보기",
-                modifier = modifier
-                    .drawBehind {
-                        drawRoundRect(
-                            MgButton,
-                            cornerRadius = CornerRadius(10.dp.toPx())
-                        )
-                    }
-                    .padding(12.dp, 6.dp)
-                    .clickable {
-                        println("probe :: navcontroller : $navController")
-
-//                        navController.navigate(Routes.Stadium.route)
-//                    navController.navigate("StadiumListScreen")
-
-                        println("probe :: main :: this hamster!!")
-                    },
-            )
+            Button(
+                colors = ButtonColors(
+                    containerColor = MgSubBlue,
+                    contentColor = MgWhite,
+                    disabledContainerColor = MgSubBlue,
+                    disabledContentColor = MgWhite,
+                ),
+                onClick = { showSheet = true }
+            ) {
+                Text(text = "다른 구장 보기")
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheet(onDismiss: () -> Unit) {
+    val modalBottomSheetState = rememberModalBottomSheetState()
 
-//@Composable
-//fun YourComposable() {
-//    var show by remember {
-//        mutableStateOf(false)
-//    }
-//    if (show) {
-//        BottomSheetDialog(
-//            onDismissRequest = {
-//                show = false
-//            },
-//            properties = BottomSheetDialogProperties(
-//                ...
-//        )
-//        ) {
-//            // content
-//            Surface {
-//                ...
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() },
+        sheetState = modalBottomSheetState,
+        dragHandle = { BottomSheetDefaults.DragHandle() },
+    ) {
+        CountryList()
+    }
+}
+
+@Composable
+fun CountryList() {
+    val stadiums = mutableListOf<Pair<String, String>>().also { list ->
+        Stadium.entries.forEach { entry ->
+            if (entry != Stadium.NAN) {
+                list.add(entry.signBoard to "hhh")
+            }
+        }
+    }
+
+
+    val countries = listOf(
+        Pair("United States", "\uD83C\uDDFA\uD83C\uDDF8"),
+        Pair("Canada", "\uD83C\uDDE8\uD83C\uDDE6"),
+        Pair("India", "\uD83C\uDDEE\uD83C\uDDF3"),
+        Pair("Germany", "\uD83C\uDDE9\uD83C\uDDEA"),
+        Pair("France", "\uD83C\uDDEB\uD83C\uDDF7"),
+        Pair("Japan", "\uD83C\uDDEF\uD83C\uDDF5"),
+        Pair("China", "\uD83C\uDDE8\uD83C\uDDF3"),
+        Pair("Brazil", "\uD83C\uDDE7\uD83C\uDDF7"),
+        Pair("Australia", "\uD83C\uDDE6\uD83C\uDDFA"),
+        Pair("Russia", "\uD83C\uDDF7\uD83C\uDDFA"),
+        Pair("United Kingdom", "\uD83C\uDDEC\uD83C\uDDE7"),
+    )
+    LazyColumn {
+        items(stadiums) { (signboard, flag) ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp, horizontal = 20.dp)
+                    .clickable {
+                        println("probe :: this hamster !! : $signboard")
+                    }
+            ) {
+                Text(
+                    text = flag,
+                    modifier = Modifier.padding(end = 20.dp)
+                )
+                Text(text = signboard)
+            }
+        }
+    }
+
+//    LazyColumn {
+//        items(countries) { (country, flag) ->
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(vertical = 10.dp, horizontal = 20.dp)
+//            ) {
+//                Text(
+//                    text = flag,
+//                    modifier = Modifier.padding(end = 20.dp)
+//                )
+//                Text(text = country)
 //            }
 //        }
 //    }
-//}
+}
+
+
 
 
 @Preview

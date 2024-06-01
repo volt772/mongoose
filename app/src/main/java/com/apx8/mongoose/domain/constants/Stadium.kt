@@ -1,5 +1,7 @@
 package com.apx8.mongoose.domain.constants
 
+import androidx.annotation.DrawableRes
+
 /**
  * 범주
  * SOJ (서울종합운동장 야구장)
@@ -19,13 +21,13 @@ enum class Stadium(
     val signBoard: String,
     val code: String,
     val lat: Double,
-    val lon: Double
+    val lon: Double,
 ) {
     SOJ(
         "서울종합운동장 야구장",
         "SOJ",
         37.512,
-        127.071
+        127.071,
     ),
     SKW(
         "수원 케이티 위즈 파크",
