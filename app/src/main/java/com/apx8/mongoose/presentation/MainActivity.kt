@@ -19,6 +19,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,8 +30,10 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.ui.theme.AppColor
@@ -41,12 +47,14 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
 
     private val vm: MainViewModel by viewModels()
+    private var currentStadium: Stadium = Stadium.NAN
 
     private fun setCurrentStadium(code: String) {
         vm.setCurrentStadium(code)
@@ -62,8 +70,29 @@ class MainActivity: ComponentActivity() {
             false
         }
 
-        lifecycleScope.launch {
-            vm.fetch(Stadium.SOJ)
+//        lifecycleScope.launch {
+//            vm.fetch(Stadium.SOJ)
+//        }
+
+        lifecycleScope.run {
+            launch {
+                repeatOnLifecycle(Lifecycle.State.CREATED) {
+//                    println("probe :: stadium : first : started")
+                    currentStadium = Stadium.SOJ
+                    vm.fetch(Stadium.SOJ)
+                }
+            }
+
+            launch {
+                vm.currentStadium.collectLatest { stadium ->
+//                    println("probe :: stadium : after : changed")
+                    currentStadium = stadium
+                    vm.fetch(stadium)
+//                    println("probe :: latest stadium : $stadium")
+                }
+            }
+
+//            vm.currentWeather.collectAsStateWithLifecycle().value
         }
 
         setContent {
@@ -72,10 +101,10 @@ class MainActivity: ComponentActivity() {
             MongooseTheme {
                 SetStatusBarColor()
 
-                /* Later To do*/
-//                StadiumListScreen()
                 Column(
-                    modifier = Modifier.fillMaxSize().background(MgBlue),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MgBlue),
                 ) {
 
                     /* AD*/
@@ -107,7 +136,8 @@ class MainActivity: ComponentActivity() {
 
                                 is CommonState.Error -> {}
                                 is CommonState.Success -> {
-                                    CurrentWeatherScreen(info = state.data, stadium = Stadium.SOJ, modifier = Modifier, ::setCurrentStadium)
+//                                    println("probe :: render1 : ${state.data}")
+                                    CurrentWeatherScreen(info = state.data, stadium = currentStadium, modifier = Modifier, ::setCurrentStadium)
                                 }
                             }
 
@@ -118,6 +148,7 @@ class MainActivity: ComponentActivity() {
                                 }
                                 is CommonState.Error -> { }
                                 is CommonState.Success -> {
+//                                    println("probe :: render2 ! ")
                                     ForecastWeatherScreen(info = state.data, modifier = Modifier)
                                 }
                             }

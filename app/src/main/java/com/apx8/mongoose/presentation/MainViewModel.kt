@@ -51,6 +51,13 @@ class MainViewModel @Inject constructor(
             response.awaitAll()
         }
 
+//    fun fetch(stadium: Stadium) {
+//        viewModelScope.launch {
+//            loadCurrentWeatherInfo(stadium)
+//            loadForecastInfo(stadium)
+//        }
+//    }
+
     private fun loadCurrentWeatherInfo(stadium: Stadium) {
         viewModelScope.launch {
             weatherRepository.getCurrentWeatherInfo(
