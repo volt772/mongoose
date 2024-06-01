@@ -2,16 +2,22 @@ package com.apx8.mongoose.presentation.view.display
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.dto.WeatherDisplayItem
@@ -25,26 +31,38 @@ fun DayAfterTomorrowDisplay(
     modifier: Modifier = Modifier
 ) {
 
-    Row(
-        modifier = modifier
-            .height(IntrinsicSize.Min)
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(6.dp))
-            .background(MgSubBlue),
+    Column {
+        /* Label*/
+        Text(
+            text = "오늘이후날씨",
+            fontSize = 20.sp,
+            color = Color.White,
+            fontWeight = FontWeight.W400,
+        )
+        Spacer(modifier = Modifier.height(5.dp))
 
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
+        Row(
+            modifier = modifier
+                .height(IntrinsicSize.Min)
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(10.dp))
+                .background(MgSubBlue),
 
-        items.forEach { item ->
-            /* Item Composition*/
-            WeatherStatusMidItem(
-                weatherType = item.dWeatherId.getWeatherType(),        // 메인날씨 기준 : `낮경기` 기준으로 표시
-                dayTemperature = item.dTemp,        // 낮경기 기온 : `낮경기` 기준으로 표시
-                nightTemperature = item.nTemp,      // 저녁경기 기온 : `저녁경기` 기준으로 표시
-                date = item.date                   // 일자 : `낮경기` 기준으로 표시
-            )
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+
+            items.forEach { item ->
+                /* Item Composition*/
+                WeatherStatusMidItem(
+                    weatherType = item.dWeatherId.getWeatherType(),        // 메인날씨 기준 : `낮경기` 기준으로 표시
+                    dayTemperature = item.dTemp,        // 낮경기 기온 : `낮경기` 기준으로 표시
+                    nightTemperature = item.nTemp,      // 저녁경기 기온 : `저녁경기` 기준으로 표시
+                    date = item.date                   // 일자 : `낮경기` 기준으로 표시
+                )
+            }
         }
     }
+
 }
 
 @Preview
@@ -56,8 +74,10 @@ fun PreviewDayAfterTomorrowDisplay() {
             ForecastListInfo(
                 dt = 1716174000L,
                 temp = 19,
-                dtTxt = "2024-05-20 03:00:00",
+                dtTxtDate = "2024-05-20",
+                dtTxtTime = "03:00",
                 weatherId = 804,
+                weatherDescription = "실 비",
                 weatherMain = "Clouds",
                 weatherIcon = "https://openweathermap.org/img/wn/04d.png"
             )

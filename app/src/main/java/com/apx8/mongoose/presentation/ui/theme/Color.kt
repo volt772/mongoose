@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 val AppColor = Color(0xFF2C80D9)
 
 val MgMainBlue = Color(0xFF3B8CDA)
-val MgSubBlue = Color(0xFf579CDF)
+val MgSubBlue = Color(0xFF579CDF)
 val MgBlue = Color(0xFF2C80D9)
 val MgGreen = Color(0xFF00D642)
 val MgYellow = Color(0xFFFFC643)
@@ -15,6 +15,8 @@ val MgFontGrayBig = Color(0xFF555555)
 val MgFontGrayMid = Color(0xFF6B6F6E)
 val MgFontGraySmall = Color(0xFF85C5FA)
 val MgButton = Color(0xFFDCDBDC)
+val MgWhite = Color(0xFFFFFFFF)
+val MgWhiteTransparent = Color(0xFFFFFF99)
 
 val MgThunderStorm = Color(0Xff993EB1)
 val MgDrizzle = Color(0Xff5A707F)

@@ -2,6 +2,7 @@ package com.apx8.mongoose.data.mappers
 
 import com.apx8.mongoose.data.remote.CurrentResponseDto
 import com.apx8.mongoose.data.remote.ForecastResponseDto
+import com.apx8.mongoose.data.util.convertUTCtoLocalFormat
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
@@ -75,11 +76,26 @@ suspend fun ForecastResponseDto.toForecastWeatherInfo(
     return withContext(defaultDispatcher) {
         val forecast = forecastDto.list.map {
             val weatherData = it.weather.first()
+
+            /* UTC to Local*/
+            val localDateTime = it.dt * 1000
+            val localDtTxt = localDateTime.convertUTCtoLocalFormat()
+
+            /**
+             * Split `Date` and `Time`
+             * @Date : '2020-01-01'
+             * @Time : '15:00:00'
+             */
+            val localDtTxtArr = localDtTxt.split(" ")
+            val (localDtTxtDate, localDtTxtTime) = localDtTxtArr.first() to localDtTxtArr.last()
+
             ForecastListInfo(
-                dt = it.dt,
+                dt = localDateTime,
                 temp = it.main.temp.roundToInt(),
-                dtTxt = it.dtTxt,
+                dtTxtDate = localDtTxtDate,
+                dtTxtTime = localDtTxtTime,
                 weatherId = weatherData.id,
+                weatherDescription = weatherData.description,
                 weatherMain = weatherData.main,
                 weatherIcon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
             )

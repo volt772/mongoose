@@ -21,7 +21,7 @@ data class WeatherDto(
  *         {
  *             "id": 804,
  *             "main": "Clouds",
- *             "description": "overcast clouds",
+ *             "description": "구름조금",
  *             "icon": "04d"
  *         }
  */

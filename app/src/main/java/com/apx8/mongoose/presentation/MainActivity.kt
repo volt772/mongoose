@@ -74,7 +74,6 @@ class MainActivity: ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(state = scrollState)
-                        .height(IntrinsicSize.Max)
                         .background(MgBlue),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {

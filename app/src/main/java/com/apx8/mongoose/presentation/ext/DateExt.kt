@@ -202,17 +202,10 @@ fun getTimeUsingInWorkRequest() : Long {
 }
 
 fun String.getDateTo24Hour(): Int {
-    if (this.isBlank()) return 0
+    if (this.isBlank() || !this.contains(":")) return 0
 
-    val spd = this.splitExt(" ")
-    val hourDt = spd.last()
-
-    if (!hourDt.contains(":")) {
-        return 0
-    }
-
-    val hourSpd = hourDt.splitExt(":")
-    return hourSpd.first().toInt()
+    val spd = this.split(":")
+    return spd.first().toInt()
 }
 
 fun String.getDateToDay(): String {

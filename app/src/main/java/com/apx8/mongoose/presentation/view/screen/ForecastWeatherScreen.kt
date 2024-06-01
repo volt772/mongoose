@@ -18,8 +18,6 @@ import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
 import com.apx8.mongoose.presentation.ext.getDateTo24Hour
 import com.apx8.mongoose.presentation.ext.getDateToDay
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.presentation.ui.theme.MgMainBlue
-import com.apx8.mongoose.presentation.ui.theme.MgRed
 import com.apx8.mongoose.presentation.view.display.DayAfterTomorrowDisplay
 import com.apx8.mongoose.presentation.view.display.TodayDisplay
 
@@ -28,7 +26,7 @@ fun ForecastWeatherScreen(
     info: ForecastWeatherInfo,
     modifier: Modifier = Modifier
 ) {
-    println("probe :: info : $info")
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -37,18 +35,17 @@ fun ForecastWeatherScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        /* List Grouping by Date*/
         val forecastByDay = info.forecastList.groupBy {
-            val spd = it.dtTxt.split(" ")
-            spd.first()
+            it.dtTxtDate
         }
 
         /* DateList [오늘, 내일, 모레, 글피]*/
         val days = getDateAfter2DaysWithToday()
 
         /* DataSet : 오늘 경기장 날씨*/
-        val todayForecast = forecastByDay[days.first()]?.let { fbd ->
-            getTodayForecast(fbd)
+        forecastByDay[days.first()]?.let { fbd ->
+            TodayDisplay(fbd, modifier)
         }
 
         /* DataSet : 오늘 제외한 경기장 날씨*/
@@ -60,13 +57,6 @@ fun ForecastWeatherScreen(
                     }
                 }
             }
-        }
-
-        /* Layout Inflate : 오늘 날씨 예보(낮경기, 저녁경기)*/
-        todayForecast?.let {
-            TodayDisplay(item = todayForecast, modifier = modifier)
-        }?: run {
-            // 로딩실패
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -82,7 +72,7 @@ fun ForecastWeatherScreen(
 
 private fun getValidGame(forecast: List<ForecastListInfo>): List<ForecastListInfo> {
     return forecast.filter { game ->
-        val hour = game.dtTxt.getDateTo24Hour()
+        val hour = game.dtTxtTime.getDateTo24Hour()
         (hour == 15 || hour == 18)
     }
 }
@@ -94,7 +84,7 @@ private fun getTodayForecast(forecast: List<ForecastListInfo>): WeatherDisplayIt
     val nightGame = validGame.last()
 
     return WeatherDisplayItem(
-        date = dayGame.dtTxt.getDateToDay(),
+        date = dayGame.dtTxtDate.getDateToDay(),
         dWeather = dayGame.weatherMain,
         nWeather = nightGame.weatherMain,
         dWeatherId = dayGame.weatherId,
