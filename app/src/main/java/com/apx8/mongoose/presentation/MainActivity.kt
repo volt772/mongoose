@@ -29,6 +29,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
+import com.apx8.mongoose.preference.PrefManager
 import com.apx8.mongoose.presentation.ui.theme.AppColor
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
@@ -42,13 +43,22 @@ import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
 
+    @Inject
+    lateinit var prefManager: PrefManager
+
     private val vm: MainViewModel by viewModels()
     private var currentStadium: Stadium = Stadium.NAN
 
+    /**
+     * `현재 선택된` 경기장 코드
+     * @use 경기장 BottomSheet 아이템 선택시
+     * @use 앱 초기 진입시
+     */
     private fun setCurrentStadium(code: String) {
         vm.setCurrentStadium(code)
     }
@@ -58,6 +68,7 @@ class MainActivity: ComponentActivity() {
 
         MobileAds.initialize(this)
 
+        /* SplashScreen*/
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition {
             false
@@ -65,21 +76,28 @@ class MainActivity: ComponentActivity() {
 
         lifecycleScope.run {
             launch {
+                /**
+                 * GET : 조회할 경기장 코드
+                 * @flow `내 경기장`코드를 조회한 뒤, `현재 경기장`코드로 대입
+                 * @use 선택 안된 경우, 무조건 `잠실경기장(SOJ)`로 표시
+                 */
                 repeatOnLifecycle(Lifecycle.State.CREATED) {
-                    currentStadium = Stadium.SOJ
-                    vm.fetch(Stadium.SOJ)
+                    val myStadium = vm.getMyStadium()
+                    setCurrentStadium(myStadium.code)
                 }
             }
 
             launch {
+                /**
+                 * FETCH : 경기장 데이터 조회
+                 * @flow `현재 경기장`코드가 정리된 후, Current, Forecast API 다운로드
+                 * @use View에서 사용되는 `currentStadium`값도 여기에서 생성
+                 */
                 vm.currentStadium.collectLatest { stadium ->
                     currentStadium = stadium
                     vm.fetch(stadium)
-//                    println("probe :: latest stadium : $stadium")
                 }
             }
-
-//            vm.currentWeather.collectAsStateWithLifecycle().value
         }
 
         setContent {

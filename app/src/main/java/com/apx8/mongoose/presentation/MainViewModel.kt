@@ -3,12 +3,13 @@ package com.apx8.mongoose.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apx8.mongoose.domain.constants.Stadium
-import com.apx8.mongoose.presentation.MongooseApp.Companion.apiKey
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.location.LocationTracker
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
+import com.apx8.mongoose.preference.PrefManager
+import com.apx8.mongoose.presentation.MongooseApp.Companion.apiKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -25,26 +26,33 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
-    private val locationTracker: LocationTracker
+    private val locationTracker: LocationTracker,
+    private val prefManager: PrefManager
 ): ViewModel() {
 
 //    private val _viewState = MutableStateFlow<CurrentWeatherState>(CurrentWeatherState.Loading)
 //    val feed = _viewState.asStateFlow()
+    /* 현재 날씨 정보*/
     private val _currentWeather: MutableStateFlow<CommonState<CurrentWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val currentWeather: StateFlow<CommonState<CurrentWeatherInfo>> = _currentWeather
 //    private val _category: MutableStateFlow<State<List<CmdCategory>>> = MutableStateFlow(State.loading())
 //    val category: StateFlow<State<List<CmdCategory>>> = _category
+/* 예보 날씨 정보*/
     private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
 
 //    private val _currentStadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.NAN)
 //    val currentStadium: StateFlow<Stadium> = _currentStadium
+    /* 현재 선택된 경기장 (중복 호출로 인해, SharedFlow로 Emit함)*/
     private val _currentStadium: MutableSharedFlow<Stadium> = MutableSharedFlow(replay = 0)
     val currentStadium: SharedFlow<Stadium> = _currentStadium
 
-    private val _stadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.SOJ)
-    val stadium: StateFlow<Stadium> = _stadium
+//    private val _stadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.SOJ)
+//    val stadium: StateFlow<Stadium> = _stadium
 
+    /**
+     * Data Fetch Async
+     */
     suspend fun fetch(stadium: Stadium) =
         coroutineScope {
             val response = listOf(
@@ -55,13 +63,10 @@ class MainViewModel @Inject constructor(
             response.awaitAll()
         }
 
-//    fun fetch(stadium: Stadium) {
-//        viewModelScope.launch {
-//            loadCurrentWeatherInfo(stadium)
-//            loadForecastInfo(stadium)
-//        }
-//    }
-
+    /**
+     * FETCH : 현재 경기장 날씨
+     * @flag : `Current`
+     */
     private fun loadCurrentWeatherInfo(stadium: Stadium) {
         viewModelScope.launch {
             weatherRepository.getCurrentWeatherInfo(
@@ -72,6 +77,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * FETCH : 경기장의 날씨 예보 (3일간)
+     * @flag : `Forecast`
+     */
     private fun loadForecastInfo(stadium: Stadium) {
         viewModelScope.launch {
             weatherRepository.getForecastWeatherInfo(
@@ -85,6 +94,32 @@ class MainViewModel @Inject constructor(
     fun setCurrentStadium(code: String) {
         viewModelScope.launch {
             _currentStadium.emit(Stadium.from(code))
+        }
+    }
+
+    /**
+     * PUT : `내가 선호하는 경기장`
+     * @desc BottomSheet 리스트에서 선택한 경기장 코드를 Pref에 저장
+     */
+    fun setMyStadium(code: String) {
+        viewModelScope.launch {
+            prefManager.setMyStadium(code)
+        }
+    }
+
+    /**
+     * GET : `내가 선호하는 경기장`
+     * @desc 기본으로 보여줄 경기장의 코드를 가져옴
+     * @desc 기본값 == `서울 잠실 야구장(SOJ)`
+     */
+    fun getMyStadium(): Stadium {
+        val code = prefManager.getMyStadium()
+        val savedStadium = Stadium.from(code)
+
+        return if (savedStadium == Stadium.NAN) {
+            Stadium.SOJ
+        } else {
+            savedStadium
         }
     }
 

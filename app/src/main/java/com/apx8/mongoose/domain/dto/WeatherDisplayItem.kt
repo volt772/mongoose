@@ -1,4 +1,4 @@
-package com.apx8.mongoose.dto
+package com.apx8.mongoose.domain.dto
 
 data class WeatherDisplayItem(
     val date: String,           // 5월 21일

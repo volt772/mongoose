@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
-import com.apx8.mongoose.dto.WeatherDisplayItem
+import com.apx8.mongoose.domain.dto.WeatherDisplayItem
 import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
 import com.apx8.mongoose.presentation.ext.getDateTo24Hour
 import com.apx8.mongoose.presentation.ext.getDateToDay

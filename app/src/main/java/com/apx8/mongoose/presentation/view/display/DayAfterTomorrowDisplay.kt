@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
-import com.apx8.mongoose.dto.WeatherDisplayItem
+import com.apx8.mongoose.domain.dto.WeatherDisplayItem
 import com.apx8.mongoose.presentation.ext.getWeatherType
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.view.item.WeatherStatusMidItem
