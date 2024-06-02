@@ -91,6 +91,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * 현재 선택된 경기장
+     * @desc 단순 SharedFlow로 데이터 처리하며, 별도의 데이터 저장은 없음
+     */
     fun setCurrentStadium(code: String) {
         viewModelScope.launch {
             _currentStadium.emit(Stadium.from(code))

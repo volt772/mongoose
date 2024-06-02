@@ -58,9 +58,13 @@ class MainActivity: ComponentActivity() {
      * `현재 선택된` 경기장 코드
      * @use 경기장 BottomSheet 아이템 선택시
      * @use 앱 초기 진입시
+     * @desc `초기버전`에서는 경기장 선택시, `자동으로 내경기장`으로 자동선택됨.
      */
     private fun setCurrentStadium(code: String) {
-        vm.setCurrentStadium(code)
+        vm.apply {
+            setCurrentStadium(code)     // 현재 선택된 경기장
+            setMyStadium(code)          // 내 경기장
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,7 +158,12 @@ class MainActivity: ComponentActivity() {
 
             is CommonState.Error -> {}
             is CommonState.Success -> {
-                CurrentWeatherScreen(info = state.data, stadium = currentStadium, modifier = Modifier, ::setCurrentStadium)
+                CurrentWeatherScreen(
+                    info = state.data,
+                    currentStadium = currentStadium,
+                    doSelectStadium = ::setCurrentStadium,
+                    modifier = Modifier
+                )
             }
         }
     }
