@@ -34,7 +34,7 @@ fun DayAfterTomorrowDisplay(
     Column {
         /* Label*/
         Text(
-            text = "오늘이후날씨",
+            text = "주간예보",
             fontSize = 20.sp,
             color = Color.White,
             fontWeight = FontWeight.W400,

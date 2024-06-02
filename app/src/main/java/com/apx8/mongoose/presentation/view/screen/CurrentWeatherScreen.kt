@@ -18,6 +18,7 @@ import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -82,6 +83,15 @@ fun CurrentWeatherScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = modifier.height(20.dp))
+        /* 설명*/
+        Text(
+            text = info.weatherDescription,
+            fontWeight = FontWeight.W400,
+            fontSize = 30.sp,
+            color = MgFontWhite
+        )
+        Spacer(modifier = modifier.height(20.dp))
+
         /* 아이콘*/
         Image(
             painterResource(id = weatherType.mainRes),
@@ -89,7 +99,7 @@ fun CurrentWeatherScreen(
             colorFilter = ColorFilter.tint(Color.White),
             modifier = Modifier.size(200.dp)
         )
-
+        Spacer(modifier = modifier.height(30.dp))
         /* 기온*/
         Row(
             horizontalArrangement = Arrangement.Center,
@@ -110,21 +120,6 @@ fun CurrentWeatherScreen(
                 fontSize = 20.sp,
                 color = MgFontWhite,
                 modifier = modifier.align(Alignment.CenterVertically)
-            )
-            Spacer(modifier = modifier.width(10.dp))
-            /* 구분선*/
-            VerticalDivider(
-                modifier = Modifier.height(30.dp),
-                color = MgWhite
-            )
-            Spacer(modifier = modifier.width(10.dp))
-
-            /* 설명*/
-            Text(
-                text = info.weatherDescription,
-                fontWeight = FontWeight.W400,
-                fontSize = 30.sp,
-                color = MgFontWhite
             )
         }
 
@@ -305,8 +300,9 @@ fun PreviewCurrentWeatherScreen() {
         cod=200
     )
 
-//    CurrentWeatherScreen(
-//        info = state,
-//        stadium = Stadium.SOJ
-//    )
+    CurrentWeatherScreen(
+        info = state,
+        stadium = Stadium.SOJ,
+        selectStadium = {}
+    )
 }

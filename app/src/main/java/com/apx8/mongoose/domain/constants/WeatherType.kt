@@ -61,7 +61,7 @@ sealed class WeatherType(
 
     /* 800 Clear*/
     data object Clear: WeatherType(
-        code = 80,
+        code = 8,
         mainRes = R.drawable.ic_sunny,
         subRes = R.drawable.ic_weather_clear,
         color = MgClear
@@ -69,7 +69,7 @@ sealed class WeatherType(
 
     /* 800 Clouds*/
     data object Clouds : WeatherType(
-        code = 8,
+        code = 80,
         mainRes = R.drawable.ic_cloudy,
         subRes = R.drawable.ic_weather_clouds,
         color = MgClouds
