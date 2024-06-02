@@ -9,24 +9,17 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -70,14 +63,9 @@ class MainActivity: ComponentActivity() {
             false
         }
 
-//        lifecycleScope.launch {
-//            vm.fetch(Stadium.SOJ)
-//        }
-
         lifecycleScope.run {
             launch {
                 repeatOnLifecycle(Lifecycle.State.CREATED) {
-//                    println("probe :: stadium : first : started")
                     currentStadium = Stadium.SOJ
                     vm.fetch(Stadium.SOJ)
                 }
@@ -85,7 +73,6 @@ class MainActivity: ComponentActivity() {
 
             launch {
                 vm.currentStadium.collectLatest { stadium ->
-//                    println("probe :: stadium : after : changed")
                     currentStadium = stadium
                     vm.fetch(stadium)
 //                    println("probe :: latest stadium : $stadium")
@@ -128,31 +115,8 @@ class MainActivity: ComponentActivity() {
                                 .background(Color.White)
                         ) {
 
-                            /* Column1 : Current Screen*/
-                            when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
-                                is CommonState.Loading -> {
-                                    LoadingProgressIndicator()
-                                }
-
-                                is CommonState.Error -> {}
-                                is CommonState.Success -> {
-//                                    println("probe :: render1 : ${state.data}")
-                                    CurrentWeatherScreen(info = state.data, stadium = currentStadium, modifier = Modifier, ::setCurrentStadium)
-                                }
-                            }
-
-                            /* Column2 : Forecast Screen*/
-                            when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-                                is CommonState.Loading -> {
-                                    LoadingProgressIndicator()
-                                }
-                                is CommonState.Error -> { }
-                                is CommonState.Success -> {
-//                                    println("probe :: render2 ! ")
-                                    ForecastWeatherScreen(info = state.data, modifier = Modifier)
-                                }
-                            }
-
+                            RenderCurrentWeatherScreen()
+                            RenderForecastWeatherScreen()
                         }
                     }
                 }
@@ -160,7 +124,38 @@ class MainActivity: ComponentActivity() {
             }
         }
     }
+
+
+    @Composable
+    fun RenderCurrentWeatherScreen() {
+        /* Column1 : Current Screen*/
+        when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
+            is CommonState.Loading -> {
+                LoadingProgressIndicator()
+            }
+
+            is CommonState.Error -> {}
+            is CommonState.Success -> {
+                CurrentWeatherScreen(info = state.data, stadium = currentStadium, modifier = Modifier, ::setCurrentStadium)
+            }
+        }
+    }
+
+    @Composable
+    fun RenderForecastWeatherScreen() {
+        /* Column2 : Forecast Screen*/
+        when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
+            is CommonState.Loading -> {
+                LoadingProgressIndicator()
+            }
+            is CommonState.Error -> { }
+            is CommonState.Success -> {
+                ForecastWeatherScreen(info = state.data, modifier = Modifier)
+            }
+        }
+    }
 }
+
 
 @Composable
 private fun LoadingProgressIndicator() {

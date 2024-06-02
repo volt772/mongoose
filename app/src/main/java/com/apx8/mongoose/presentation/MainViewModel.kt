@@ -13,7 +13,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -35,8 +37,10 @@ class MainViewModel @Inject constructor(
     private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
 
-    private val _currentStadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.NAN)
-    val currentStadium: StateFlow<Stadium> = _currentStadium
+//    private val _currentStadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.NAN)
+//    val currentStadium: StateFlow<Stadium> = _currentStadium
+    private val _currentStadium: MutableSharedFlow<Stadium> = MutableSharedFlow(replay = 0)
+    val currentStadium: SharedFlow<Stadium> = _currentStadium
 
     private val _stadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.SOJ)
     val stadium: StateFlow<Stadium> = _stadium

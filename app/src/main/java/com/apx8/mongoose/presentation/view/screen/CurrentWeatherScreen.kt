@@ -207,7 +207,6 @@ fun BottomSheet(selectStadium: (String)->Unit, onDismiss: () -> Unit) {
                         .clickable {
                             selectStadium.invoke(stadium.code)
                             onDismiss.invoke()
-                            println("probe :: this hamster !! : ${stadium.code}")
                         }
                 ) {
                     Text(
@@ -260,7 +259,6 @@ fun CountryList(onDismiss: () -> Unit) {
                     .padding(vertical = 10.dp, horizontal = 20.dp)
                     .clickable {
                         onDismiss.invoke()
-                        println("probe :: this hamster !! : $signboard")
                     }
             ) {
                 Text(
