@@ -30,7 +30,7 @@ sealed class WeatherType(
     /* 300 Drizzle*/
     data object Drizzle : WeatherType(
         code = 3,
-        mainRes = R.drawable.ic_rainshower,
+        mainRes = R.drawable.ic_drizzle,
         subRes = R.drawable.ic_weather_drizzle,
         color = MgDrizzle
     )
@@ -54,7 +54,7 @@ sealed class WeatherType(
     /* 700 Atmosphere*/
     data object Atmosphere: WeatherType(
         code = 7,
-        mainRes = R.drawable.ic_very_cloudy,
+        mainRes = R.drawable.ic_cloudy,
         subRes = R.drawable.ic_weather_default,
         color = MgAtmosphere
     )
