@@ -35,7 +35,10 @@ fun StadiumBottomSheet(
     onDismiss: () -> Unit
 ) {
 
-    val modalBottomSheetState = rememberModalBottomSheetState()
+    /**
+     * @desc skipPartiallyExpanded = true : `BottomDialog` Full Size
+     */
+    val modalBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
