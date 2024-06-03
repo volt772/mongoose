@@ -1,6 +1,7 @@
 package com.apx8.mongoose.presentation
 
 import android.os.Bundle
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -9,17 +10,24 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -31,7 +39,11 @@ import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
 import com.apx8.mongoose.presentation.ui.theme.AppColor
+import com.apx8.mongoose.presentation.ui.theme.MgAtmosphere
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgRed
+import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
@@ -134,7 +146,7 @@ class MainActivity: ComponentActivity() {
                     ) {
                         Column(
                             modifier = Modifier
-                                .background(Color.White)
+                                .background(MgBlue)
                         ) {
 
                             RenderCurrentWeatherScreen()
@@ -158,6 +170,7 @@ class MainActivity: ComponentActivity() {
 
             is CommonState.Error -> {}
             is CommonState.Success -> {
+//                LoadingProgressIndicator()
                 CurrentWeatherScreen(
                     info = state.data,
                     currentStadium = currentStadium,
@@ -172,12 +185,13 @@ class MainActivity: ComponentActivity() {
     fun RenderForecastWeatherScreen() {
         /* Column2 : Forecast Screen*/
         when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-            is CommonState.Loading -> {
-                LoadingProgressIndicator()
-            }
+            is CommonState.Loading -> { }
             is CommonState.Error -> { }
             is CommonState.Success -> {
-                ForecastWeatherScreen(info = state.data, modifier = Modifier)
+                ForecastWeatherScreen(
+                    info = state.data,
+                    modifier = Modifier
+                )
             }
         }
     }
@@ -186,13 +200,16 @@ class MainActivity: ComponentActivity() {
 
 @Composable
 private fun LoadingProgressIndicator() {
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(300.dp))
         CircularProgressIndicator(
-            modifier = Modifier.size(60.dp, 60.dp),
-            color = AppColor
+            modifier = Modifier.size(30.dp, 30.dp),
+            strokeCap = StrokeCap.Round,
+            color = MgWhite
         )
     }
 }

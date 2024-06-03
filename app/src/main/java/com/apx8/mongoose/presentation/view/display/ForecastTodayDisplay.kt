@@ -23,13 +23,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.apx8.mongoose.domain.constants.WeatherType
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.presentation.ext.getWeatherType
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
+val previewInfoList = mutableListOf<ForecastListInfo>().also { list ->
+    list.add(ForecastListInfo(dt=1717210800000, temp=22, dtTxtDate="2024-06-01", dtTxtTime = "12:00:00", weatherId=500, weatherDescription = "실 비", weatherMain="Rain", weatherIcon="https://openweathermap.org/img/wn/10d.png"))
+    list.add(ForecastListInfo(dt=1717221600000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "15:00:00", weatherId=802, weatherDescription = "실 비", weatherMain="Clouds", weatherIcon="https://openweathermap.org/img/wn/03d.png)"))
+    list.add(ForecastListInfo(dt=1717232400000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "18:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01d.png)"))
+    list.add(ForecastListInfo(dt=1717243200000, temp=21, dtTxtDate="2024-06-01", dtTxtTime = "21:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01n.png)"))
+}
+
 @Composable
-fun TodayDisplay(
+fun ForecastTodayDisplay(
     infoList: List<ForecastListInfo>,
     modifier: Modifier = Modifier
 ) {
@@ -89,12 +97,12 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
 
             /* 기온 | 시간*/
             Text(
-                text = "${temperature}°C | ${time.substring(0, time.length - 3)}",
+                text = "${time.substring(0, time.length - 6)}시 : ${temperature}°C",
                 fontWeight = FontWeight.W400,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = MgWhite,
             )
-            Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(3.dp))
 
             /* Description*/
             Text(
@@ -109,15 +117,17 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
 
 @Preview
 @Composable
-fun PreviewTodayDisplay() {
-    val infoList = mutableListOf<ForecastListInfo>().also { list ->
-        list.add(ForecastListInfo(dt=1717210800000, temp=22, dtTxtDate="2024-06-01", dtTxtTime = "12:00:00", weatherId=500, weatherDescription = "실 비", weatherMain="Rain", weatherIcon="https://openweathermap.org/img/wn/10d.png"))
-        list.add(ForecastListInfo(dt=1717221600000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "15:00:00", weatherId=802, weatherDescription = "실 비", weatherMain="Clouds", weatherIcon="https://openweathermap.org/img/wn/03d.png)"))
-        list.add(ForecastListInfo(dt=1717232400000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "18:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01d.png)"))
-        list.add(ForecastListInfo(dt=1717243200000, temp=21, dtTxtDate="2024-06-01", dtTxtTime = "21:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01n.png)"))
-    }
+fun PreviewTodayWeatherItem() {
+    TodayWeatherItem(
+        index = 0,
+        infoList = previewInfoList,
+    )
+}
 
-    TodayDisplay(
-        infoList = infoList
+@Preview
+@Composable
+fun PreviewTodayDisplay() {
+    ForecastTodayDisplay(
+        infoList = previewInfoList
     )
 }

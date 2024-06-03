@@ -18,8 +18,8 @@ import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
 import com.apx8.mongoose.presentation.ext.getDateTo24Hour
 import com.apx8.mongoose.presentation.ext.getDateToDay
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.presentation.view.display.DayAfterTomorrowDisplay
-import com.apx8.mongoose.presentation.view.display.TodayDisplay
+import com.apx8.mongoose.presentation.view.display.ForecastDayAfterDisplay
+import com.apx8.mongoose.presentation.view.display.ForecastTodayDisplay
 
 @Composable
 fun ForecastWeatherScreen(
@@ -43,9 +43,9 @@ fun ForecastWeatherScreen(
         /* DateList [오늘, 내일, 모레, 글피]*/
         val days = getDateAfter2DaysWithToday()
 
-        /* DataSet : 오늘 경기장 날씨*/
+        /* View Inflate : 오늘 경기장 날씨*/
         forecastByDay[days.first()]?.let { fbd ->
-            TodayDisplay(fbd, modifier)
+            ForecastTodayDisplay(fbd, modifier)
         }
 
         /* DataSet : 오늘 제외한 경기장 날씨*/
@@ -63,17 +63,10 @@ fun ForecastWeatherScreen(
 
         /* Layout Inflate : 익일 ~ 3일간 날씨 예보(낮경기, 저녁경기)*/
         if (dayAfterForecast.isNotEmpty()) {
-            DayAfterTomorrowDisplay(items = dayAfterForecast, modifier = modifier)
+            ForecastDayAfterDisplay(items = dayAfterForecast, modifier = modifier)
         } else {
             // 로딩실패
         }
-    }
-}
-
-private fun getValidGame(forecast: List<ForecastListInfo>): List<ForecastListInfo> {
-    return forecast.filter { game ->
-        val hour = game.dtTxtTime.getDateTo24Hour()
-        (hour == 15 || hour == 18)
     }
 }
 
@@ -93,6 +86,12 @@ private fun getTodayForecast(forecast: List<ForecastListInfo>): WeatherDisplayIt
         nWeatherIcon = nightGame.weatherIcon,
         dTemp = dayGame.temp,
         nTemp = nightGame.temp
-
     )
+}
+
+private fun getValidGame(forecast: List<ForecastListInfo>): List<ForecastListInfo> {
+    return forecast.filter { game ->
+        val hour = game.dtTxtTime.getDateTo24Hour()
+        (hour == 15 || hour == 18)
+    }
 }
