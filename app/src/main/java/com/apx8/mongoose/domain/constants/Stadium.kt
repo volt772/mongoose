@@ -1,7 +1,5 @@
 package com.apx8.mongoose.domain.constants
 
-import androidx.annotation.DrawableRes
-
 /**
  * 범주
  * SOJ (서울종합운동장 야구장)
@@ -10,7 +8,7 @@ import androidx.annotation.DrawableRes
  * CNP (창원 NC 파크)
  * GCF (광주-기아 챔피언스 필드)
  * BSJ (사직야구장)
- * BDP (대전 한화생명 이글스파크/베이스볼 드림파크) -> 25년부터 `베이스볼 드림파크`로 사용하여, 코드명 수정
+ * DBP (대전 한화생명 이글스파크/베이스볼 드림파크) -> 25년부터 `베이스볼 드림파크`로 사용하여, 코드명 수정
  * DSP (대구 삼성 라이온즈 파크)
  * SOG (고척 스카이돔)
  * UMS (울산 문수 야구장)
@@ -59,9 +57,9 @@ enum class Stadium(
         35.193,
         129.061
     ),
-    BDP(
+    DBP(
         "대전 한화생명 이글스 파크",
-        "DEP",
+        "DBP",
         36.316,
         127.429
     ),
@@ -111,7 +109,7 @@ enum class Stadium(
                 "CNP" -> CNP
                 "GCF" -> GCF
                 "BSJ" -> BSJ
-                "BDP" -> BDP
+                "DBP" -> DBP
                 "DSP" -> DSP
                 "SOG" -> SOG
                 "UMS" -> UMS
