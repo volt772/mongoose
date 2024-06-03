@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -169,8 +171,8 @@ fun BottomSheet(
                 if (entry != Stadium.NAN) {
                     list.add(
                         BottomSheetStadium(
+                            color = entry.teamColor,
                             name = entry.signBoard,
-                            flag = 1234,
                             code = entry.code
                         )
                     )
@@ -191,13 +193,19 @@ fun BottomSheet(
                             doSelectStadium.invoke(stadium.code)
                             onDismiss.invoke()
                         },
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row() {
-                        /* 경기장 플래그*/
-                        Text(
-                            text = "${stadium.flag}",
-                            modifier = Modifier.padding(end = 20.dp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        /* 경기장 색상 아이콘*/
+                        Image(
+                            painterResource(id = stadium.color),
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp)
+                                .padding(end = 8.dp)
+                                .clip(shape = RoundedCornerShape(10.dp))
                         )
                         /* 경기장 사인보드(이름)*/
                         Text(text = stadium.name)
@@ -221,73 +229,10 @@ fun BottomSheet(
  * 경기장 List Item Data
  */
 data class BottomSheetStadium(
+    val color: Int,
     val name: String,
-    val flag: Int,
     val code: String,
 )
-
-//@Composable
-//fun CountryList(onDismiss: () -> Unit) {
-//    val stadiums = mutableListOf<Pair<String, String>>().also { list ->
-//        Stadium.entries.forEach { entry ->
-//            if (entry != Stadium.NAN) {
-//                list.add(entry.signBoard to "hhh")
-//            }
-//        }
-//    }
-//
-//
-//    val countries = listOf(
-//        Pair("United States", "\uD83C\uDDFA\uD83C\uDDF8"),
-//        Pair("Canada", "\uD83C\uDDE8\uD83C\uDDE6"),
-//        Pair("India", "\uD83C\uDDEE\uD83C\uDDF3"),
-//        Pair("Germany", "\uD83C\uDDE9\uD83C\uDDEA"),
-//        Pair("France", "\uD83C\uDDEB\uD83C\uDDF7"),
-//        Pair("Japan", "\uD83C\uDDEF\uD83C\uDDF5"),
-//        Pair("China", "\uD83C\uDDE8\uD83C\uDDF3"),
-//        Pair("Brazil", "\uD83C\uDDE7\uD83C\uDDF7"),
-//        Pair("Australia", "\uD83C\uDDE6\uD83C\uDDFA"),
-//        Pair("Russia", "\uD83C\uDDF7\uD83C\uDDFA"),
-//        Pair("United Kingdom", "\uD83C\uDDEC\uD83C\uDDE7"),
-//    )
-//    LazyColumn {
-//        items(stadiums) { (signboard, flag) ->
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(vertical = 10.dp, horizontal = 20.dp)
-//                    .clickable {
-//                        onDismiss.invoke()
-//                    }
-//            ) {
-//                Text(
-//                    text = flag,
-//                    modifier = Modifier.padding(end = 20.dp)
-//                )
-//                Text(text = signboard)
-//
-//            }
-//        }
-//    }
-
-//    LazyColumn {
-//        items(countries) { (country, flag) ->
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(vertical = 10.dp, horizontal = 20.dp)
-//            ) {
-//                Text(
-//                    text = flag,
-//                    modifier = Modifier.padding(end = 20.dp)
-//                )
-//                Text(text = country)
-//            }
-//        }
-//    }
-//}
-
-
 
 
 @Preview
