@@ -38,9 +38,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
+import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
+import com.apx8.mongoose.presentation.view.InfoActivity
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
@@ -218,7 +220,9 @@ class MainActivity: ComponentActivity() {
                     disabledContainerColor = MgSubBlue,
                     disabledContentColor = MgWhite,
                 ),
-                onClick = {  }
+                onClick = {
+                    openActivity(InfoActivity::class.java)
+                }
             ) {
                 Text(text = "앱정보")
             }
