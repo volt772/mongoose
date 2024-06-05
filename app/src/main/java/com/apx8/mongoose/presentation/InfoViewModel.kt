@@ -1,4 +1,4 @@
-package com.apx8.mongoose.presentation.view
+package com.apx8.mongoose.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

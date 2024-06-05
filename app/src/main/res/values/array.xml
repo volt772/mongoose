@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 오픈라이센스 리스트-->
+    <string-array name="licenses">
+        <item>Crashlytics</item>
+        <item>Danlew-Joda</item>
+        <item>Glide</item>
+        <item>Kotlin</item>
+        <item>OkHttp</item>
+        <item>Openid-AppAuth-Android</item>
+        <item>Retrofit</item>
+        <item>ShortcutBadger</item>
+    </string-array>
+
+</resources>
