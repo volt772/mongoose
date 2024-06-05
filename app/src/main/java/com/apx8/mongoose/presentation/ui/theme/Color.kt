@@ -20,6 +20,7 @@ val MgWhiteTransparent = Color(0xFFFFFF99)
 val MgBackgroundGray = Color(0xFFF7F7F7)
 val MgMenuFontBlack = Color(0xFF241E17)
 val MgLicenseFontGray = Color(0xFF9E9E9E)
+val MgLinetGray = Color(0xFFF2F2F2)
 
 val MgThunderStorm = Color(0Xff993EB1)
 val MgDrizzle = Color(0Xff5A707F)

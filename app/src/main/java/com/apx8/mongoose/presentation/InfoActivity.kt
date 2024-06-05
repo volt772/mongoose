@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,13 +31,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.apx8.mongoose.BuildConfig
 import com.apx8.mongoose.R
 import com.apx8.mongoose.presentation.ext.BackButtonScaffoldScreen
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
 import com.apx8.mongoose.presentation.ui.theme.MgGreen
+import com.apx8.mongoose.presentation.ui.theme.MgLinetGray
 import com.apx8.mongoose.presentation.ui.theme.MgMenuFontBlack
+import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -77,7 +81,7 @@ class InfoActivity: ComponentActivity() {
     ) {
         Column(
             modifier = Modifier
-                .background(MgGreen)
+                .background(MgWhite)
                 .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -101,7 +105,7 @@ class InfoActivity: ComponentActivity() {
                         indication = rememberRipple(bounded = false),
                     ) {
                         moveToOpenSource()
-                  },
+                    },
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -114,7 +118,7 @@ class InfoActivity: ComponentActivity() {
             }
 
             /* 구분자*/
-            HorizontalDivider(Modifier.height(1.dp))
+            HorizontalDivider(Modifier.height(1.dp).background(MgLinetGray))
 
             /* 앱버전*/
             Row(
@@ -126,15 +130,18 @@ class InfoActivity: ComponentActivity() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                /* 앱버전(레이블)*/
                 Text(
                     modifier = Modifier.padding(start = 18.dp),
                     text = "앱버전",
                     fontSize = 16.sp,
                     color = MgMenuFontBlack
                 )
+
+                /* 앱버전*/
                 Text(
                     modifier = Modifier.padding(end = 18.dp),
-                    text = "v1.0.0",
+                    text = "v${BuildConfig.VERSION_NAME}",
                     fontSize = 16.sp,
                     color = MgMenuFontBlack
                 )

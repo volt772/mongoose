@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.presentation.ui.theme.MgRed
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -88,7 +86,7 @@ fun BackButtonScaffoldScreen(title: String, content: @Composable () -> Unit, bac
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MgRed)
+                .background(MgWhite)
                 .padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally

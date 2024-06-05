@@ -27,7 +27,12 @@
         </activity>
 
         <activity
-            android:name=".presentation.view.InfoActivity"
+            android:name=".presentation.InfoActivity"
+            android:theme="@style/Theme.Mongoose"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.OpenSourceActivity"
             android:theme="@style/Theme.Mongoose"
             android:exported="false" />
 
