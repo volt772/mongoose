@@ -137,16 +137,10 @@ class OpenSourceActivity: ComponentActivity() {
         )
     }
 
-
+    @Preview
+    @Composable
+    fun PreviewLicenseScreen() {
+        LicenseDisplay(
+        )
+    }
 }
-
-//
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Preview
-//@Composable
-//fun PreviewLicenseScreen() {
-//    LicenseScreen(
-//        backPressed = {}
-//    )
-//}
-
