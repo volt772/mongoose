@@ -43,8 +43,10 @@ import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
+import com.apx8.mongoose.presentation.ui.theme.MgRed
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
+import com.apx8.mongoose.presentation.ui.theme.MgYellow
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
 import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
@@ -219,7 +221,7 @@ class MainActivity: ComponentActivity() {
                 modifier = Modifier.padding(horizontal = 10.dp),
                 text = "데이터 제공사의 상황에 따라 일부 부정확할 수 있습니다. 모든 내용은 참고용도로 이용하시기 바랍니다.",
                 fontSize = 16.sp,
-                color = MgFontWhite,
+                color = MgYellow,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(4.dp))
