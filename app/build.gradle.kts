@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 fun getApiKey(propertyKey: String): String {
@@ -101,4 +102,7 @@ dependencies {
     /* Preference*/
     implementation("androidx.preference:preference-ktx:1.2.1")
 
+    /* Firebase*/
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }

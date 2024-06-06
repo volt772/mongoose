@@ -69,9 +69,10 @@ class MainActivity: ComponentActivity() {
     private val vm: MainViewModel by viewModels()
     private var currentStadium: Stadium = Stadium.NAN
 
+
     /**
-     * `현재 선택된` 경기장 코드
-     * @use 경기장 BottomSheet 아이템 선택시
+     *  [현재 선택된] 경기장 코드
+     * @suppress 경기장 BottomSheet 아이템 선택시
      * @use 앱 초기 진입시
      * @desc `초기버전`에서는 경기장 선택시, `자동으로 내경기장`으로 자동선택됨.
      */
