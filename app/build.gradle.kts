@@ -31,9 +31,18 @@ android {
         buildConfigField("String", "API_KEY", getApiKey("API_KEY"))
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../../mongoose_keystore/mongoose_keystore.jks")
+            storePassword = System.getenv("MONGOOSE_KEYSTORE_PW")
+            keyAlias = "release_key"
+            keyPassword = System.getenv("MONGOOSE_KEY_PW")
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
