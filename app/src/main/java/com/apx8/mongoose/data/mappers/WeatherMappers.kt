@@ -10,50 +10,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
-//private data class IndexedWeatherData(
-//    val index: Int,
-//    val data: WeatherData
-//)
+const val weatherIconBaseURL = "https://openweathermap.org/img/wn"
 
-//fun WeatherDataDto2.toWeatherDataMap(): Map<Int, List<WeatherData>> {
-//    return time.mapIndexed { index, time ->
-//        val temperature = temperatures[index]
-//        val weatherCode = weatherCodes[index]
-//        val windSpeed = windSpeeds[index]
-//        val pressure = pressures[index]
-//        val humidity = humidities[index]
-//
-//        IndexedWeatherData(
-//            index = index,
-//            data = WeatherData(
-//                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
-//                temperatureCelsius = temperature,
-//                pressure = pressure,
-//                windSpeed = windSpeed,
-//                humidity = humidity,
-//                weatherType = WeatherType.fromWMO(weatherCode)
-//            )
-//        )
-//    }.groupBy {
-//        it.index / 24
-//    }.mapValues {
-//        it.value.map { it.data }
-//    }
-//}
-
-//fun WeatherDto.toWeatherInfo(): WeatherInfo {
-//    val weatherDataMap = weatherData.toWeatherDataMap()
-//    val now = LocalDateTime.now()
-//    val currentWeatherData = weatherDataMap[0]?.find {
-//        val hour = if(now.minute < 30) now.hour else now.hour + 1
-//        it.time.hour == hour
-//    }
-//    return WeatherInfo(
-//        weatherDataPerDay = weatherDataMap,
-//        currentWeatherData = currentWeatherData
-//    )
-//}
-
+/**
+ * 데이터 변환 [CurrentResponseDto] to [CurrentWeatherInfo]
+ */
 fun CurrentResponseDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
     val weatherData = this.weatherData.first()
     return CurrentWeatherInfo(
@@ -63,22 +24,29 @@ fun CurrentResponseDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
         temp = this.main.temp.roundToInt(),
         humidity = this.main.humidity,
         feelsLike = this.main.feelsLike.roundToInt(),
-        weatherIcon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
+        weatherIcon = "$weatherIconBaseURL/${weatherData.icon}.png",
         cityName = this.name,
         cod = this.cod
     )
 }
 
+/**
+ * 데이터 변환 [ForecastResponseDto] to [ForecastWeatherInfo]
+ *
+ * @Desc 시간변환 문제
+ * UTC 시간을 Local시간으로 변환하여 제공한다 (+9시간)
+ * ForecastListInfo내에는 일자와 시간을 분리하여 저장한다
+ */
 suspend fun ForecastResponseDto.toForecastWeatherInfo(
     defaultDispatcher: CoroutineDispatcher
 ): ForecastWeatherInfo {
     val forecastDto = this
     return withContext(defaultDispatcher) {
-        val forecast = forecastDto.list.map {
-            val weatherData = it.weather.first()
+        val forecast = forecastDto.list.map { fd ->
+            val weatherData = fd.weather.first()
 
             /* UTC to Local*/
-            val localDateTime = it.dt * 1000
+            val localDateTime = fd.dt * 1000
             val localDtTxt = localDateTime.convertUTCtoLocalFormat()
 
             /**
@@ -91,13 +59,13 @@ suspend fun ForecastResponseDto.toForecastWeatherInfo(
 
             ForecastListInfo(
                 dt = localDateTime,
-                temp = it.main.temp.roundToInt(),
+                temp = fd.main.temp.roundToInt(),
                 dtTxtDate = localDtTxtDate,
                 dtTxtTime = localDtTxtTime,
                 weatherId = weatherData.id,
                 weatherDescription = weatherData.description,
                 weatherMain = weatherData.main,
-                weatherIcon = "https://openweathermap.org/img/wn/${weatherData.icon}.png",
+                weatherIcon = "$weatherIconBaseURL/${weatherData.icon}.png",
             )
         }
 
@@ -106,4 +74,3 @@ suspend fun ForecastResponseDto.toForecastWeatherInfo(
         )
     }
 }
-

@@ -1,4 +1,4 @@
-package com.apx8.mongoose.presentation
+package com.apx8.mongoose.presentation.view.vms
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -29,12 +29,12 @@ class OpenSourceViewModel @Inject constructor(
 
     private fun composeOpenSources() {
         viewModelScope.launch {
-            val source = mutableListOf<OpenSourceDto>().also { _list ->
-                context.resources.getStringArray(R.array.licenses).forEach { _os ->
-                    _list.add(
+            val source = mutableListOf<OpenSourceDto>().also { list ->
+                context.resources.getStringArray(R.array.licenses).forEach { os ->
+                    list.add(
                         OpenSourceDto(
-                            name = _os,
-                            description = getLicenseContent(_os),
+                            name = os,
+                            description = getLicenseContent(os),
                         )
                     )
                 }

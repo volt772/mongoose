@@ -1,6 +1,5 @@
 package com.apx8.mongoose.di
 
-import android.app.Application
 import com.apx8.mongoose.data.remote.WeatherApi
 import dagger.Module
 import dagger.Provides
@@ -18,8 +17,6 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val baseUrl = "https://api.openweathermap.org/"
-//    private const val baseUrl = "https://api.open-meteo.com/"
-
 
     @Provides
     @Singleton
@@ -37,7 +34,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        return HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     @Provides

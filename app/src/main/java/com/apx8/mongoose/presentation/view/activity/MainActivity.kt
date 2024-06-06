@@ -1,4 +1,4 @@
-package com.apx8.mongoose.presentation
+package com.apx8.mongoose.presentation.view.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,14 +24,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -43,14 +40,13 @@ import com.apx8.mongoose.preference.PrefManager
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
-import com.apx8.mongoose.presentation.ui.theme.MgRed
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.ui.theme.MgYellow
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
-import com.apx8.mongoose.v1.presentation.ui.theme.MongooseTheme
+import com.apx8.mongoose.presentation.view.vms.MainViewModel
+import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView

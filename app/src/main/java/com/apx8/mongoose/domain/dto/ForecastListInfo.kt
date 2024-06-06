@@ -1,21 +1,13 @@
 package com.apx8.mongoose.domain.dto
 
 data class ForecastListInfo(
-
     val dt: Long,
-
     val temp: Int,
-
     val dtTxtDate: String,
-
     val dtTxtTime: String,
-
     val weatherId: Int,
-
     val weatherDescription: String,
-
     val weatherMain: String,
-
     val weatherIcon: String
 )
 

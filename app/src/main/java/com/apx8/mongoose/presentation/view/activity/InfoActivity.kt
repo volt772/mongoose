@@ -1,9 +1,8 @@
-package com.apx8.mongoose.presentation
+package com.apx8.mongoose.presentation.view.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,11 +16,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -38,17 +35,12 @@ import com.apx8.mongoose.presentation.ext.BackButtonScaffoldScreen
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
-import com.apx8.mongoose.presentation.ui.theme.MgGreen
-import com.apx8.mongoose.presentation.ui.theme.MgLinetGray
 import com.apx8.mongoose.presentation.ui.theme.MgMenuFontBlack
-import com.apx8.mongoose.presentation.ui.theme.MgRed
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InfoActivity: ComponentActivity() {
-
-    private val vm: InfoViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {

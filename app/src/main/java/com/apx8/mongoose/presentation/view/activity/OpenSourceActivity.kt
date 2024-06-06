@@ -1,4 +1,4 @@
-package com.apx8.mongoose.presentation
+package com.apx8.mongoose.presentation.view.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,6 +33,7 @@ import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgLicenseFontGray
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
+import com.apx8.mongoose.presentation.view.vms.OpenSourceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

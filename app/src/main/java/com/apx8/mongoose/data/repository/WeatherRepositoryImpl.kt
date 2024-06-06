@@ -17,21 +17,12 @@ class WeatherRepositoryImpl @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val api: WeatherApi
 ): WeatherRepository {
-//    override suspend fun getWeatherData(lat: Double, long: Double): Resource<WeatherInfo> {
-//        return try {
-//            Resource.Success(
-//                data = api.getWeatherData(
-//                    lat = lat,
-//                    long = long
-//                ).toWeatherInfo()
-//            )
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            Resource.Error(e.message?: "An Error Occurred")
-//        }
-//    }
 
-    override suspend fun getCurrentWeatherInfo(lat: Double, lon: Double, appId: String): Flow<Resource<CurrentWeatherInfo>> {
+    override suspend fun getCurrentWeatherInfo(
+        lat: Double,
+        lon: Double,
+        appId: String
+    ): Flow<Resource<CurrentWeatherInfo>> {
         return try {
             val currentWeatherInfo = api.getCurrentWeatherData(
                 lat = lat,
@@ -45,7 +36,11 @@ class WeatherRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getForecastWeatherInfo(lat: Double, lon: Double, appId: String): Flow<Resource<ForecastWeatherInfo>> {
+    override suspend fun getForecastWeatherInfo(
+        lat: Double,
+        lon: Double,
+        appId: String
+    ): Flow<Resource<ForecastWeatherInfo>> {
         return try {
             val forecastWeatherInfo = api.getForecastWeatherData(
                 lat = lat,

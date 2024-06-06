@@ -1,4 +1,4 @@
-package com.apx8.mongoose.v1.presentation.ui.theme
+package com.apx8.mongoose.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

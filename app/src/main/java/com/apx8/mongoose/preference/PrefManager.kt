@@ -8,9 +8,7 @@ import android.content.SharedPreferences
 interface PrefManager {
 
     val preferences: SharedPreferences
-
     fun setMyStadium(code: String)
-
     fun getMyStadium(): String
 
 }

@@ -1,4 +1,4 @@
-package com.apx8.mongoose.v1.presentation.ui.theme
+package com.apx8.mongoose.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -13,9 +13,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.apx8.mongoose.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.presentation.ui.theme.MgMainBlue
-import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 
 private val DarkColorScheme = darkColorScheme(
     primary = MgMainBlue,
