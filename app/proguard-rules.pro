@@ -19,3 +19,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+-keep,allowobfuscation,allowshrinking class kotlinx.coroutines.flow.Flow
+
+-keep class com.apx8.mongoose.domain.** { *; }
+-keep class com.apx8.mongoose.data.remote.** { *; }
+
+# Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
+#-keep interface retrofit2.Call
+#-keep class retrofit2.Response
+# With R8 full mode generic signatures are stripped for classes that are not
+# kept. Suspend functions are wrapped in continuations where the type argument
+# is used.
+-keep class kotlin.coroutines.Continuation

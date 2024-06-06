@@ -34,6 +34,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.apx8.mongoose.BuildConfig
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
@@ -43,10 +44,10 @@ import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.ui.theme.MgYellow
+import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
 import com.apx8.mongoose.presentation.view.vms.MainViewModel
-import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -175,9 +176,8 @@ class MainActivity: ComponentActivity() {
                 LoadingProgressIndicator()
             }
 
-            is CommonState.Error -> {}
+            is CommonState.Error -> { }
             is CommonState.Success -> {
-//                LoadingProgressIndicator()
                 CurrentWeatherScreen(
                     info = state.data,
                     currentStadium = currentStadium,
@@ -270,8 +270,13 @@ fun BannersAds() {
         factory = { context ->
             AdView(context).apply {
                 setAdSize(AdSize.BANNER)
-//                adUnitId = "ca-app-pub-3940256099942544/9214589741"
-                adUnitId = "ca-app-pub-3086701116400661/5084268035"
+                val adMobKey = if (BuildConfig.BUILD_TYPE == "debug") {
+                    "ca-app-pub-3940256099942544/9214589741"
+                } else {
+                    "ca-app-pub-3086701116400661/5084268035"
+                }
+
+                adUnitId = adMobKey
                 loadAd(AdRequest.Builder().build())
             }
         },
