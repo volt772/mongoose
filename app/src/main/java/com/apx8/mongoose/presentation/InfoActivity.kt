@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,6 +41,7 @@ import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
 import com.apx8.mongoose.presentation.ui.theme.MgGreen
 import com.apx8.mongoose.presentation.ui.theme.MgLinetGray
 import com.apx8.mongoose.presentation.ui.theme.MgMenuFontBlack
+import com.apx8.mongoose.presentation.ui.theme.MgRed
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,6 +71,7 @@ class InfoActivity: ComponentActivity() {
     @ExperimentalMaterial3Api
     @Composable
     fun InfoScreen(backPressed: () -> Unit) {
+        /* TopBar*/
         BackButtonScaffoldScreen(
             title = "앱정보",
             content = { InfoDisplay() },
@@ -81,8 +84,10 @@ class InfoActivity: ComponentActivity() {
     ) {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .background(MgWhite)
                 .padding(horizontal = 20.dp),
+            verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
@@ -93,58 +98,63 @@ class InfoActivity: ComponentActivity() {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            /* 오픈라이센스*/
-            Row(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                    .background(MgBackgroundGray)
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                    ) {
-                        moveToOpenSource()
-                    },
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    modifier = Modifier.padding(horizontal = 18.dp),
-                    text = "오픈라이센스",
-                    fontSize = 16.sp,
-                    color = MgMenuFontBlack
-                )
-            }
+                /* 오픈라이센스*/
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                        .background(MgBackgroundGray)
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = false),
+                        ) {
+                            moveToOpenSource()
+                        },
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 18.dp),
+                        text = "오픈라이센스",
+                        fontSize = 16.sp,
+                        color = MgMenuFontBlack
+                    )
+                }
 
-            /* 구분자*/
-            HorizontalDivider(Modifier.height(1.dp).background(MgLinetGray))
-
-            /* 앱버전*/
-            Row(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
-                    .background(MgBackgroundGray)
-                    .fillMaxWidth()
-                    .height(56.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                /* 앱버전(레이블)*/
-                Text(
-                    modifier = Modifier.padding(start = 18.dp),
-                    text = "앱버전",
-                    fontSize = 16.sp,
-                    color = MgMenuFontBlack
-                )
+                /* 구분자*/
+                Spacer(modifier = Modifier.height(1.dp))
 
                 /* 앱버전*/
-                Text(
-                    modifier = Modifier.padding(end = 18.dp),
-                    text = "v${BuildConfig.VERSION_NAME}",
-                    fontSize = 16.sp,
-                    color = MgMenuFontBlack
-                )
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
+                        .background(MgBackgroundGray)
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    /* 앱버전(레이블)*/
+                    Text(
+                        modifier = Modifier.padding(start = 18.dp),
+                        text = "앱버전",
+                        fontSize = 16.sp,
+                        color = MgMenuFontBlack
+                    )
+
+                    /* 앱버전*/
+                    Text(
+                        modifier = Modifier.padding(end = 18.dp),
+                        text = "v${BuildConfig.VERSION_NAME}",
+                        fontSize = 16.sp,
+                        color = MgMenuFontBlack
+                    )
+                }
             }
         }
     }

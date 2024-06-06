@@ -2,8 +2,6 @@ package com.apx8.mongoose.di
 
 import android.app.Application
 import com.apx8.mongoose.data.remote.WeatherApi
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,12 +32,6 @@ object NetworkModule {
             .client(okHttpClient)
             .build()
             .create()
-    }
-
-    @Provides
-    @Singleton
-    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
-        return LocationServices.getFusedLocationProviderClient(app)
     }
 
     @Provides

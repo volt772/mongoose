@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
-import com.apx8.mongoose.domain.location.LocationTracker
+//import com.apx8.mongoose.domain.location.LocationTracker
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
-    private val locationTracker: LocationTracker,
+//    private val locationTracker: LocationTracker,
     private val prefManager: PrefManager
 ): ViewModel() {
 
