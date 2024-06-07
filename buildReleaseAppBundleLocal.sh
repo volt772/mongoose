@@ -56,3 +56,9 @@ sync
 echo "-------------------------------------------"
 echo "App Bundle/APKs Result => $OUTPUT_DIR"
 echo "-------------------------------------------"
+
+
+## Signing Process (hnjeong Custom)
+signingVersion=`echo $OUTPUT_DIR | grep -Eo '[+-]?[0-9]+([.][0-9]+)+([.][0-9][a-z]+)?'`
+cd "/Users/allen/work/sources/mongoose/release_mongoose_$signingVersion""_bundle"
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore ../mongoose_keystore/mongoose_keystore.jks ./mongoose-release-$signingVersion.aab mongoose_alias

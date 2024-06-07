@@ -25,7 +25,7 @@ BUILD_DIR="./tmp-mongoose-bundle-$BTAG"
 
 git clone $GIT_REPO $BUILD_DIR
 cd $BUILD_DIR
-git checkout tags/$BTAG
+#git checkout tags/$BTAG
 cp ../app/google-services.json ./app/
 
 ## build worknote

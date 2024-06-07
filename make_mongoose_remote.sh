@@ -55,4 +55,4 @@ if [[ "$CURR_DIR" != $BUILD_DIR ]]; then
     exit
 fi
 
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore ../mongoose_keystore/mongoose_keystore.jks ./mongoose-release-$BUILD_TAG.aab mongoose_alias
+#jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore ../mongoose_keystore/mongoose_keystore.jks ./mongoose-release-$BUILD_TAG.aab mongoose_alias
