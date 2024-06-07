@@ -5,7 +5,7 @@ KEY_STORE_DIR="./mongoose_keystore";
 
 if [ ! -d "$KEY_STORE_DIR" ]; then
 	echo "USAGE: run it on keystore directory depth level"
-	echo "$ ./mongoose/buildReleaseRemote.sh"
+	echo "$ ./mongoose/buildReleaseLocal.sh"
 	exit
 fi
 
@@ -18,17 +18,13 @@ fi
 ## start
 read -p "Enter Mongoose Git TAG: " BTAG
 
-## download worknote source
-GIT_REPO="https://github.com/volt772/mongoose.git"
-
 BUILD_DIR="./tmp-mongoose-bundle-$BTAG"
 
-git clone $GIT_REPO $BUILD_DIR
+mkdir -p $BUILD_DIR
+cp -rf ./* $BUILD_DIR
 cd $BUILD_DIR
-git checkout tags/$BTAG
-cp ../app/google-services.json ./app/
 
-## build worknote
+## build aeolos
 read -p "Enter KeyStore Password : " KSPW
 read -p "Enter Key Password : " KPW
 
@@ -60,8 +56,3 @@ sync
 echo "-------------------------------------------"
 echo "App Bundle/APKs Result => $OUTPUT_DIR"
 echo "-------------------------------------------"
- 
-## Signing Process (hnjeong Custom)
-signingVersion=`echo $OUTPUT_DIR | grep -Eo '[+-]?[0-9]+([.][0-9]+)+([.][0-9][a-z]+)?'`
-cd "/Users/allen/work/sources/mongoose/release_mongoose_$signingVersion""_bundle"
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore ../mongoose_keystore/mongoose_keystore.jks ./mongoose-release-$signingVersion.aab mongoose_alias
