@@ -37,6 +37,5 @@ class MongooseApp: Application() {
 
         const val API_KEY="0db9893c91f62ebc471d8690237683e8"
         const val ADMOB_DEBUG_KEY="ca-app-pub-3940256099942544/9214589741"
-        const val ADMOB_RELEASE_KEY="ca-app-pub-3086701116400661/5084268035"
-    }
+        const val ADMOB_RELEASE_KEY="ca-app-pub-3086701116400661/5084268035"    }
 }
