@@ -19,6 +19,7 @@ import com.apx8.mongoose.presentation.ext.getDateTo24Hour
 import com.apx8.mongoose.presentation.ext.getDateToDay
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.view.display.ForecastDayAfterDisplay
+import com.apx8.mongoose.presentation.view.display.ForecastErrorDisplay
 import com.apx8.mongoose.presentation.view.display.ForecastTodayDisplay
 
 @Composable
@@ -86,7 +87,7 @@ fun ForecastWeatherScreen(
         if (dayAfterForecast.isNotEmpty()) {
             ForecastDayAfterDisplay(items = dayAfterForecast, modifier = modifier)
         } else {
-            // 로딩실패
+            ForecastErrorDisplay()
         }
     }
 }
