@@ -19,9 +19,9 @@ class MongooseApp: Application() {
 
         /* Key : AdMob Key*/
         adMobKey = if (BuildConfig.BUILD_TYPE == "debug") {
-            BuildConfig.ADMOB_DEBUG_KEY
+            ADMOB_DEBUG_KEY
         } else {
-            BuildConfig.ADMOB_RELEASE_KEY
+            ADMOB_RELEASE_KEY
         }
     }
 
@@ -34,5 +34,8 @@ class MongooseApp: Application() {
 
         lateinit var adMobKey: String
             private set
+
+        const val ADMOB_DEBUG_KEY="ca-app-pub-3940256099942544/9214589741"
+        const val ADMOB_RELEASE_KEY="ca-app-pub-3086701116400661/5084268035"
     }
 }

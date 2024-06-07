@@ -9,7 +9,8 @@ plugins {
 }
 
 fun getKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir).getProperty(propertyKey)
+    return gradleLocalProperties(rootDir)
+        .getProperty(propertyKey)
 }
 
 android {
@@ -29,8 +30,6 @@ android {
         }
 
         buildConfigField("String", "API_KEY", getKey("API_KEY"))
-        buildConfigField("String", "ADMOB_DEBUG_KEY", getKey("ADMOB_DEBUG_KEY"))
-        buildConfigField("String", "ADMOB_RELEASE_KEY", getKey("ADMOB_RELEASE_KEY"))
     }
 
     signingConfigs {
