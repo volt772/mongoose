@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 오픈라이센스 리스트-->
+    <string-array name="licenses">
+        <item>WeatherAPI</item>
+        <item>AndroidX</item>
+        <item>Crashlytics</item>
+        <item>Danlew-Joda</item>
+        <item>Kotlin</item>
+        <item>OkHttp</item>
+        <item>Retrofit</item>
+    </string-array>
+
+</resources>

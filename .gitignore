@@ -32,13 +32,16 @@ google-services.json
 # Android Profiling
 *.hprof
 
-*.sh
+# Build Files
+*.apks
+*.aab
+
 *.~
 *.swp
 .DS_Store
 /build
 schemas/
+release_*/
 release/
 /captures
-.DS_Store
 .idea/misc.xml

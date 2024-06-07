@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">여기날씨</string>
+    <string name="app_name">야구장날씨</string>
+
+    <!-- 날짜 차이(Diff) 관련-->
+    <string name="day_on_day">오늘</string>
+    <string name="day_future">%d일전</string>
+    <string name="day_past">%d일지남</string>
+
 </resources>
