@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1094457130697",
+    "project_id": "mongoose-509dc",
+    "storage_bucket": "mongoose-509dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094457130697:android:4b1eb316a82cf9e7bfd718",
+        "android_client_info": {
+          "package_name": "com.apx8.mongoose"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT4OqaHaVbJocOwWNmYDlIQcFWSSC8IHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
