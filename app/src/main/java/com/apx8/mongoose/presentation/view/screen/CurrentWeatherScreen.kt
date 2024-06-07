@@ -45,6 +45,10 @@ fun CurrentWeatherScreen(
     modifier: Modifier = Modifier,
 ) {
 
+    /**
+     * BottomSheet 상태
+     * @desc show and hide
+     */
     var showSheet by remember { mutableStateOf(false) }
 
     if (showSheet) {
@@ -62,6 +66,9 @@ fun CurrentWeatherScreen(
      */
     val weatherType = info.weatherId.getWeatherType()
 
+    /**
+     * @box Root
+     */
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -71,7 +78,10 @@ fun CurrentWeatherScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = modifier.height(20.dp))
-        /* 설명*/
+        /**
+         * @view 설명
+         * @example 맑음
+         */
         Text(
             text = info.weatherDescription,
             fontWeight = FontWeight.W400,
@@ -80,7 +90,9 @@ fun CurrentWeatherScreen(
         )
         Spacer(modifier = modifier.height(20.dp))
 
-        /* 아이콘*/
+        /**
+         * @view 아이콘
+         */
         Image(
             painterResource(id = weatherType.mainRes),
             contentDescription = null,
@@ -88,12 +100,18 @@ fun CurrentWeatherScreen(
             modifier = Modifier.size(200.dp)
         )
         Spacer(modifier = modifier.height(30.dp))
-        /* 기온*/
+
+        /**
+         * @Box Root
+         */
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            /* 기온*/
+            /**
+             * @Box 기온(숫자만)
+             * @example 27
+             */
             Text(
                 text = "${info.temp}",
                 fontWeight = FontWeight.W400,
@@ -101,7 +119,11 @@ fun CurrentWeatherScreen(
                 color = MgFontWhite
             )
             Spacer(modifier = modifier.width(5.dp))
-            /* 단위*/
+
+            /**
+             * @Box 단위레이블
+             * @example °C
+             */
             Text(
                 text = "°C",
                 fontWeight = FontWeight.W400,
@@ -111,11 +133,17 @@ fun CurrentWeatherScreen(
             )
         }
 
+        /**
+         * @box Root
+         */
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            /* 경기장이름*/
+            /**
+             * @view 경기장이름
+             * @example 서울종합운동장야구장
+             */
             Text(
                 text = currentStadium.signBoard,
                 fontWeight = FontWeight.W400,
@@ -124,7 +152,9 @@ fun CurrentWeatherScreen(
             )
             Spacer(modifier = modifier.height(10.dp))
 
-            /* 경기장변경*/
+            /**
+             * @view 다른구장보기
+             */
             Button(
                 colors = ButtonColors(
                     containerColor = MgSubBlue,

@@ -51,10 +51,16 @@ class OpenSourceActivity: ComponentActivity() {
         }
     }
 
+    /**
+     * 뒤로가기 Listener
+     */
     private fun infoBackPressed() {
         onBackPressedDispatcher.onBackPressed()
     }
 
+    /**
+     * 상단 앱바
+     */
     @ExperimentalMaterial3Api
     @Composable
     fun LicenseScreen(backPressed: () -> Unit) {
@@ -65,6 +71,9 @@ class OpenSourceActivity: ComponentActivity() {
         )
     }
 
+    /**
+     * GET : 라이센스 리스트
+     */
     @Composable
     fun LicenseDisplay() {
         when (val state = vm.openSource.collectAsStateWithLifecycle().value) {
@@ -78,8 +87,14 @@ class OpenSourceActivity: ComponentActivity() {
 
     @Composable
     fun LicenseList(licenses: List<OpenSourceDto>) {
+        /**
+         * @list 오픈소스 리스트 (Vertical)
+         */
         LazyColumn {
             items(licenses) { license ->
+                /**
+                 * @box Root
+                 */
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -89,7 +104,9 @@ class OpenSourceActivity: ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    /* 라이센스 이름*/
+                    /**
+                     * @view 라이센스 이름
+                     */
                     Text(
                         text = license.name,
                         fontSize = 16.sp,
@@ -97,7 +114,10 @@ class OpenSourceActivity: ComponentActivity() {
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(5.dp))
-                    /* 구분자*/
+
+                    /**
+                     * @view 구분자
+                     */
                     HorizontalDivider(
                         modifier = Modifier
                             .width(30.dp)
@@ -105,7 +125,10 @@ class OpenSourceActivity: ComponentActivity() {
                             .background(MgBlue)
                     )
                     Spacer(modifier = Modifier.height(15.dp))
-                    /* 라이센스 설명*/
+
+                    /**
+                     * @view 라이센스 상세설명
+                     */
                     Text(
                         modifier = Modifier.align(Alignment.Start),
                         text = license.description,
@@ -113,12 +136,15 @@ class OpenSourceActivity: ComponentActivity() {
                         color = MgLicenseFontGray,
                     )
                 }
+
+                /**
+                 * @view 구분자
+                 */
                 HorizontalDivider(
                     modifier = Modifier.height(1.dp).background(MgBackgroundGray)
                 )
             }
         }
-
     }
 
     @Preview

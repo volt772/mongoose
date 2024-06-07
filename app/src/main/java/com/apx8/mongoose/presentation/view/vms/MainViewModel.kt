@@ -1,11 +1,13 @@
 package com.apx8.mongoose.presentation.view.vms
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
-//import com.apx8.mongoose.domain.location.LocationTracker
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
@@ -22,36 +24,38 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
-//    private val locationTracker: LocationTracker,
     private val prefManager: PrefManager
 ): ViewModel() {
 
-//    private val _viewState = MutableStateFlow<CurrentWeatherState>(CurrentWeatherState.Loading)
-//    val feed = _viewState.asStateFlow()
+    /**
+     * Loading Status
+     * @desc 현재날씨 (CurrentWeather) 데이터 로드를 기준으로 로딩이 완료됨을 판단함
+     */
+    var onLoading by mutableStateOf(true)
+
     /* 현재 날씨 정보*/
     private val _currentWeather: MutableStateFlow<CommonState<CurrentWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val currentWeather: StateFlow<CommonState<CurrentWeatherInfo>> = _currentWeather
-//    private val _category: MutableStateFlow<State<List<CmdCategory>>> = MutableStateFlow(State.loading())
-//    val category: StateFlow<State<List<CmdCategory>>> = _category
-/* 예보 날씨 정보*/
+
+    /* 예보 날씨 정보*/
     private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
 
-//    private val _currentStadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.NAN)
-//    val currentStadium: StateFlow<Stadium> = _currentStadium
-    /* 현재 선택된 경기장 (중복 호출로 인해, SharedFlow로 Emit함)*/
+    /**
+     * 현재 선택된 경기장
+     * @data Stadium
+     * @desc Flow 중복 호출로 인해, SharedFlow로 Emit함)
+     */
     private val _currentStadium: MutableSharedFlow<Stadium> = MutableSharedFlow(replay = 0)
     val currentStadium: SharedFlow<Stadium> = _currentStadium
 
-//    private val _stadium: MutableStateFlow<Stadium> = MutableStateFlow(Stadium.SOJ)
-//    val stadium: StateFlow<Stadium> = _stadium
-
     /**
      * Data Fetch Async
+     * @fetch1 현재날씨
+     * @fetch2 예보날씨
      */
     suspend fun fetch(stadium: Stadium) =
         coroutineScope {
@@ -65,7 +69,7 @@ class MainViewModel @Inject constructor(
 
     /**
      * FETCH : 현재 경기장 날씨
-     * @flag : `Current`
+     * @param : Stadium
      */
     private fun loadCurrentWeatherInfo(stadium: Stadium) {
         viewModelScope.launch {
@@ -79,7 +83,7 @@ class MainViewModel @Inject constructor(
 
     /**
      * FETCH : 경기장의 날씨 예보 (3일간)
-     * @flag : `Forecast`
+     * @param : Stadium
      */
     private fun loadForecastInfo(stadium: Stadium) {
         viewModelScope.launch {
@@ -126,33 +130,4 @@ class MainViewModel @Inject constructor(
             savedStadium
         }
     }
-
-
-//        viewModelScope.launch {
-//            state = state.copy(isLoading = true, error = null)
-//
-//            locationTracker.getCurrentLocation()?.let { location ->
-//                when(val result = weatherRepository.getWeatherData(location.latitude, location.longitude)) {
-//                    is Resource.Success -> {
-//                        state = state.copy(
-//                            weatherInfo = result.data,
-//                            isLoading = false,
-//                            error = null
-//                        )
-//                    }
-//                    is Resource.Error -> {
-//                        state = state.copy(
-//                            weatherInfo = null,
-//                            isLoading = false,
-//                            error = result.message
-//                        )
-//                    }
-//                }
-//            }?: run {
-//                state = state.copy(
-//                    isLoading = false,
-//                    error = "Unknown Error"
-//                )
-//            }
-//        }
 }

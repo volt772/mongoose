@@ -5,10 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.constants.Stadium
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StadiumBottomSheet(
@@ -38,10 +34,10 @@ fun StadiumBottomSheet(
 ) {
 
     /**
-     * @desc skipPartiallyExpanded = true : `BottomDialog` Full Size
+     * BottomSheet 상태지정
+     * @desc 'skipPartiallyExpanded = true' -> `BottomDialog` Full Size
      */
     val modalBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
@@ -49,6 +45,10 @@ fun StadiumBottomSheet(
         dragHandle = { BottomSheetDefaults.DragHandle() },
     ) {
 
+        /**
+         * 경기장 Data Set
+         * @desc 'NAN' 상태를 제외한 나머지 구장에 대해서만 표시한다.
+         */
         val stadiums = mutableListOf<StadiumViewDto>().also { list ->
             Stadium.entries.forEach { entry ->
                 if (entry != Stadium.NAN) {
@@ -63,10 +63,17 @@ fun StadiumBottomSheet(
             }
         }
 
+        /**
+         * @list 경기장 리스트
+         * @desc navigationBarsPadding() -> 하단 NavigationBar Overlay 현상방지
+         */
         LazyColumn(
-            modifier = Modifier.navigationBarsPadding()     // 하단 NavigationBar Overlay 현상방지
+            modifier = Modifier.navigationBarsPadding()
         ) {
             items(stadiums) { stadium ->
+                /**
+                 * @box Root
+                 */
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -81,22 +88,35 @@ fun StadiumBottomSheet(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    /**
+                     * @box Root
+                     * @desc 경기장이름 앞에 표시되는 내용은 차후에 다시 생각한다.
+                     * v1.0.0에서는 빈상태로 표시한다.
+                     */
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        /* 경기장 색상 아이콘*/
+                        /**
+                         * @view 경기장 색상 아이콘
+                         * @desc later to do..
+                         */
 //                        Image(
 //                            painterResource(id = stadium.color),
 //                            contentDescription = null,
 //                            modifier = Modifier.size(32.dp)
 //                                .padding(end = 8.dp)
 //                        )
-                        /* 경기장 사인보드(이름)*/
+                        /**
+                         * @view 경기장 사인보드(이름)
+                         */
                         Text(text = stadium.name)
                     }
 
                     /* 선택된 경기장*/
                     if (currentStadium.code == stadium.code) {
+                        /**
+                         * @view 선택된 경기장 표시
+                         */
                         Image(
                             painterResource(id = R.drawable.ic_check),
                             contentDescription = null,

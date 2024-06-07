@@ -34,10 +34,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.apx8.mongoose.BuildConfig
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
+import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
@@ -66,23 +66,23 @@ class MainActivity: ComponentActivity() {
     private val vm: MainViewModel by viewModels()
     private var currentStadium: Stadium = Stadium.NAN
 
-
     /**
-     *  [현재 선택된] 경기장 코드
-     * @suppress 경기장 BottomSheet 아이템 선택시
+     * 현재 선택된 경기장 코드
+     * @use 경기장 BottomSheet 아이템 선택 시 (고차함수로 호출)
      * @use 앱 초기 진입시
-     * @desc `초기버전`에서는 경기장 선택시, `자동으로 내경기장`으로 자동선택됨.
+     * @desc v1.0 에서는 경기장 선택 시, 자동으로 내경기장으로 선택됨.
      */
     private fun setCurrentStadium(code: String) {
         vm.apply {
-            setCurrentStadium(code)     // 현재 선택된 경기장
-            setMyStadium(code)          // 내 경기장
+            setCurrentStadium(code)
+            setMyStadium(code)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /* 광고*/
         MobileAds.initialize(this)
 
         /* SplashScreen*/
@@ -123,20 +123,27 @@ class MainActivity: ComponentActivity() {
             MongooseTheme {
                 SetStatusBarColor()
 
+                /**
+                 * @box Root
+                 */
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(MgBlue),
                 ) {
 
-                    /* AD*/
+                    /**
+                     * @box 배너광고
+                     */
                     Column(
                         modifier = Modifier.background(MgBlue)
                     ) {
                         BannersAds()
                     }
 
-                    /* Content*/
+                    /**
+                     * @box Root(Content)
+                     */
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -144,22 +151,35 @@ class MainActivity: ComponentActivity() {
                             .background(MgBlue),
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
+                        /**
+                         * @box Root(Content)
+                         */
                         Column(
-                            modifier = Modifier
-                                .background(MgBlue)
+                            modifier = Modifier.background(MgBlue)
                         ) {
-                            /* Current Weather Screen*/
+                            /**
+                             * @box 현재날씨
+                             */
                             RenderCurrentWeatherScreen()
 
-                            /* Forecast Weather Screen*/
-                            RenderForecastWeatherScreen()
+                            /**
+                             * @info 현재날씨정보 (CurrentWeather) 로딩이 끝나면
+                             * 이후 화면이 표시되도록 함
+                             */
+                            if (!vm.onLoading) {
+                                /**
+                                 * @box 예보
+                                 */
+                                RenderForecastWeatherScreen()
 
-                            /* App Info.*/
-                            HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
-                            Spacer(modifier = Modifier.height(15.dp))
-                            RenderAppInfo()
-                            Spacer(modifier = Modifier.height(15.dp))
-
+                                /**
+                                 * @box 안내 및 앱정보
+                                 */
+                                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+                                Spacer(modifier = Modifier.height(15.dp))
+                                RenderAppInfo()
+                                Spacer(modifier = Modifier.height(15.dp))
+                            }
                         }
                     }
                 }
@@ -178,6 +198,11 @@ class MainActivity: ComponentActivity() {
 
             is CommonState.Error -> { }
             is CommonState.Success -> {
+                vm.onLoading = false
+
+                /**
+                 * @box Root
+                 */
                 CurrentWeatherScreen(
                     info = state.data,
                     currentStadium = currentStadium,
@@ -195,6 +220,9 @@ class MainActivity: ComponentActivity() {
             is CommonState.Loading -> { }
             is CommonState.Error -> { }
             is CommonState.Success -> {
+                /**
+                 * @box Root
+                 */
                 ForecastWeatherScreen(
                     info = state.data,
                     modifier = Modifier
@@ -205,7 +233,9 @@ class MainActivity: ComponentActivity() {
 
     @Composable
     fun RenderAppInfo() {
-        /* Column3 : App Info*/
+        /**
+         * @box Root
+         */
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -214,7 +244,9 @@ class MainActivity: ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            /* 주의*/
+            /**
+             * @view 안내문구
+             */
             Text(
                 modifier = Modifier.padding(horizontal = 10.dp),
                 text = "데이터 제공사의 상황에 따라 일부 부정확할 수 있습니다. 모든 내용은 참고용도로 이용하시기 바랍니다.",
@@ -223,6 +255,10 @@ class MainActivity: ComponentActivity() {
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(4.dp))
+            /**
+             * @view `앱정보` 버튼
+             * @use `앱정보` 메뉴진입
+             */
             Button(
                 colors = ButtonColors(
                     containerColor = MgSubBlue,
@@ -247,6 +283,9 @@ class MainActivity: ComponentActivity() {
 }
 
 
+/**
+ * LoadingProgress
+ */
 @Composable
 private fun LoadingProgressIndicator() {
     Column(
@@ -263,6 +302,9 @@ private fun LoadingProgressIndicator() {
     }
 }
 
+/**
+ * BannerAds
+ */
 @Composable
 fun BannersAds() {
     AndroidView(
@@ -270,11 +312,6 @@ fun BannersAds() {
         factory = { context ->
             AdView(context).apply {
                 setAdSize(AdSize.BANNER)
-                val adMobKey = if (BuildConfig.BUILD_TYPE == "debug") {
-                    "ca-app-pub-3940256099942544/9214589741"
-                } else {
-                    "ca-app-pub-3086701116400661/5084268035"
-                }
 
                 adUnitId = adMobKey
                 loadAd(AdRequest.Builder().build())

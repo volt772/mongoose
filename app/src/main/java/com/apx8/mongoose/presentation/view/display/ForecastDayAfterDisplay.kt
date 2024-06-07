@@ -34,8 +34,13 @@ fun ForecastDayAfterDisplay(
     modifier: Modifier = Modifier
 ) {
 
+    /**
+     * @box Root
+     */
     Column {
-        /* Label*/
+        /**
+         * @view 섹션 레이블 (주간예보)
+         */
         Text(
             text = "주간예보",
             fontSize = 20.sp,
@@ -44,6 +49,9 @@ fun ForecastDayAfterDisplay(
         )
         Spacer(modifier = Modifier.height(5.dp))
 
+        /**
+         * @box Root
+         */
         Row(
             modifier = modifier
                 .height(IntrinsicSize.Min)
@@ -54,13 +62,20 @@ fun ForecastDayAfterDisplay(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
 
+            /**
+             * @view 예보 아이템
+             * @desc
+             * weatherType      -> 메인날씨 기준 : `낮경기` 기준으로 표시
+             * dayTemperature   -> 15시경기 기온
+             * nightTemperature -> 18시경기 기온
+             * date             -> `낮경기` 기준으로 표시
+             */
             items.forEach { item ->
-                /* Item Composition*/
                 DayAfterWeatherItem(
-                    weatherType = item.dWeatherId.getWeatherType(),        // 메인날씨 기준 : `낮경기` 기준으로 표시
-                    dayTemperature = item.dTemp,        // 낮경기 기온 : `낮경기` 기준으로 표시
-                    nightTemperature = item.nTemp,      // 저녁경기 기온 : `저녁경기` 기준으로 표시
-                    date = item.date                   // 일자 : `낮경기` 기준으로 표시
+                    weatherType = item.dWeatherId.getWeatherType(),
+                    dayTemperature = item.dTemp,
+                    nightTemperature = item.nTemp,
+                    date = item.date
                 )
             }
         }
@@ -69,19 +84,25 @@ fun ForecastDayAfterDisplay(
 
 @Composable
 fun DayAfterWeatherItem(
-    weatherType: WeatherType,        // WeatherType.. ..
-    dayTemperature: Int,           // 15
-    nightTemperature: Int,           // 15
-    date: String,               // 4월 17일
+    weatherType: WeatherType,
+    dayTemperature: Int,
+    nightTemperature: Int,
+    date: String,
     modifier: Modifier = Modifier
 ) {
 
+    /**
+     * @box Root
+     */
     Column(
         modifier = Modifier.padding(vertical = 5.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        /* 일자*/
+        /**
+         * @view 일자
+         * @example 5월 22일
+         */
         Text(
             text = date,
             fontWeight = FontWeight.W400,
@@ -91,7 +112,9 @@ fun DayAfterWeatherItem(
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        /* 아이콘*/
+        /**
+         * @view 날씨 아이콘
+         */
         Image(
             painterResource(id = weatherType.mainRes),
             contentDescription = null,
@@ -99,14 +122,20 @@ fun DayAfterWeatherItem(
         )
         Spacer(modifier = Modifier.height(3.dp))
 
-        /* 주간 기온*/
+        /**
+         * @view 주간기온
+         * @example 15시 : 18°C
+         */
         Text(
             text = "15시 : $dayTemperature°C",
             fontWeight = FontWeight.W400,
             fontSize = 14.sp,
             color = Color.White,
         )
-        /* 야간 기온*/
+        /**
+         * @view 야간기온
+         * @example 18시 : 17°C
+         */
         Text(
             text = "18시 : $nightTemperature°C",
             fontWeight = FontWeight.W400,

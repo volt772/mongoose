@@ -8,8 +8,9 @@ plugins {
     id("com.google.gms.google-services")
 }
 
-fun getApiKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir).getProperty(propertyKey)
+fun getKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir)
+        .getProperty(propertyKey)
 }
 
 android {
@@ -28,14 +29,16 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "API_KEY", getApiKey("API_KEY"))
+        buildConfigField("String", "API_KEY", getKey("API_KEY"))
+        buildConfigField("String", "ADMOB_DEBUG_KEY", getKey("ADMOB_DEBUG_KEY"))
+        buildConfigField("String", "ADMOB_RELEASE_KEY", getKey("ADMOB_RELEASE_KEY"))
     }
 
     signingConfigs {
         create("release") {
             storeFile = file("../../mongoose_keystore/mongoose_keystore.jks")
             storePassword = System.getenv("MONGOOSE_KEYSTORE_PW")
-            keyAlias = "release_key"
+            keyAlias = "mongoose_alias"
             keyPassword = System.getenv("MONGOOSE_KEY_PW")
         }
     }
@@ -68,10 +71,13 @@ android {
 }
 
 dependencies {
-
     /**
-     * @suppress lifecycle관련 2.7.0버전업시, 앱죽음 (CompositionLocal LocalLifecycleOwner not present)
+     * @info
+     * lifecycle 관련 모듈, 2.7.0 버전업시, 앱 죽음
+     * (CompositionLocal LocalLifecycleOwner not present)
      */
+
+    /* Android*/
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.9.0")
@@ -80,6 +86,12 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    /* Test*/
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -87,16 +99,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-
-
-    /* Custom*/
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
-    implementation("androidx.core:core-splashscreen:1.0.1")
 
     /* Hilt*/
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-android-compiler:2.46")
 

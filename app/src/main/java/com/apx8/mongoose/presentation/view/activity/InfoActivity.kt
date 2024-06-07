@@ -52,14 +52,23 @@ class InfoActivity: ComponentActivity() {
         }
     }
 
+    /**
+     * 뒤로가기 Listener
+     */
     private fun infoBackPressed() {
         onBackPressedDispatcher.onBackPressed()
     }
 
+    /**
+     * `오픈라이센스`메뉴 진입
+     */
     private fun moveToOpenSource() {
         openActivity(OpenSourceActivity::class.java)
     }
 
+    /**
+     * 상단 앱바
+     */
     @ExperimentalMaterial3Api
     @Composable
     fun InfoScreen(backPressed: () -> Unit) {
@@ -71,9 +80,15 @@ class InfoActivity: ComponentActivity() {
         )
     }
 
+    /**
+     * 본문 화면
+     */
     @Composable
     fun InfoDisplay(
     ) {
+        /**
+         * @box Root
+         */
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -82,6 +97,9 @@ class InfoActivity: ComponentActivity() {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            /**
+             * @view 앱아이콘
+             */
             Image(
                 painterResource(id = R.drawable.ic_logo_app_png_title),
                 contentDescription = null,
@@ -90,11 +108,16 @@ class InfoActivity: ComponentActivity() {
 
             Spacer(modifier = Modifier.height(30.dp))
 
+            /**
+             * @box 메뉴박스
+             */
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                /* 오픈라이센스*/
+                /**
+                 * @box 오픈라이센스
+                 */
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
@@ -110,6 +133,9 @@ class InfoActivity: ComponentActivity() {
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    /**
+                     * @view 레이블(오픈라이센스)
+                     */
                     Text(
                         modifier = Modifier.padding(horizontal = 18.dp),
                         text = "오픈라이센스",
@@ -118,10 +144,15 @@ class InfoActivity: ComponentActivity() {
                     )
                 }
 
-                /* 구분자*/
+                /**
+                 * @view 구분자
+                 * @info HorizontalDivider로 사용하면 1.dp시 색상지정을 못함
+                 */
                 Spacer(modifier = Modifier.height(1.dp))
 
-                /* 앱버전*/
+                /**
+                 * @box 앱버전
+                 */
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
@@ -131,7 +162,9 @@ class InfoActivity: ComponentActivity() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    /* 앱버전(레이블)*/
+                    /**
+                     * @view 레이블(앱버전)
+                     */
                     Text(
                         modifier = Modifier.padding(start = 18.dp),
                         text = "앱버전",
@@ -139,7 +172,9 @@ class InfoActivity: ComponentActivity() {
                         color = MgMenuFontBlack
                     )
 
-                    /* 앱버전*/
+                    /**
+                     * @view 앱버전(v1.0.0)
+                     */
                     Text(
                         modifier = Modifier.padding(end = 18.dp),
                         text = "v${BuildConfig.VERSION_NAME}",

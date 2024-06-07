@@ -28,13 +28,6 @@ import com.apx8.mongoose.presentation.ext.getWeatherType
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
-val previewInfoList = mutableListOf<ForecastListInfo>().also { list ->
-    list.add(ForecastListInfo(dt=1717210800000, temp=22, dtTxtDate="2024-06-01", dtTxtTime = "12:00:00", weatherId=500, weatherDescription = "실 비", weatherMain="Rain", weatherIcon="https://openweathermap.org/img/wn/10d.png"))
-    list.add(ForecastListInfo(dt=1717221600000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "15:00:00", weatherId=802, weatherDescription = "실 비", weatherMain="Clouds", weatherIcon="https://openweathermap.org/img/wn/03d.png)"))
-    list.add(ForecastListInfo(dt=1717232400000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "18:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01d.png)"))
-    list.add(ForecastListInfo(dt=1717243200000, temp=21, dtTxtDate="2024-06-01", dtTxtTime = "21:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01n.png)"))
-}
-
 @Composable
 fun ForecastTodayDisplay(
     infoList: List<ForecastListInfo>,
@@ -42,11 +35,16 @@ fun ForecastTodayDisplay(
 ) {
 
     if (infoList.isNotEmpty()) {
+        /**
+         * @box Root
+         */
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
-            /* Label*/
+            /**
+             * @view 섹션 레이블 (오늘날씨)
+             */
             Text(
                 text = "오늘날씨",
                 fontSize = 20.sp,
@@ -55,7 +53,9 @@ fun ForecastTodayDisplay(
             )
             Spacer(modifier = Modifier.height(5.dp))
 
-            /* Horizontal List*/
+            /**
+             * @list 오늘날씨 아이템
+             */
             LazyRow {
                 items(infoList.size) {
                     TodayWeatherItem(index = it, infoList = infoList)
@@ -70,7 +70,16 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
     val paddingStart = if (index == 0) 0.dp else 8.dp
     val info = infoList[index]
 
-    Box(modifier = Modifier.padding(start = paddingStart)) {
+    /**
+     * @box Root
+     */
+    Box(
+        modifier = Modifier
+            .padding(start = paddingStart)
+    ) {
+        /**
+         * @box Root
+         */
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
@@ -86,7 +95,9 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
             val description = info.weatherDescription
             val time = info.dtTxtTime
 
-            /* 아이콘*/
+            /**
+             * @view 아이콘
+             */
             Image(
                 painterResource(id = weatherType.mainRes),
                 contentDescription = null,
@@ -94,7 +105,10 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
             )
             Spacer(modifier = Modifier.height(5.dp))
 
-            /* 기온 | 시간*/
+            /**
+             * @view 시간 : 기온
+             * @example 12시 : 22°C
+             */
             Text(
                 text = "${time.substring(0, time.length - 6)}시 : ${temperature}°C",
                 fontWeight = FontWeight.W400,
@@ -103,7 +117,10 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
             )
             Spacer(modifier = Modifier.height(3.dp))
 
-            /* Description*/
+            /**
+             * @view 설명
+             * @example 실 비
+             */
             Text(
                 text = description,
                 fontWeight = FontWeight.W400,
@@ -129,4 +146,11 @@ fun PreviewTodayDisplay() {
     ForecastTodayDisplay(
         infoList = previewInfoList
     )
+}
+
+val previewInfoList = mutableListOf<ForecastListInfo>().also { list ->
+    list.add(ForecastListInfo(dt=1717210800000, temp=22, dtTxtDate="2024-06-01", dtTxtTime = "12:00:00", weatherId=500, weatherDescription = "실 비", weatherMain="Rain", weatherIcon="https://openweathermap.org/img/wn/10d.png"))
+    list.add(ForecastListInfo(dt=1717221600000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "15:00:00", weatherId=802, weatherDescription = "실 비", weatherMain="Clouds", weatherIcon="https://openweathermap.org/img/wn/03d.png)"))
+    list.add(ForecastListInfo(dt=1717232400000, temp=24, dtTxtDate="2024-06-01", dtTxtTime = "18:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01d.png)"))
+    list.add(ForecastListInfo(dt=1717243200000, temp=21, dtTxtDate="2024-06-01", dtTxtTime = "21:00:00", weatherId=800, weatherDescription = "실 비", weatherMain="Clear", weatherIcon="https://openweathermap.org/img/wn/01n.png)"))
 }

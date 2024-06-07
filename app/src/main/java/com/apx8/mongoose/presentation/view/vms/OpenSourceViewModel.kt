@@ -20,6 +20,8 @@ import javax.inject.Inject
 class OpenSourceViewModel @Inject constructor(
     private val context: Context,
 ): ViewModel() {
+
+    /* 오픈소스 정보*/
     private val _openSource: MutableStateFlow<CommonState<List<OpenSourceDto>>> = MutableStateFlow(CommonState.Loading())
     val openSource: StateFlow<CommonState<List<OpenSourceDto>>> = _openSource
 
@@ -27,6 +29,9 @@ class OpenSourceViewModel @Inject constructor(
         composeOpenSources()
     }
 
+    /**
+     * 오픈소스 생성
+     */
     private fun composeOpenSources() {
         viewModelScope.launch {
             val source = mutableListOf<OpenSourceDto>().also { list ->
@@ -46,6 +51,9 @@ class OpenSourceViewModel @Inject constructor(
         }
     }
 
+    /**
+     * 오픈소스 내용 파싱
+     */
     private fun getLicenseContent(licenseName: String): String {
         val licenseRes = StringBuilder()
         try {
