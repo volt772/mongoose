@@ -1,16 +1,9 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
-}
-
-fun getKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir)
-        .getProperty(propertyKey)
 }
 
 android {
@@ -28,8 +21,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        buildConfigField("String", "API_KEY", getKey("API_KEY"))
     }
 
     signingConfigs {
