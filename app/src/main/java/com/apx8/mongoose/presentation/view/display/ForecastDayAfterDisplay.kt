@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.constants.WeatherType
 import com.apx8.mongoose.domain.dto.WeatherDisplayItem
-import com.apx8.mongoose.presentation.ext.getWeatherType
+import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 
 @Composable
@@ -72,7 +72,7 @@ fun ForecastDayAfterDisplay(
              */
             items.forEach { item ->
                 DayAfterWeatherItem(
-                    weatherType = item.dWeatherId.getWeatherType(),
+                    weatherType = item.dWeatherId.getWeatherConditionCodes(),
                     dayTemperature = item.dTemp,
                     nightTemperature = item.nTemp,
                     date = item.date

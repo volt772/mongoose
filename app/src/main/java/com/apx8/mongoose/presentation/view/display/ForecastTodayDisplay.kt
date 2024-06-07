@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
-import com.apx8.mongoose.presentation.ext.getWeatherType
+import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
@@ -90,7 +90,7 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            val weatherType = info.weatherId.getWeatherType()
+            val weatherType = info.weatherId.getWeatherConditionCodes()
             val temperature = info.temp
             val description = info.weatherDescription
             val time = info.dtTxtTime

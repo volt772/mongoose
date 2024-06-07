@@ -26,6 +26,10 @@ import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+/**
+ * 상단 상태바 색상지정
+ * @desc Light, Dark 모드 색상구분
+ */
 @Composable
 fun SetStatusBarColor() {
     val systemUiController = rememberSystemUiController()
@@ -49,13 +53,32 @@ fun SetStatusBarColor() {
     }
 }
 
+/**
+ * Top AppBar With `Back`
+ * `뒤로가기`버튼이 있는 AppBar
+ * @param title 타이틀
+ * @param content 내용
+ * @param backPressed 뒤로가기 눌렀을때의 함수
+ */
 @ExperimentalMaterial3Api
 @Composable
-fun BackButtonScaffoldScreen(title: String, content: @Composable () -> Unit, backPressed: () -> Unit) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+fun BackButtonScaffoldScreen(
+    title: String,
+    content: @Composable () -> Unit,
+    backPressed: () -> Unit
+) {
+    val scrollBehavior = TopAppBarDefaults
+        .pinnedScrollBehavior(rememberTopAppBarState())
 
+    Scaffold(
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+
+        /**
+         * @desc 색상 : 기본 및 스크롤시 색상을 앱 기본색(MgBlue)으로 표시한다.
+         * @desc 타이틀 : 타이틀
+         * @desc 아이콘 : ArrowBack으로 지정한다.
+         */
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(

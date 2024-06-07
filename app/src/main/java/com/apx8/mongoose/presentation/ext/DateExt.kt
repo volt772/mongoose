@@ -2,37 +2,40 @@ package com.apx8.mongoose.presentation.ext
 
 import org.joda.time.LocalDate
 
-
 /**
- * Date External Functions
+ * 일자 리스트
+ * @desc [오늘, 내일, 모레, 글피]
  */
-
-const val DOC_DATE_FORMAT_HYPHEN = "yyyy-MM-dd"
-
 fun getDateAfter2DaysWithToday(): List<String> {
     return mutableListOf<String>().also { list ->
-        (0..3).forEach {
-            list.add(getDateAfterTomorrow(it))
+        (0..3).forEach { day ->
+            list.add(
+                LocalDate
+                    .now()
+                    .plusDays(day)
+                    .toString("yyyy-MM-dd")
+            )
         }
     }
 }
 
-internal fun getDateAfterTomorrow(afterDay: Int): String {
-    return LocalDate.now().plusDays(afterDay).toString(DOC_DATE_FORMAT_HYPHEN)
-}
-
+/**
+ * 시간변환
+ * @example `16:00` -> 16
+ */
 fun String.getDateTo24Hour(): Int {
     if (this.isBlank() || !this.contains(":")) return 0
-
-    val spd = this.split(":")
-    return spd.first().toInt()
+    return this.split(":").first().toInt()
 }
 
+/**
+ * 날짜변환
+ * @example `2024-06-08` -> `06월08일`
+ */
 fun String.getDateToDay(): String {
     if (this.isBlank()) return "UNKNOWN"
 
-    val spd = this.splitExt(" ")
-    val dayDt = spd.first()
+    val dayDt = this.splitExt(" ").first()
 
     if (!dayDt.contains("-")) {
         return "UNKNOWN"

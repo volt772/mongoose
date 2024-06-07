@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
-import com.apx8.mongoose.presentation.ext.getWeatherType
+import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
 import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
 import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
@@ -64,7 +64,7 @@ fun CurrentWeatherScreen(
      * WeatherType
      * @return WeatherType
      */
-    val weatherType = info.weatherId.getWeatherType()
+    val weatherType = info.weatherId.getWeatherConditionCodes()
 
     /**
      * @box Root

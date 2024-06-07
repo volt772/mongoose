@@ -15,13 +15,3 @@ data class WeatherDto(
     @field:Json(name = "icon")
     val icon: String
 )
-
-
-/**
- *         {
- *             "id": 804,
- *             "main": "Clouds",
- *             "description": "구름조금",
- *             "icon": "04d"
- *         }
- */

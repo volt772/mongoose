@@ -18,6 +18,9 @@ class WeatherRepositoryImpl @Inject constructor(
     private val api: WeatherApi
 ): WeatherRepository {
 
+    /**
+     * FETCH : 현재날씨
+     */
     override suspend fun getCurrentWeatherInfo(
         lat: Double,
         lon: Double,
@@ -36,6 +39,9 @@ class WeatherRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * FETCH : 예보날씨
+     */
     override suspend fun getForecastWeatherInfo(
         lat: Double,
         lon: Double,
