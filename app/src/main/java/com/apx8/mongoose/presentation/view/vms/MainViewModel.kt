@@ -36,6 +36,12 @@ class MainViewModel @Inject constructor(
      */
     var onLoading by mutableStateOf(true)
 
+    /**
+     * Failed Status
+     * @desc 현재날씨 (CurrentWeather) 데이터 로드를 기준으로 로딩이 실패됨을 판단함
+     */
+    var isFailed by mutableStateOf(false)
+
     /* 현재 날씨 정보*/
     private val _currentWeather: MutableStateFlow<CommonState<CurrentWeatherInfo>> = MutableStateFlow(CommonState.Loading())
     val currentWeather: StateFlow<CommonState<CurrentWeatherInfo>> = _currentWeather
