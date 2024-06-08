@@ -1,9 +1,16 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
+}
+
+fun getPropKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir)
+        .getProperty(propertyKey)
 }
 
 android {
@@ -21,6 +28,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "API_KEY", getPropKey("API_KEY"))
+        buildConfigField("String", "ADMOB_DEBUG_KEY", getPropKey("ADMOB_DEBUG_KEY"))
+        buildConfigField("String", "ADMOB_RELEASE_KEY", getPropKey("ADMOB_RELEASE_KEY"))
     }
 
     signingConfigs {
