@@ -214,15 +214,17 @@ class MainActivity: ComponentActivity() {
             is CommonState.Success -> {
                 vm.onLoading = false
 
-                /**
-                 * @box Root
-                 */
-                CurrentWeatherScreen(
-                    info = state.data,
-                    currentStadium = currentStadium,
-                    doSelectStadium = ::setCurrentStadium,
-                    modifier = Modifier
-                )
+                if (!vm.isFailed) {
+                    /**
+                     * @box Root
+                     */
+                    CurrentWeatherScreen(
+                        info = state.data,
+                        currentStadium = currentStadium,
+                        doSelectStadium = ::setCurrentStadium,
+                        modifier = Modifier
+                    )
+                }
             }
         }
     }
@@ -286,6 +288,7 @@ class MainActivity: ComponentActivity() {
             ) {
                 Text(text = "앱정보")
             }
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 
