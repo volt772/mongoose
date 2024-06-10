@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
@@ -36,16 +35,25 @@ fun SetStatusBarColor() {
     val useDarkIcons = !isSystemInDarkTheme()
 
     DisposableEffect(systemUiController, useDarkIcons) {
+        /* 하단 `네비게이션바` 컬러*/
         systemUiController.setNavigationBarColor(
             color = if (useDarkIcons) {
-                Color.White
+                MgWhite
             } else {
-                Color.Black
+                MgDarkBlue
             },
             darkIcons = useDarkIcons
         )
+        /**
+         * 상단 `상태바` 컬러
+         * @desc 다크모드일 경우에는 흰색으로 변경 (DarkBlue로 지정하면 폰트가 안보임)
+         */
         systemUiController.setStatusBarColor(
-            color = MgDarkBlue,
+            color = if (useDarkIcons) {
+                MgDarkBlue
+            } else {
+                MgWhite
+            },
             darkIcons = useDarkIcons
         )
 
