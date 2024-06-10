@@ -43,10 +43,10 @@ import com.apx8.mongoose.preference.PrefManager
 import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
-import com.apx8.mongoose.presentation.ui.theme.MgBlue
-import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
+import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
-import com.apx8.mongoose.presentation.ui.theme.MgWhiteTransparent
+import com.apx8.mongoose.presentation.ui.theme.MgYellowTransparent
 import com.apx8.mongoose.presentation.ui.theme.MgYellow
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
@@ -133,14 +133,14 @@ class MainActivity: ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MgBlue),
+                        .background(MgDarkBlue),
                 ) {
 
                     /**
                      * @box 배너광고
                      */
                     Column(
-                        modifier = Modifier.background(MgBlue)
+                        modifier = Modifier.background(MgDarkBlue)
                     ) {
                         BannersAds()
                     }
@@ -152,14 +152,14 @@ class MainActivity: ComponentActivity() {
                         modifier = Modifier
                             .fillMaxSize()
                             .verticalScroll(state = scrollState)
-                            .background(MgBlue),
+                            .background(MgDarkBlue),
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
                         /**
                          * @box Root(Content)
                          */
                         Column(
-                            modifier = Modifier.background(MgBlue)
+                            modifier = Modifier.background(MgDarkBlue)
                         ) {
                             /**
                              * @box 현재날씨
@@ -253,7 +253,7 @@ class MainActivity: ComponentActivity() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MgBlue)
+                .background(MgDarkBlue)
                 .padding(end = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -275,9 +275,9 @@ class MainActivity: ComponentActivity() {
              */
             Button(
                 colors = ButtonColors(
-                    containerColor = MgSubBlue,
+                    containerColor = MgSubDarkBlue,
                     contentColor = MgWhite,
-                    disabledContainerColor = MgSubBlue,
+                    disabledContainerColor = MgSubDarkBlue,
                     disabledContentColor = MgWhite,
                 ),
                 onClick = {
@@ -315,7 +315,7 @@ class MainActivity: ComponentActivity() {
                 modifier = Modifier.padding(horizontal = 10.dp),
                 text = "데이터 제공사의 상황에 의해 조회할 수 없습니다. 잠시 후 다시 사용해 주시기 바랍니다.",
                 fontSize = 16.sp,
-                color = MgWhiteTransparent,
+                color = MgYellowTransparent,
                 textAlign = TextAlign.Center
             )
         }

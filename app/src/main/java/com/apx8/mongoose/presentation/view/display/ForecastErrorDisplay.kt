@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
 @Composable
@@ -30,7 +30,7 @@ fun ForecastErrorDisplay(
             .height(80.dp)
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(10.dp))
-            .background(MgSubBlue),
+            .background(MgSubDarkBlue),
 
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround

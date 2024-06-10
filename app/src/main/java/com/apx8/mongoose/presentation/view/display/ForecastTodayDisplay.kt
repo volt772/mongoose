@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,8 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
-import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
+import com.apx8.mongoose.presentation.ui.theme.MgYellowTransparent
 
 @Composable
 fun ForecastTodayDisplay(
@@ -48,8 +48,8 @@ fun ForecastTodayDisplay(
             Text(
                 text = "오늘날씨",
                 fontSize = 20.sp,
-                color = Color.White,
-                fontWeight = FontWeight.W400,
+                color = MgYellowTransparent,
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(5.dp))
 
@@ -83,7 +83,7 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
-                .background(MgSubBlue)
+                .background(MgSubDarkBlue)
                 .size(130.dp)
                 .clickable {}
                 .padding(13.dp),

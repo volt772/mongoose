@@ -26,7 +26,8 @@ import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.constants.WeatherType
 import com.apx8.mongoose.domain.dto.WeatherDisplayItem
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
-import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgBlueTransparent
+import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 
 @Composable
 fun ForecastDayAfterDisplay(
@@ -44,7 +45,7 @@ fun ForecastDayAfterDisplay(
         Text(
             text = "주간예보",
             fontSize = 20.sp,
-            color = Color.White,
+            color = MgBlueTransparent,
             fontWeight = FontWeight.W400,
         )
         Spacer(modifier = Modifier.height(5.dp))
@@ -57,7 +58,7 @@ fun ForecastDayAfterDisplay(
                 .height(IntrinsicSize.Min)
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(10.dp))
-                .background(MgSubBlue),
+                .background(MgSubDarkBlue),
 
             horizontalArrangement = Arrangement.SpaceAround
         ) {

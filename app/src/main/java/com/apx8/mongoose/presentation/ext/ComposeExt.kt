@@ -22,7 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -45,7 +45,7 @@ fun SetStatusBarColor() {
             darkIcons = useDarkIcons
         )
         systemUiController.setStatusBarColor(
-            color = MgBlue,
+            color = MgDarkBlue,
             darkIcons = useDarkIcons
         )
 
@@ -82,8 +82,8 @@ fun BackButtonScaffoldScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MgBlue,
-                    scrolledContainerColor = MgBlue,
+                    containerColor = MgDarkBlue,
+                    scrolledContainerColor = MgDarkBlue,
                 ),
                 title = {
                     Text(
@@ -97,8 +97,7 @@ fun BackButtonScaffoldScreen(
                     }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "뒤로가기",
-                            tint = MgWhite
+                            contentDescription = "뒤로가기", tint = MgWhite
                         )
                     }
                 },

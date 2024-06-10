@@ -30,9 +30,10 @@ import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.ext.BackButtonScaffoldScreen
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
-import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgLicenseFontGray
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
+import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.presentation.view.vms.OpenSourceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,8 +47,10 @@ class OpenSourceActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            SetStatusBarColor()
-            LicenseScreen(::infoBackPressed)
+            MongooseTheme {
+                SetStatusBarColor()
+                LicenseScreen(::infoBackPressed)
+            }
         }
     }
 
@@ -122,7 +125,7 @@ class OpenSourceActivity: ComponentActivity() {
                         modifier = Modifier
                             .width(30.dp)
                             .height(4.dp)
-                            .background(MgBlue)
+                            .background(MgDarkBlue)
                     )
                     Spacer(modifier = Modifier.height(15.dp))
 

@@ -37,9 +37,11 @@ import com.apx8.mongoose.presentation.ext.BackButtonScaffoldScreen
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
-import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgMenuFontBlack
+import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
+import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,8 +52,10 @@ class InfoActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            SetStatusBarColor()
-            InfoScreen(::infoBackPressed)
+            MongooseTheme {
+                SetStatusBarColor()
+                InfoScreen(::infoBackPressed)
+            }
         }
     }
 
@@ -96,7 +100,6 @@ class InfoActivity: ComponentActivity() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(MgBackgroundGray)
-//                .padding(horizontal = 20.dp),
                 .padding(20.dp, 100.dp, 20.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -110,7 +113,7 @@ class InfoActivity: ComponentActivity() {
                 modifier = Modifier
                     .size(200.dp)
                     .clip(CircleShape)
-                    .border(3.dp, MgBlue, CircleShape)
+                    .border(3.dp, MgSubDarkBlue, CircleShape)
             )
 
             Spacer(modifier = Modifier.height(50.dp))

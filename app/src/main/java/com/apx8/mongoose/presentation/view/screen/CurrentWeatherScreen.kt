@@ -31,9 +31,9 @@ import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
-import com.apx8.mongoose.presentation.ui.theme.MgBlue
+import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
-import com.apx8.mongoose.presentation.ui.theme.MgSubBlue
+import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.view.bottomsheet.StadiumBottomSheet
 
@@ -72,7 +72,7 @@ fun CurrentWeatherScreen(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MgBlue)
+            .background(MgDarkBlue)
             .padding(horizontal = 20.dp, vertical = 40.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -157,9 +157,9 @@ fun CurrentWeatherScreen(
              */
             Button(
                 colors = ButtonColors(
-                    containerColor = MgSubBlue,
+                    containerColor = MgSubDarkBlue,
                     contentColor = MgWhite,
-                    disabledContainerColor = MgSubBlue,
+                    disabledContainerColor = MgSubDarkBlue,
                     disabledContentColor = MgWhite,
                 ),
                 onClick = { showSheet = true }
