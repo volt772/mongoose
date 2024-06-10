@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +37,7 @@ import com.apx8.mongoose.presentation.ext.BackButtonScaffoldScreen
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
+import com.apx8.mongoose.presentation.ui.theme.MgBlue
 import com.apx8.mongoose.presentation.ui.theme.MgMenuFontBlack
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,9 +95,10 @@ class InfoActivity: ComponentActivity() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MgWhite)
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.SpaceEvenly,
+                .background(MgBackgroundGray)
+//                .padding(horizontal = 20.dp),
+                .padding(20.dp, 100.dp, 20.dp),
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             /**
@@ -103,10 +107,13 @@ class InfoActivity: ComponentActivity() {
             Image(
                 painterResource(id = R.drawable.ic_logo_app_png_title),
                 contentDescription = null,
-                modifier = Modifier.size(250.dp)
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(CircleShape)
+                    .border(3.dp, MgBlue, CircleShape)
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
             /**
              * @box 메뉴박스
@@ -121,7 +128,7 @@ class InfoActivity: ComponentActivity() {
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                        .background(MgBackgroundGray)
+                        .background(MgWhite)
                         .fillMaxWidth()
                         .height(56.dp)
                         .clickable(
@@ -156,7 +163,7 @@ class InfoActivity: ComponentActivity() {
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
-                        .background(MgBackgroundGray)
+                        .background(MgWhite)
                         .fillMaxWidth()
                         .height(56.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
