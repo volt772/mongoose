@@ -22,7 +22,7 @@ fun CurrentResponseDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
     return CurrentWeatherInfo(
         weatherId = weatherData.id,
         weatherMain = weatherData.main,
-        weatherDescription = TranslatedDescription.from(weatherData.id).desc,
+        weatherDescription = getWeatherTranslatedDescription(weatherData.id, weatherData.description),
         temp = this.main.temp.roundToInt(),
         humidity = this.main.humidity,
         feelsLike = this.main.feelsLike.roundToInt(),
@@ -65,7 +65,7 @@ suspend fun ForecastResponseDto.toForecastWeatherInfo(
                 dtTxtDate = localDtTxtDate,
                 dtTxtTime = localDtTxtTime,
                 weatherId = weatherData.id,
-                weatherDescription = TranslatedDescription.from(weatherData.id).desc,
+                weatherDescription = getWeatherTranslatedDescription(weatherData.id, weatherData.description),
                 weatherMain = weatherData.main,
                 weatherIcon = "$weatherIconBaseURL/${weatherData.icon}.png",
             )
@@ -75,4 +75,21 @@ suspend fun ForecastResponseDto.toForecastWeatherInfo(
             forecastList = forecast
         )
     }
+}
+
+/**
+ * Weather Description
+ * @param weatherId 날씨ID
+ * @param orgDescription 원본설명 (API에서 내려주는 원본값, 예) 실비. 튼구름.. 등)
+ */
+private fun getWeatherTranslatedDescription(
+    weatherId: Int,
+    orgDescription: String
+): String {
+    val weatherDescription = TranslatedDescription.from(weatherId)
+
+    return if (weatherDescription == TranslatedDescription.NAN)
+        orgDescription
+    else
+        weatherDescription.desc
 }
