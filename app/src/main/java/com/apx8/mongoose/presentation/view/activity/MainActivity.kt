@@ -200,7 +200,6 @@ class MainActivity: ComponentActivity() {
         }
     }
 
-
     @Composable
     fun RenderCurrentWeatherScreen() {
         /* Column1 : Current Screen*/

@@ -3,12 +3,14 @@ package com.apx8.mongoose.data.mappers
 import com.apx8.mongoose.data.remote.CurrentResponseDto
 import com.apx8.mongoose.data.remote.ForecastResponseDto
 import com.apx8.mongoose.data.util.convertUTCtoLocalFormat
+import com.apx8.mongoose.domain.constants.TranslatedDescription
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
+
 
 const val weatherIconBaseURL = "https://openweathermap.org/img/wn"
 
@@ -20,7 +22,7 @@ fun CurrentResponseDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
     return CurrentWeatherInfo(
         weatherId = weatherData.id,
         weatherMain = weatherData.main,
-        weatherDescription = weatherData.description,
+        weatherDescription = TranslatedDescription.from(weatherData.id).desc,
         temp = this.main.temp.roundToInt(),
         humidity = this.main.humidity,
         feelsLike = this.main.feelsLike.roundToInt(),
@@ -63,7 +65,7 @@ suspend fun ForecastResponseDto.toForecastWeatherInfo(
                 dtTxtDate = localDtTxtDate,
                 dtTxtTime = localDtTxtTime,
                 weatherId = weatherData.id,
-                weatherDescription = weatherData.description,
+                weatherDescription = TranslatedDescription.from(weatherData.id).desc,
                 weatherMain = weatherData.main,
                 weatherIcon = "$weatherIconBaseURL/${weatherData.icon}.png",
             )
