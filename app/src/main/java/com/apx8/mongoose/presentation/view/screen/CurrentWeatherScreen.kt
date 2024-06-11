@@ -68,6 +68,10 @@ fun CurrentWeatherScreen(
      * @return WeatherType
      */
     val weatherType = info.weatherId.getWeatherConditionCodes()
+
+    /**
+     * WeatherCode
+     */
     val weatherCode = info.cod
 
     /**
@@ -82,10 +86,13 @@ fun CurrentWeatherScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        /**
+         * @desc WeatherCode 가 200일 경우와 400일 경우를 분기함.
+         * @desc `WeatherID` 아니니 주의!
+         */
         if (weatherCode == AppCodes.DataLoad.FAIL) {
             CurrentErrorDisplay()
         } else {
-
             Spacer(modifier = modifier.height(20.dp))
             /**
              * @view 설명
