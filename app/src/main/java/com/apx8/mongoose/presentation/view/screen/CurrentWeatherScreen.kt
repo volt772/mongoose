@@ -28,14 +28,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.apx8.mongoose.domain.constants.AppCodes
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
+import com.apx8.mongoose.presentation.ui.theme.AppColor
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.view.bottomsheet.StadiumBottomSheet
+import com.apx8.mongoose.presentation.view.display.CurrentErrorDisplay
 
 @Composable
 fun CurrentWeatherScreen(
@@ -65,6 +68,7 @@ fun CurrentWeatherScreen(
      * @return WeatherType
      */
     val weatherType = info.weatherId.getWeatherConditionCodes()
+    val weatherCode = info.cod
 
     /**
      * @box Root
@@ -77,94 +81,100 @@ fun CurrentWeatherScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = modifier.height(20.dp))
-        /**
-         * @view 설명
-         * @example 맑음
-         */
-        Text(
-            text = info.weatherDescription,
-            fontWeight = FontWeight.W400,
-            fontSize = 30.sp,
-            color = MgFontWhite
-        )
-        Spacer(modifier = modifier.height(20.dp))
 
-        /**
-         * @view 아이콘
-         */
-        Image(
-            painterResource(id = weatherType.mainRes),
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(Color.White),
-            modifier = Modifier.size(200.dp)
-        )
-        Spacer(modifier = modifier.height(30.dp))
+        if (weatherCode == AppCodes.DataLoad.FAIL) {
+            CurrentErrorDisplay()
+        } else {
 
-        /**
-         * @Box Root
-         */
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+            Spacer(modifier = modifier.height(20.dp))
             /**
-             * @Box 기온(숫자만)
-             * @example 27
+             * @view 설명
+             * @example 맑음
              */
             Text(
-                text = "${info.temp}",
+                text = info.weatherDescription,
                 fontWeight = FontWeight.W400,
-                fontSize = 50.sp,
+                fontSize = 30.sp,
                 color = MgFontWhite
             )
-            Spacer(modifier = modifier.width(5.dp))
+            Spacer(modifier = modifier.height(20.dp))
 
             /**
-             * @Box 단위레이블
-             * @example °C
+             * @view 아이콘
              */
-            Text(
-                text = "°C",
-                fontWeight = FontWeight.W400,
-                fontSize = 20.sp,
-                color = MgFontWhite,
-                modifier = modifier.align(Alignment.CenterVertically)
+            Image(
+                painterResource(id = weatherType.mainRes),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(Color.White),
+                modifier = Modifier.size(200.dp)
             )
-        }
-
-        /**
-         * @box Root
-         */
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            /**
-             * @view 경기장이름
-             * @example 서울종합운동장야구장
-             */
-            Text(
-                text = currentStadium.signBoard,
-                fontWeight = FontWeight.W400,
-                fontSize = 20.sp,
-                color = MgFontWhite
-            )
-            Spacer(modifier = modifier.height(10.dp))
+            Spacer(modifier = modifier.height(30.dp))
 
             /**
-             * @view 다른구장보기
+             * @Box Root
              */
-            Button(
-                colors = ButtonColors(
-                    containerColor = MgSubDarkBlue,
-                    contentColor = MgWhite,
-                    disabledContainerColor = MgSubDarkBlue,
-                    disabledContentColor = MgWhite,
-                ),
-                onClick = { showSheet = true }
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "다른 구장 보기")
+                /**
+                 * @Box 기온(숫자만)
+                 * @example 27
+                 */
+                Text(
+                    text = "${info.temp}",
+                    fontWeight = FontWeight.W400,
+                    fontSize = 50.sp,
+                    color = MgFontWhite
+                )
+                Spacer(modifier = modifier.width(5.dp))
+
+                /**
+                 * @Box 단위레이블
+                 * @example °C
+                 */
+                Text(
+                    text = "°C",
+                    fontWeight = FontWeight.W400,
+                    fontSize = 20.sp,
+                    color = MgFontWhite,
+                    modifier = modifier.align(Alignment.CenterVertically)
+                )
+            }
+
+            /**
+             * @box Root
+             */
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                /**
+                 * @view 경기장이름
+                 * @example 서울종합운동장야구장
+                 */
+                Text(
+                    text = currentStadium.signBoard,
+                    fontWeight = FontWeight.W400,
+                    fontSize = 20.sp,
+                    color = MgFontWhite
+                )
+                Spacer(modifier = modifier.height(10.dp))
+
+                /**
+                 * @view 다른구장보기
+                 */
+                Button(
+                    colors = ButtonColors(
+                        containerColor = MgSubDarkBlue,
+                        contentColor = MgWhite,
+                        disabledContainerColor = MgSubDarkBlue,
+                        disabledContentColor = MgWhite,
+                    ),
+                    onClick = { showSheet = true }
+                ) {
+                    Text(text = "다른 구장 보기")
+                }
             }
         }
     }

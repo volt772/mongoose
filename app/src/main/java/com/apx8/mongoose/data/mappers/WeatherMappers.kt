@@ -18,18 +18,22 @@ const val weatherIconBaseURL = "https://openweathermap.org/img/wn"
  * 데이터 변환 [CurrentResponseDto] to [CurrentWeatherInfo]
  */
 fun CurrentResponseDto.toCurrentWeatherInfo(): CurrentWeatherInfo {
-    val weatherData = this.weatherData.first()
-    return CurrentWeatherInfo(
-        weatherId = weatherData.id,
-        weatherMain = weatherData.main,
-        weatherDescription = getWeatherTranslatedDescription(weatherData.id, weatherData.description),
-        temp = this.main.temp.roundToInt(),
-        humidity = this.main.humidity,
-        feelsLike = this.main.feelsLike.roundToInt(),
-        weatherIcon = "$weatherIconBaseURL/${weatherData.icon}.png",
-        cityName = this.name,
-        cod = this.cod
-    )
+    return if (this.weatherData.isEmpty()) {
+        CurrentWeatherInfo()
+    } else {
+        val weatherData = this.weatherData.first()
+        CurrentWeatherInfo(
+            weatherId = weatherData.id,
+            weatherMain = weatherData.main,
+            weatherDescription = getWeatherTranslatedDescription(weatherData.id, weatherData.description),
+            temp = this.main.temp.roundToInt(),
+            humidity = this.main.humidity,
+            feelsLike = this.main.feelsLike.roundToInt(),
+            weatherIcon = "$weatherIconBaseURL/${weatherData.icon}.png",
+            cityName = this.name,
+            cod = this.cod
+        )
+    }
 }
 
 /**

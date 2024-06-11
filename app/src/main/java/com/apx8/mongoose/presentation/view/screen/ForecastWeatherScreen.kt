@@ -96,7 +96,10 @@ fun ForecastWeatherScreen(
                     days.forEachIndexed { index, day ->
                         if (index > 0) {
                             forecastByDay[day]?.let { fbd ->
-                                list.add(forecastInfoToDisplayItem(fbd))
+                                val displayItem = forecastInfoToDisplayItem(fbd)
+                                displayItem?.let { item ->
+                                    list.add(item)
+                                }
                             }
                         }
                     }
@@ -126,27 +129,31 @@ fun ForecastWeatherScreen(
  */
 private fun forecastInfoToDisplayItem(
     forecast: List<ForecastListInfo>
-): WeatherDisplayItem {
+): WeatherDisplayItem? {
     /**
      * 유효게임확인
      * @desc 낮경기(15시기준), 저녁경기(18시기준) 날씨로 판단
      */
     val validGame = getValidGame(forecast)
 
-    val dayGame = validGame.first()
-    val nightGame = validGame.last()
+    return if (validGame.isEmpty()) {
+        null
+    } else {
+        val dayGame = validGame.first()
+        val nightGame = validGame.last()
 
-    return WeatherDisplayItem(
-        date = dayGame.dtTxtDate.getDateToDay(),
-        dWeather = dayGame.weatherMain,
-        nWeather = nightGame.weatherMain,
-        dWeatherId = dayGame.weatherId,
-        nWeatherId = nightGame.weatherId,
-        dWeatherIcon = dayGame.weatherIcon,
-        nWeatherIcon = nightGame.weatherIcon,
-        dTemp = dayGame.temp,
-        nTemp = nightGame.temp
-    )
+        WeatherDisplayItem(
+            date = dayGame.dtTxtDate.getDateToDay(),
+            dWeather = dayGame.weatherMain,
+            nWeather = nightGame.weatherMain,
+            dWeatherId = dayGame.weatherId,
+            nWeatherId = nightGame.weatherId,
+            dWeatherIcon = dayGame.weatherIcon,
+            nWeatherIcon = nightGame.weatherIcon,
+            dTemp = dayGame.temp,
+            nTemp = nightGame.temp
+        )
+    }
 }
 
 /**

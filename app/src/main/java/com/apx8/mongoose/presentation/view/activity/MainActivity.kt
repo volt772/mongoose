@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +34,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
@@ -46,9 +43,9 @@ import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
-import com.apx8.mongoose.presentation.ui.theme.MgYellowTransparent
 import com.apx8.mongoose.presentation.ui.theme.MgYellow
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
+import com.apx8.mongoose.presentation.view.display.CurrentErrorDisplay
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
 import com.apx8.mongoose.presentation.view.vms.MainViewModel
@@ -191,7 +188,7 @@ class MainActivity: ComponentActivity() {
                              */
                             if (vm.isFailed) {
                                 Spacer(modifier = Modifier.height(150.dp))
-                                RenderFailedWeatherScreen()
+                                CurrentErrorDisplay()
                             }
                         }
                     }
@@ -289,38 +286,6 @@ class MainActivity: ComponentActivity() {
                 Text(text = "앱정보")
             }
             Spacer(modifier = Modifier.height(20.dp))
-        }
-    }
-
-    @Composable
-    fun RenderFailedWeatherScreen() {
-        /**
-         * @box Root
-         */
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            /**
-             * @view 아이콘
-             */
-            Image(
-                painterResource(id = R.drawable.ic_error_cloud),
-                contentDescription = null,
-                modifier = Modifier.size(200.dp)
-            )
-            
-            /**
-             * @view 안내문구
-             */
-            Text(
-                modifier = Modifier.padding(horizontal = 10.dp),
-                text = "데이터 제공사의 상황에 의해 조회할 수 없습니다. 잠시 후 다시 사용해 주시기 바랍니다.",
-                fontSize = 16.sp,
-                color = MgYellowTransparent,
-                textAlign = TextAlign.Center
-            )
         }
     }
 
