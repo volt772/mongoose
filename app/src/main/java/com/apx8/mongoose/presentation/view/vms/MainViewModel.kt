@@ -60,6 +60,10 @@ class MainViewModel @Inject constructor(
     val currentStadium: SharedFlow<Stadium> = _currentStadium
 
     /* 앱초기실행여부*/
+    /**
+     * 앱초기실행여부
+     * @desc 앱 초기 실행시, 데이터 관련 안내 팝업을 보여줄 용도로만 사용됨
+     */
     private val _isFirstRun: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isFirstRun: StateFlow<Boolean> = _isFirstRun
 

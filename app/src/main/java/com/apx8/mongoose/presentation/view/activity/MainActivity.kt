@@ -49,7 +49,7 @@ import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.ui.theme.MgYellow
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
-import com.apx8.mongoose.presentation.view.dialog.AppInitialDialog
+import com.apx8.mongoose.presentation.view.dialog.AppInfoDialog
 import com.apx8.mongoose.presentation.view.display.CurrentErrorDisplay
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
@@ -71,7 +71,7 @@ class MainActivity: ComponentActivity() {
 
     private val vm: MainViewModel by viewModels()
     private var currentStadium: Stadium = Stadium.NAN
-    private var isFirstInfoDialogOpen: Boolean = false
+    private var isFirstLaunch: Boolean = false
 
     /**
      * 현재 선택된 경기장 코드
@@ -106,9 +106,8 @@ class MainActivity: ComponentActivity() {
              */
             launch {
                 repeatOnLifecycle(Lifecycle.State.CREATED) {
-                    vm.isFirstRun.collectLatest { isFirstRun ->
-                        /* Open Dialog*/
-                        isFirstInfoDialogOpen = isFirstRun
+                    vm.isFirstRun.collectLatest { isFirst ->
+                        isFirstLaunch = isFirst
                     }
                 }
             }
@@ -142,7 +141,7 @@ class MainActivity: ComponentActivity() {
             /* 스크롤 상태*/
             val scrollState = rememberScrollState()
             /* 다이얼로그 상태*/
-            val openAlertDialog = remember { mutableStateOf(isFirstInfoDialogOpen) }
+            val openAlertDialog = remember { mutableStateOf(isFirstLaunch) }
 
             /**
              * OpenAlertDialog
@@ -150,7 +149,7 @@ class MainActivity: ComponentActivity() {
              * @action `확인` Preference에 첫실행여부 플래그 Boolean값 설정
              */
             if (openAlertDialog.value) {
-                AppInitialDialog(
+                AppInfoDialog(
                     onDismissRequest = { },
                     onConfirmation = {
                         openAlertDialog.value = false
@@ -158,7 +157,8 @@ class MainActivity: ComponentActivity() {
                     },
                     dialogTitle = "환영합니다!",
                     dialogText = "데이터 제공사의 상황에 따라 일부 날씨 정보가 부정확할 수 있으며, 날씨 표기가 다소 부자연스러울 수 있습니다. 모든 내용은 참고용도로만 이용하시기 바랍니다.",
-                    icon = Icons.Default.Face
+                    icon = Icons.Default.Face,
+                    buttonConfirmLabel = "확인하였습니다"
                 )
             }
 
