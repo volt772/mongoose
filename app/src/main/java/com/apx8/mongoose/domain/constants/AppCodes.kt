@@ -6,4 +6,9 @@ object AppCodes{
         const val PENDING: Int = 300
         const val FAIL: Int = 400
     }
+
+    object Pref {
+        const val MY_STADIUM = "my_stadium"
+        const val IS_FIRST_RUN = "is_first_run"
+    }
 }

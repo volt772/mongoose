@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apx8.mongoose.domain.constants.AppCodes
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
@@ -57,6 +58,14 @@ class MainViewModel @Inject constructor(
      */
     private val _currentStadium: MutableSharedFlow<Stadium> = MutableSharedFlow(replay = 0)
     val currentStadium: SharedFlow<Stadium> = _currentStadium
+
+    /* 앱초기실행여부*/
+    private val _isFirstRun: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isFirstRun: StateFlow<Boolean> = _isFirstRun
+
+    init {
+        getIsFirstRun()
+    }
 
     /**
      * Data Fetch Async
@@ -117,7 +126,7 @@ class MainViewModel @Inject constructor(
      */
     fun setMyStadium(code: String) {
         viewModelScope.launch {
-            prefManager.setMyStadium(code)
+            prefManager.setString(AppCodes.Pref.MY_STADIUM, code)
         }
     }
 
@@ -127,7 +136,7 @@ class MainViewModel @Inject constructor(
      * @desc 기본값 == `서울 잠실 야구장(SOJ)`
      */
     fun getMyStadium(): Stadium {
-        val code = prefManager.getMyStadium()
+        val code = prefManager.getString(AppCodes.Pref.MY_STADIUM, Stadium.NAN.code)
         val savedStadium = Stadium.from(code)
 
         return if (savedStadium == Stadium.NAN) {
@@ -135,5 +144,23 @@ class MainViewModel @Inject constructor(
         } else {
             savedStadium
         }
+    }
+
+    /**
+     * PUT : `앱 첫실행 여부`
+     * @desc 첫 AlertDialog에서 `확인하였습니다` 버튼 선택 시 Pref에 저장
+     */
+    fun setIsFirstRun() {
+        viewModelScope.launch {
+            prefManager.setBoolean(AppCodes.Pref.IS_FIRST_RUN, false)
+        }
+    }
+
+    /**
+     * GET : `앱 첫실행 여부`
+     * @desc 첫 실행여부를 저장
+     */
+    private fun getIsFirstRun() {
+        _isFirstRun.value = prefManager.getBoolean(AppCodes.Pref.IS_FIRST_RUN)
     }
 }

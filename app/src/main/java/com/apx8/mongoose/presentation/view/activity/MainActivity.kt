@@ -15,12 +15,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -45,6 +49,7 @@ import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.ui.theme.MgYellow
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
+import com.apx8.mongoose.presentation.view.dialog.AppInitialDialog
 import com.apx8.mongoose.presentation.view.display.CurrentErrorDisplay
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
@@ -66,6 +71,7 @@ class MainActivity: ComponentActivity() {
 
     private val vm: MainViewModel by viewModels()
     private var currentStadium: Stadium = Stadium.NAN
+    private var isFirstInfoDialogOpen: Boolean = false
 
     /**
      * 현재 선택된 경기장 코드
@@ -93,6 +99,20 @@ class MainActivity: ComponentActivity() {
         }
 
         lifecycleScope.run {
+            /**
+             * 첫 실행 여부 확인
+             * @use 첫실행시, 사용자에게 안내문구 다이얼로그를 1회 보여주어야 한다.
+             * @use 사용자가 확인누르면 데이터 초기화 및 앱재설치시까지 다이얼로그를 보여주지 않는다.
+             */
+            launch {
+                repeatOnLifecycle(Lifecycle.State.CREATED) {
+                    vm.isFirstRun.collectLatest { isFirstRun ->
+                        /* Open Dialog*/
+                        isFirstInfoDialogOpen = isFirstRun
+                    }
+                }
+            }
+
             launch {
                 /**
                  * GET : 조회할 경기장 코드
@@ -119,7 +139,28 @@ class MainActivity: ComponentActivity() {
         }
 
         setContent {
+            /* 스크롤 상태*/
             val scrollState = rememberScrollState()
+            /* 다이얼로그 상태*/
+            val openAlertDialog = remember { mutableStateOf(isFirstInfoDialogOpen) }
+
+            /**
+             * OpenAlertDialog
+             * @desc 첫 실행시 안내문구 (앱 사용중 최초1회만 노출)
+             * @action `확인` Preference에 첫실행여부 플래그 Boolean값 설정
+             */
+            if (openAlertDialog.value) {
+                AppInitialDialog(
+                    onDismissRequest = { },
+                    onConfirmation = {
+                        openAlertDialog.value = false
+                        vm.setIsFirstRun()
+                    },
+                    dialogTitle = "환영합니다!",
+                    dialogText = "데이터 제공사의 상황에 따라 일부 날씨 정보가 부정확할 수 있으며, 날씨 표기가 다소 부자연스러울 수 있습니다. 모든 내용은 참고용도로만 이용하시기 바랍니다.",
+                    icon = Icons.Default.Face
+                )
+            }
 
             MongooseTheme {
                 SetStatusBarColor()
