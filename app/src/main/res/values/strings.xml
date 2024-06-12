@@ -1,9 +1,20 @@
 <resources>
     <string name="app_name">야구장날씨</string>
 
-    <!-- 날짜 차이(Diff) 관련-->
-    <string name="day_on_day">오늘</string>
-    <string name="day_future">%d일전</string>
-    <string name="day_past">%d일지남</string>
+    <string name="welcome">환영합니다!</string>
+    <string name="inaccurate_info1">데이터 제공사의 상황에 따라 일부 날씨 정보가 부정확할 수 있으며, 날씨 표기가 다소 부자연스러울 수 있습니다. 모든 내용은 참고용도로만 이용하시기 바랍니다.</string>
+    <string name="inaccurate_info2">데이터 제공사의 상황에 따라 일부 부정확할 수 있습니다. 모든 내용은 참고용도로 이용하시기 바랍니다.</string>
+    <string name="confirmed">확인하였습니다</string>
+    <string name="app_info">앱정보</string>
+    <string name="show_another_stadium">다른구장보기</string>
+    <string name="weekly_forecast">주간예보</string>
+    <string name="today_forecast">오늘날씨</string>
+    <string name="time_label">%s시 : %d°C</string>
 
+    <string name="opensource">오픈라이센스</string>
+    <string name="app_version">앱버전</string>
+    <string name="app_version_template">v%s</string>
+
+    <string name="load_data_error">데이터 제공사의 상황에 의해 조회할 수 없습니다. 잠시 후 다시 사용해 주시기 바랍니다.</string>
+    <string name="temporary_data_error">일시적인 에러로 불러올 수 없습니다.\n잠시후 다시 시도해 주세요.</string>
 </resources>

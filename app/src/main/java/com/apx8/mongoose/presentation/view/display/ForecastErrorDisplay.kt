@@ -11,11 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.apx8.mongoose.R
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
@@ -40,7 +42,7 @@ fun ForecastErrorDisplay(
          * @view 안내 레이블
          */
         Text(
-            text = "일시적인 에러로 불러올 수 없습니다.\n 잠시후 다시 시도해 주세요.",
+            text = stringResource(id = R.string.temporary_data_error),
             fontWeight = FontWeight.W400,
             fontSize = 17.sp,
             color = MgWhite,

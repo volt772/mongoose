@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
@@ -155,10 +157,10 @@ class MainActivity: ComponentActivity() {
                         openAlertDialog.value = false
                         vm.setIsFirstRun()
                     },
-                    dialogTitle = "환영합니다!",
-                    dialogText = "데이터 제공사의 상황에 따라 일부 날씨 정보가 부정확할 수 있으며, 날씨 표기가 다소 부자연스러울 수 있습니다. 모든 내용은 참고용도로만 이용하시기 바랍니다.",
+                    dialogTitle = stringResource(id = R.string.welcome),
+                    dialogText = stringResource(id = R.string.inaccurate_info1),
                     icon = Icons.Default.Face,
-                    buttonConfirmLabel = "확인하였습니다"
+                    buttonConfirmLabel = stringResource(id = R.string.confirmed)
                 )
             }
 
@@ -303,7 +305,7 @@ class MainActivity: ComponentActivity() {
              */
             Text(
                 modifier = Modifier.padding(horizontal = 10.dp),
-                text = "데이터 제공사의 상황에 따라 일부 부정확할 수 있습니다. 모든 내용은 참고용도로 이용하시기 바랍니다.",
+                text = stringResource(id = R.string.inaccurate_info2),
                 fontSize = 16.sp,
                 color = MgYellow,
                 textAlign = TextAlign.Center
@@ -324,7 +326,7 @@ class MainActivity: ComponentActivity() {
                     openActivity(InfoActivity::class.java)
                 }
             ) {
-                Text(text = "앱정보")
+                Text(text = stringResource(id = R.string.app_info))
             }
             Spacer(modifier = Modifier.height(20.dp))
         }

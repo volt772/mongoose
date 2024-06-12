@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -81,7 +82,7 @@ class InfoActivity: ComponentActivity() {
     fun InfoScreen(backPressed: () -> Unit) {
         /* TopBar*/
         BackButtonScaffoldScreen(
-            title = "앱정보",
+            title = stringResource(id = R.string.app_info),
             content = { InfoDisplay() },
             backPressed = backPressed
         )
@@ -148,7 +149,7 @@ class InfoActivity: ComponentActivity() {
                      */
                     Text(
                         modifier = Modifier.padding(horizontal = 18.dp),
-                        text = "오픈라이센스",
+                        text = stringResource(id = R.string.opensource),
                         fontSize = 16.sp,
                         color = MgMenuFontBlack
                     )
@@ -177,7 +178,7 @@ class InfoActivity: ComponentActivity() {
                      */
                     Text(
                         modifier = Modifier.padding(start = 18.dp),
-                        text = "앱버전",
+                        text = stringResource(id = R.string.app_version),
                         fontSize = 16.sp,
                         color = MgMenuFontBlack
                     )
@@ -187,7 +188,10 @@ class InfoActivity: ComponentActivity() {
                      */
                     Text(
                         modifier = Modifier.padding(end = 18.dp),
-                        text = "v${BuildConfig.VERSION_NAME}",
+                        text = stringResource(
+                            id = R.string.app_version_template,
+                            BuildConfig.VERSION_NAME
+                        ),
                         fontSize = 16.sp,
                         color = MgMenuFontBlack
                     )

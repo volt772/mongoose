@@ -19,15 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.constants.WeatherType
 import com.apx8.mongoose.domain.dto.WeatherDisplayItem
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
 import com.apx8.mongoose.presentation.ui.theme.MgBlueTransparent
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
+import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
 @Composable
 fun ForecastDayAfterDisplay(
@@ -43,7 +46,7 @@ fun ForecastDayAfterDisplay(
          * @view 섹션 레이블 (주간예보)
          */
         Text(
-            text = "주간예보",
+            text = stringResource(id = R.string.weekly_forecast),
             fontSize = 20.sp,
             color = MgBlueTransparent,
             fontWeight = FontWeight.W400,
@@ -108,7 +111,7 @@ fun DayAfterWeatherItem(
             text = date,
             fontWeight = FontWeight.W400,
             fontSize = 17.sp,
-            color = Color.White,
+            color = MgWhite,
             modifier = modifier.align(Alignment.CenterHorizontally)
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -131,7 +134,7 @@ fun DayAfterWeatherItem(
             text = "15시 : $dayTemperature°C",
             fontWeight = FontWeight.W400,
             fontSize = 14.sp,
-            color = Color.White,
+            color = MgWhite,
         )
         /**
          * @view 야간기온
@@ -141,7 +144,7 @@ fun DayAfterWeatherItem(
             text = "18시 : $nightTemperature°C",
             fontWeight = FontWeight.W400,
             fontSize = 14.sp,
-            color = Color.White,
+            color = MgWhite,
         )
     }
 }

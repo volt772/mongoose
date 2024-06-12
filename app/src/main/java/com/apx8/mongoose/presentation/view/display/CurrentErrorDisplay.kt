@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,9 +29,7 @@ fun CurrentErrorDisplay() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        /**
-         * @view 아이콘
-         */
+
         /**
          * @view 아이콘
          */
@@ -43,13 +42,9 @@ fun CurrentErrorDisplay() {
         /**
          * @view 안내문구
          */
-
-        /**
-         * @view 안내문구
-         */
         Text(
             modifier = Modifier.padding(horizontal = 10.dp),
-            text = "데이터 제공사의 상황에 의해 조회할 수 없습니다. 잠시 후 다시 사용해 주시기 바랍니다.",
+            text = stringResource(id = R.string.load_data_error),
             fontSize = 16.sp,
             color = MgYellowTransparent,
             textAlign = TextAlign.Center
