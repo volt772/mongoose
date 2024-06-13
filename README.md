@@ -1,4 +1,10 @@
 
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+    <img src="https://github.com/volt772/mongoose/blob/main/store_assets/store_graphic.png" alt="Logo">
+</div>
+
 
 ## Built With
 <a href="https://developer.android.com/jetpack?hl=ko"><img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=Android&logoColor=FFFFFF"/></a>
@@ -12,14 +18,13 @@
 
 * Project : APX8 Mongoose
 
-* MainVersion : 1.0
+* Project Period : 24.03.11 ~ 24.06.06
 
-* CodeName : Mongoose
+* MainVersion : 1.1
 
-* Product : -
+* CodeName : Mongoose (MG)
 
-* Usage : -
-
+* Brand : 야구장날씨
 
 
 
