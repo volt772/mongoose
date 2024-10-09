@@ -68,7 +68,7 @@ enum class Stadium(
         129.061
     ),
     DBP(
-        "대전 한화생명 이글스 파크",
+        "베이스볼 드림파크",
         "DBP",
         R.drawable.bg_team_hhe,
         36.316,
