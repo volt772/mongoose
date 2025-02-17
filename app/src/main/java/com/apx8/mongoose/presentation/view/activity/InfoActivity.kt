@@ -1,7 +1,6 @@
 package com.apx8.mongoose.presentation.view.activity
 
 import android.os.Bundle
-import android.provider.SyncStateContract.Columns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -40,7 +39,6 @@ import com.apx8.mongoose.presentation.ext.BackButtonScaffoldScreen
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MgBackgroundGray
-import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgMenuFontBlack
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
@@ -104,103 +102,118 @@ class InfoActivity: ComponentActivity() {
                 .fillMaxSize()
                 .background(MgBackgroundGray)
                 .padding(20.dp, 100.dp, 20.dp),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            /**
-             * @view 앱아이콘
-             */
-            Image(
-                painterResource(id = R.drawable.ic_logo_app_png_title),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(200.dp)
-                    .clip(CircleShape)
-                    .border(3.dp, MgSubDarkBlue, CircleShape)
-            )
-
-            Spacer(modifier = Modifier.height(50.dp))
-
-            /**
-             * @box 메뉴박스
-             */
             Column(
                 modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 /**
-                 * @box 오픈라이센스
+                 * @view 앱아이콘
                  */
-                Row(
+                Image(
+                    painterResource(id = R.drawable.ic_logo_app_png_title),
+                    contentDescription = null,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                        .background(MgWhite)
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = false),
-                        ) {
-                            moveToOpenSource()
-                        },
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically,
+                        .size(200.dp)
+                        .clip(CircleShape)
+                        .border(3.dp, MgSubDarkBlue, CircleShape)
+                )
+
+                Spacer(modifier = Modifier.height(50.dp))
+
+                /**
+                 * @box 메뉴박스
+                 */
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     /**
-                     * @view 레이블(오픈라이센스)
+                     * @box 오픈라이센스
                      */
-                    Text(
-                        modifier = Modifier.padding(horizontal = 18.dp),
-                        text = stringResource(id = R.string.opensource),
-                        fontSize = 16.sp,
-                        color = MgMenuFontBlack
-                    )
-                }
-
-                /**
-                 * @view 구분자
-                 * @info HorizontalDivider로 사용하면 1.dp시 색상지정을 못함
-                 */
-                Spacer(modifier = Modifier.height(1.dp))
-
-                /**
-                 * @box 앱버전
-                 */
-                Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
-                        .background(MgWhite)
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    /**
-                     * @view 레이블(앱버전)
-                     */
-                    Text(
-                        modifier = Modifier.padding(start = 18.dp),
-                        text = stringResource(id = R.string.app_version),
-                        fontSize = 16.sp,
-                        color = MgMenuFontBlack
-                    )
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                            .background(MgWhite)
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = rememberRipple(bounded = false),
+                            ) {
+                                moveToOpenSource()
+                            },
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        /**
+                         * @view 레이블(오픈라이센스)
+                         */
+                        Text(
+                            modifier = Modifier.padding(horizontal = 18.dp),
+                            text = stringResource(id = R.string.opensource),
+                            fontSize = 16.sp,
+                            color = MgMenuFontBlack
+                        )
+                    }
 
                     /**
-                     * @view 앱버전(v1.0.0)
+                     * @view 구분자
+                     * @info HorizontalDivider로 사용하면 1.dp시 색상지정을 못함
                      */
-                    Text(
-                        modifier = Modifier.padding(end = 18.dp),
-                        text = stringResource(
-                            id = R.string.app_version_template,
-                            BuildConfig.VERSION_NAME
-                        ),
-                        fontSize = 16.sp,
-                        color = MgMenuFontBlack
-                    )
-                }
+                    Spacer(modifier = Modifier.height(1.dp))
 
+                    /**
+                     * @box 앱버전
+                     */
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
+                            .background(MgWhite)
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        /**
+                         * @view 레이블(앱버전)
+                         */
+                        Text(
+                            modifier = Modifier.padding(start = 18.dp),
+                            text = stringResource(id = R.string.app_version),
+                            fontSize = 16.sp,
+                            color = MgMenuFontBlack
+                        )
+
+                        /**
+                         * @view 앱버전(v1.0.0)
+                         */
+                        Text(
+                            modifier = Modifier.padding(end = 18.dp),
+                            text = stringResource(
+                                id = R.string.app_version_template,
+                                BuildConfig.VERSION_NAME
+                            ),
+                            fontSize = 16.sp,
+                            color = MgMenuFontBlack
+                        )
+                    }
+                }
+            }
+
+            if (MongooseApp.isDebugging == "Y") {
                 Spacer(modifier = Modifier.height(20.dp))
-                if (MongooseApp.isDebugging == "Y") {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
                     Text(
                         modifier = Modifier.padding(horizontal = 18.dp),
                         text = stringResource(id = R.string.on_debugging),
