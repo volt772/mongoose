@@ -11,6 +11,7 @@
     <string name="today_forecast">오늘날씨</string>
     <string name="time_label">%s시 : %d°C</string>
 
+    <string name="on_debugging">Checking</string>
     <string name="opensource">오픈라이센스</string>
     <string name="app_version">앱버전</string>
     <string name="app_version_template">v%s</string>

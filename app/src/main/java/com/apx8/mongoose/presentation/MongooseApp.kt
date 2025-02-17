@@ -23,6 +23,13 @@ class MongooseApp: Application() {
         } else {
             BuildConfig.ADMOB_RELEASE_KEY
         }
+
+        /* Checker : Is Debugging App*/
+        isDebugging = if (BuildConfig.BUILD_TYPE == "debug") {
+            "Y"
+        } else {
+            "N"
+        }
     }
 
     companion object {
@@ -33,6 +40,9 @@ class MongooseApp: Application() {
             private set
 
         lateinit var adMobKey: String
+            private set
+
+        lateinit var isDebugging: String
             private set
     }
 }

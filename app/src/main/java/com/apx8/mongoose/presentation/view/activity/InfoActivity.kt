@@ -1,6 +1,7 @@
 package com.apx8.mongoose.presentation.view.activity
 
 import android.os.Bundle
+import android.provider.SyncStateContract.Columns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.BuildConfig
 import com.apx8.mongoose.R
+import com.apx8.mongoose.presentation.MongooseApp
 import com.apx8.mongoose.presentation.ext.BackButtonScaffoldScreen
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
@@ -192,6 +194,16 @@ class InfoActivity: ComponentActivity() {
                             id = R.string.app_version_template,
                             BuildConfig.VERSION_NAME
                         ),
+                        fontSize = 16.sp,
+                        color = MgMenuFontBlack
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+                if (MongooseApp.isDebugging == "Y") {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 18.dp),
+                        text = stringResource(id = R.string.on_debugging),
                         fontSize = 16.sp,
                         color = MgMenuFontBlack
                     )
