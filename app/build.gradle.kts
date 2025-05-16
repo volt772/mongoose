@@ -22,8 +22,8 @@ android {
         applicationId = "com.apx8.mongoose"
         minSdk = 31
         targetSdk = 34
-        versionCode = 10007
-        versionName = "1.0.7"
+        versionCode = 10100
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

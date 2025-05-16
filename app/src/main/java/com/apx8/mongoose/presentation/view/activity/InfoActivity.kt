@@ -132,47 +132,47 @@ class InfoActivity: ComponentActivity() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    /**
-                     * @box 오픈라이센스
-                     */
-                    Row(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                            .background(MgWhite)
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(bounded = false),
-                            ) {
-                                moveToOpenSource()
-                            },
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        /**
-                         * @view 레이블(오픈라이센스)
-                         */
-                        Text(
-                            modifier = Modifier.padding(horizontal = 18.dp),
-                            text = stringResource(id = R.string.opensource),
-                            fontSize = 16.sp,
-                            color = MgMenuFontBlack
-                        )
-                    }
-
-                    /**
-                     * @view 구분자
-                     * @info HorizontalDivider로 사용하면 1.dp시 색상지정을 못함
-                     */
-                    Spacer(modifier = Modifier.height(1.dp))
+//                    /**
+//                     * @box 오픈라이센스
+//                     */
+//                    Row(
+//                        modifier = Modifier
+//                            .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+//                            .background(MgWhite)
+//                            .fillMaxWidth()
+//                            .height(56.dp)
+//                            .clickable(
+//                                interactionSource = remember { MutableInteractionSource() },
+//                                indication = rememberRipple(bounded = false),
+//                            ) {
+//                                moveToOpenSource()
+//                            },
+//                        horizontalArrangement = Arrangement.Start,
+//                        verticalAlignment = Alignment.CenterVertically,
+//                    ) {
+//                        /**
+//                         * @view 레이블(오픈라이센스)
+//                         */
+//                        Text(
+//                            modifier = Modifier.padding(horizontal = 18.dp),
+//                            text = stringResource(id = R.string.opensource),
+//                            fontSize = 16.sp,
+//                            color = MgMenuFontBlack
+//                        )
+//                    }
+//
+//                    /**
+//                     * @view 구분자
+//                     * @info HorizontalDivider로 사용하면 1.dp시 색상지정을 못함
+//                     */
+//                    Spacer(modifier = Modifier.height(1.dp))
 
                     /**
                      * @box 앱버전
                      */
                     Row(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
+                            .clip(RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp, bottomEnd = 8.dp, topEnd = 8.dp))
                             .background(MgWhite)
                             .fillMaxWidth()
                             .height(56.dp),
