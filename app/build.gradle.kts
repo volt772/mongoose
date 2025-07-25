@@ -7,6 +7,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("kotlinx-serialization")
 }
 
 fun getPropKey(propertyKey: String): String {
@@ -91,6 +92,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     /* Test*/
     testImplementation("junit:junit:4.13.2")
@@ -124,4 +126,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
+
+    /* ROOM*/
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    // Kotlin coroutines support
+    implementation("androidx.room:room-ktx:2.6.1")
+
 }
