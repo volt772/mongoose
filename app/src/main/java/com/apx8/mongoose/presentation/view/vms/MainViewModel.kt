@@ -12,11 +12,7 @@ import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
-import com.apx8.mongoose.presentation.MongooseApp.Companion.apiKey
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -76,41 +72,32 @@ class MainViewModel @Inject constructor(
      * @fetch1 현재날씨
      * @fetch2 예보날씨
      */
-    suspend fun fetch(stadium: Stadium) =
-        coroutineScope {
-            val response = listOf(
-                async { loadCurrentWeatherInfo(stadium) },
-                async { loadForecastInfo(stadium) }
-            )
-
-            response.awaitAll()
-        }
-
-    /**
-     * FETCH : 현재 경기장 날씨
-     * @param : Stadium
-     */
-    private fun loadCurrentWeatherInfo(stadium: Stadium) {
-        viewModelScope.launch {
-            weatherRepository.getCurrentWeatherInfo(
-                lat = stadium.lat, lon = stadium.lon, appId = apiKey
-            )
-            .map { resource -> CommonState.fromResource(resource) }
-            .collect { state -> _currentWeather.value = state }
-        }
+    fun fetch(stadium: Stadium) {
+        loadWeatherInfo(stadium)
     }
 
-    /**
-     * FETCH : 경기장의 날씨 예보 (3일간)
-     * @param : Stadium
-     */
-    private fun loadForecastInfo(stadium: Stadium) {
+    private fun loadWeatherInfo(stadium: Stadium) {
         viewModelScope.launch {
-            weatherRepository.getForecastWeatherInfo(
-                lat = stadium.lat, lon = stadium.lon, appId = apiKey
+            weatherRepository.getAllWeatherInfo(
+                lat = stadium.lat, lon = stadium.lon, stadiumCode = stadium.code
             )
             .map { resource -> CommonState.fromResource(resource) }
-            .collect { state -> _forecastWeather.value = state }
+            .collect { state ->
+                when(state) {
+                    is CommonState.Success -> {
+                        _currentWeather.value = CommonState.Success(state.data.currentWeatherInfo)
+                        _forecastWeather.value = CommonState.Success(state.data.forecastWeatherInfo)
+                    }
+                    is CommonState.Error -> {
+                        _currentWeather.value = CommonState.Error(state.message)
+                        _forecastWeather.value = CommonState.Error(state.message)
+                    }
+                    is CommonState.Loading -> {
+                        _currentWeather.value = CommonState.loading()
+                        _forecastWeather.value = CommonState.loading()
+                    }
+                }
+            }
         }
     }
 

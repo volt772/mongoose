@@ -118,9 +118,9 @@ class InfoActivity: ComponentActivity() {
                     painterResource(id = R.drawable.ic_logo_app_png_title),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(200.dp)
+                        .size(250.dp)
                         .clip(CircleShape)
-                        .border(3.dp, MgSubDarkBlue, CircleShape)
+//                        .border(1.dp, MgSubDarkBlue, CircleShape)
                 )
 
                 Spacer(modifier = Modifier.height(50.dp))

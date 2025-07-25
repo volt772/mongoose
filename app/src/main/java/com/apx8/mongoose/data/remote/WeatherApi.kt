@@ -6,21 +6,13 @@ import retrofit2.http.Query
 
 interface WeatherApi {
 
-    @GET("data/2.5/weather")
-    suspend fun getCurrentWeatherData(
+    @GET("api/weather")
+    suspend fun getAllWeatherData(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("appid") appId: String,
+        @Query("stadium_code") stadiumCode: String,
         @Query("units") units: String?= "metric",
         @Query("lang") lang: String?= "kr",
-    ): CurrentResponseDto
-
-    @GET("data/2.5/forecast")
-    suspend fun getForecastWeatherData(
-        @Query("lat") lat: Double,
-        @Query("lon") lon: Double,
-        @Query("appid") appId: String,
-        @Query("units") units: String?= "metric",
-        @Query("lang") lang: String?= "kr",
-    ): ForecastResponseDto
+        @Query("league") league: String?= "kbo",
+    ): AllWeatherResponseDto
 }

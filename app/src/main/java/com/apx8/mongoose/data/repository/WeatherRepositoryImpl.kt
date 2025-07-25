@@ -4,8 +4,7 @@ import com.apx8.mongoose.data.mappers.toCurrentWeatherInfo
 import com.apx8.mongoose.data.mappers.toForecastWeatherInfo
 import com.apx8.mongoose.data.remote.WeatherApi
 import com.apx8.mongoose.di.DefaultDispatcher
-import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
-import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
+import com.apx8.mongoose.domain.dto.AllWeatherInfo
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,43 +17,24 @@ class WeatherRepositoryImpl @Inject constructor(
     private val api: WeatherApi
 ): WeatherRepository {
 
-    /**
-     * FETCH : 현재날씨
-     */
-    override suspend fun getCurrentWeatherInfo(
+    override suspend fun getAllWeatherInfo(
         lat: Double,
         lon: Double,
-        appId: String
-    ): Flow<Resource<CurrentWeatherInfo>> {
+        stadiumCode: String
+    ): Flow<Resource<AllWeatherInfo>> {
         return try {
-            val currentWeatherInfo = api.getCurrentWeatherData(
+            val weather = api.getAllWeatherData(
                 lat = lat,
                 lon = lon,
-                appId = appId
-            ).toCurrentWeatherInfo()
+                stadiumCode = stadiumCode
+            )
 
-            flowOf(Resource.Success(currentWeatherInfo))
-        } catch (e: Exception) {
-            flowOf(Resource.Failed(e.message?: "Error Occurred"))
-        }
-    }
+            val weatherInfo = AllWeatherInfo(
+                currentWeatherInfo = weather.current.toCurrentWeatherInfo(),
+                forecastWeatherInfo = weather.forecast.toForecastWeatherInfo(defaultDispatcher)
+            )
 
-    /**
-     * FETCH : 예보날씨
-     */
-    override suspend fun getForecastWeatherInfo(
-        lat: Double,
-        lon: Double,
-        appId: String
-    ): Flow<Resource<ForecastWeatherInfo>> {
-        return try {
-            val forecastWeatherInfo = api.getForecastWeatherData(
-                lat = lat,
-                lon = lon,
-                appId = appId
-            ).toForecastWeatherInfo(defaultDispatcher)
-
-            flowOf(Resource.Success(forecastWeatherInfo))
+            flowOf(Resource.Success(weatherInfo))
         } catch (e: Exception) {
             flowOf(Resource.Failed(e.message?: "Error Occurred"))
         }

@@ -16,14 +16,14 @@ fun getPropKey(propertyKey: String): String {
 
 android {
     namespace = "com.apx8.mongoose"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.apx8.mongoose"
         minSdk = 31
-        targetSdk = 34
-        versionCode = 10101
-        versionName = "1.1.1"
+        targetSdk = 35
+        versionCode = 10104
+        versionName = "1.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
