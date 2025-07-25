@@ -19,7 +19,8 @@ object NetworkModule {
 
 //    private const val baseUrl = "https://api.openweathermap.org/"
 //    private const val baseUrl = "http://192.168.45.250:5532/"
-    private const val baseUrl = "http://192.168.45.250/weather-api/"
+//    private const val baseUrl = "http://192.168.45.250/weather-api/"
+    private const val baseUrl = "http://volt773.vps.phps.kr/weather-api/"
     private const val directUrl = "https://api.openweathermap.org/"
 
 
