@@ -1,6 +1,7 @@
 package com.apx8.mongoose.di
 
 import com.apx8.mongoose.data.remote.WeatherApi
+import com.apx8.mongoose.data.remote.WeatherDirectApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,8 @@ object NetworkModule {
 //    private const val baseUrl = "https://api.openweathermap.org/"
 //    private const val baseUrl = "http://192.168.45.250:5532/"
     private const val baseUrl = "http://192.168.45.250/weather-api/"
+    private const val directUrl = "https://api.openweathermap.org/"
+
 
     @Provides
     @Singleton
@@ -27,6 +30,19 @@ object NetworkModule {
     ): WeatherApi {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDirectWeatherApi(
+        @MongooseHttpClient okHttpClient: OkHttpClient,
+    ): WeatherDirectApi {
+        return Retrofit.Builder()
+            .baseUrl(directUrl)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build()
