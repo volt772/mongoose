@@ -10,8 +10,10 @@
     <string name="app_backpress">뒤로가기를 한 번 더 누르면 종료됩니다.</string>
     <string name="show_another_stadium">다른구장보기</string>
     <string name="weekly_forecast">주간예보</string>
-    <string name="today_forecast">오늘날씨</string>
+    <string name="today_forecast">오늘날씨 (3시간단위)</string>
     <string name="time_label">%s시 : %d°C</string>
+    <string name="time">%s시</string>
+    <string name="temperature">%d°C</string>
 
     <string name="on_debugging">Checking</string>
     <string name="opensource">오픈라이센스</string>

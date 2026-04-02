@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,6 +44,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.apx.apx108.presentation.topbar.TopBarWithSearch
 import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
@@ -197,82 +199,48 @@ class MainActivity: ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize()
                         .background(MgDarkBlue)
-                        .navigationBarsPadding() // ⬅️ 하단 네비게이션 바 안 가리게 처리
                 ) {
 
-                    /**
-                     * @box 배너광고
-                     */
-                    Column(
-                        modifier = Modifier.background(MgDarkBlue)
-                        .background(MgDarkBlue)
-                        .statusBarsPadding() // ⬅️ 상단 상태바 안 가리게 처리
-                    ) {
-                        BannersAds()
-                    }
+                    // 상단 앱바 (Material3 기준)
+                    TopBarWithSearch(
+                        isSearching = false,
+                        query = "",
+                        onQueryChange = { },
+                        onSearchClick = { },
+                        onCloseClick = { },
+                        onFilterClick = { },
+                        onRouteManageClick = { },
+                        onInfoClick = {
+                            openActivity(InfoActivity::class.java)
+                        }
+                    )
 
-                    /**
-                     * @box Root(Content)
-                     */
-                    Column(
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(state = scrollState)
-                            .background(MgDarkBlue),
-                        verticalArrangement = Arrangement.SpaceBetween
+                            .weight(1f)
+                            .fillMaxWidth()
                     ) {
-                        /**
-                         * @box Root(Content)
-                         */
-                        Column(
-                            modifier = Modifier.background(MgDarkBlue)
-                        ) {
-                            /**
-                             * @box 현재날씨
-                             */
-                            RenderCurrentWeatherScreen()
+                        if (vm.isFailed) {
+                            Spacer(modifier = Modifier.height(150.dp))
 
-                            /**
-                             * @info 현재날씨정보 (CurrentWeather) 로딩이 끝나면
-                             * 이후 화면이 표시되도록 함
-                             */
-                            if (!vm.onLoading) {
-                                /**
-                                 * @box 예보
-                                 */
+                            CurrentErrorDisplay(
+                                refresh = {
+                                    vm.fetch(currentStadium)
+                                }
+                            )
+                        } else {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .verticalScroll(rememberScrollState())
+                            ) {
+                                RenderCurrentWeatherScreen()
                                 RenderForecastWeatherScreen()
-
-                            }
-
-                            /**
-                             * @box 실패 화면
-                             * @cond isFailed가 True일 경우
-                             */
-                            if (vm.isFailed) {
-                                Spacer(modifier = Modifier.height(150.dp))
-
-                                CurrentErrorDisplay(
-                                    refresh = {
-                                        vm.fetch(currentStadium)
-                                    }
-                                )
-                            }
-                        }
-
-                        Column(
-                            modifier = Modifier.background(MgDarkBlue)
-                        ) {
-                            if (!vm.isFailed) {
-                                /**
-                                 * @box 안내 및 앱정보
-                                 */
-                                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
-                                Spacer(modifier = Modifier.height(15.dp))
-                                RenderAppInfo()
-                                Spacer(modifier = Modifier.height(15.dp))
                             }
                         }
                     }
+
+                    BannersAds()
                 }
             }
         }

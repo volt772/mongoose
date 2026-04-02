@@ -82,7 +82,7 @@ fun CurrentWeatherScreen(
         modifier = modifier
             .fillMaxWidth()
             .background(MgDarkBlue)
-            .padding(horizontal = 20.dp, vertical = 40.dp),
+            .padding(horizontal = 20.dp, vertical = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -91,98 +91,94 @@ fun CurrentWeatherScreen(
          * @desc WeatherCode 가 200일 경우와 400일 경우를 분기함.
          * @desc `WeatherID` 아니니 주의!
          */
-        if (weatherCode == AppCodes.DataLoad.FAIL) {
-            CurrentErrorDisplay({})
-        } else {
-            Spacer(modifier = modifier.height(20.dp))
+        Spacer(modifier = modifier.height(20.dp))
+        /**
+         * @view 설명
+         * @example 맑음
+         */
+        Text(
+            text = info.weatherDescription,
+            fontWeight = FontWeight.W400,
+            fontSize = 30.sp,
+            color = MgFontWhite
+        )
+        Spacer(modifier = modifier.height(20.dp))
+
+        /**
+         * @view 아이콘
+         */
+        Image(
+            painterResource(id = weatherType.mainRes),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(Color.White),
+            modifier = Modifier.size(200.dp)
+        )
+        Spacer(modifier = modifier.height(30.dp))
+
+        /**
+         * @Box Root
+         */
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             /**
-             * @view 설명
-             * @example 맑음
+             * @Box 기온(숫자만)
+             * @example 27
              */
             Text(
-                text = info.weatherDescription,
+                text = "${info.temp}",
                 fontWeight = FontWeight.W400,
-                fontSize = 30.sp,
+                fontSize = 50.sp,
                 color = MgFontWhite
             )
-            Spacer(modifier = modifier.height(20.dp))
+            Spacer(modifier = modifier.width(5.dp))
 
             /**
-             * @view 아이콘
+             * @Box 단위레이블
+             * @example °C
              */
-            Image(
-                painterResource(id = weatherType.mainRes),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier.size(200.dp)
+            Text(
+                text = "°C",
+                fontWeight = FontWeight.W400,
+                fontSize = 20.sp,
+                color = MgFontWhite,
+                modifier = modifier.align(Alignment.CenterVertically)
             )
-            Spacer(modifier = modifier.height(30.dp))
+        }
+
+        /**
+         * @box Root
+         */
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            /**
+             * @view 경기장이름
+             * @example 서울종합운동장야구장
+             */
+            Text(
+                text = currentStadium.signBoard,
+                fontWeight = FontWeight.W400,
+                fontSize = 20.sp,
+                color = MgFontWhite
+            )
+            Spacer(modifier = modifier.height(10.dp))
 
             /**
-             * @Box Root
+             * @view 다른구장보기
              */
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+            Button(
+                colors = ButtonColors(
+                    containerColor = MgSubDarkBlue,
+                    contentColor = MgWhite,
+                    disabledContainerColor = MgSubDarkBlue,
+                    disabledContentColor = MgWhite,
+                ),
+                onClick = { showSheet = true }
             ) {
-                /**
-                 * @Box 기온(숫자만)
-                 * @example 27
-                 */
-                Text(
-                    text = "${info.temp}",
-                    fontWeight = FontWeight.W400,
-                    fontSize = 50.sp,
-                    color = MgFontWhite
-                )
-                Spacer(modifier = modifier.width(5.dp))
-
-                /**
-                 * @Box 단위레이블
-                 * @example °C
-                 */
-                Text(
-                    text = "°C",
-                    fontWeight = FontWeight.W400,
-                    fontSize = 20.sp,
-                    color = MgFontWhite,
-                    modifier = modifier.align(Alignment.CenterVertically)
-                )
-            }
-
-            /**
-             * @box Root
-             */
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                /**
-                 * @view 경기장이름
-                 * @example 서울종합운동장야구장
-                 */
-                Text(
-                    text = currentStadium.signBoard,
-                    fontWeight = FontWeight.W400,
-                    fontSize = 20.sp,
-                    color = MgFontWhite
-                )
-                Spacer(modifier = modifier.height(10.dp))
-
-                /**
-                 * @view 다른구장보기
-                 */
-                Button(
-                    colors = ButtonColors(
-                        containerColor = MgSubDarkBlue,
-                        contentColor = MgWhite,
-                        disabledContainerColor = MgSubDarkBlue,
-                        disabledContentColor = MgWhite,
-                    ),
-                    onClick = { showSheet = true }
-                ) {
-                    Text(text = stringResource(id = R.string.show_another_stadium))
-                }
+                Text(text = stringResource(id = R.string.show_another_stadium))
             }
         }
     }

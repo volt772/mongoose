@@ -47,13 +47,13 @@ fun ForecastTodayDisplay(
             /**
              * @view 섹션 레이블 (오늘날씨)
              */
-            Text(
-                text = stringResource(id = R.string.today_forecast),
-                fontSize = 20.sp,
-                color = MgYellowTransparent,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(5.dp))
+//            Text(
+//                text = stringResource(id = R.string.today_forecast),
+//                fontSize = 20.sp,
+//                color = MgYellowTransparent,
+//                fontWeight = FontWeight.Bold
+//            )
+//            Spacer(modifier = Modifier.height(8.dp))
 
             /**
              * @list 오늘날씨 아이템
@@ -97,6 +97,15 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
             val description = info.weatherDescription
             val time = info.dtTxtTime
 
+            Text(
+                text = stringResource(id = R.string.time,
+                    time.substring(0, time.length - 6)),
+                fontWeight = FontWeight.W400,
+                fontSize = 16.sp,
+                color = MgWhite,
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+
             /**
              * @view 아이콘
              */
@@ -113,24 +122,11 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
              */
             Text(
                 text = stringResource(
-                    id = R.string.time_label,
-                    time.substring(0, time.length - 6),
+                    id = R.string.temperature,
                     temperature
                 ),
                 fontWeight = FontWeight.W400,
                 fontSize = 16.sp,
-                color = MgWhite,
-            )
-            Spacer(modifier = Modifier.height(3.dp))
-
-            /**
-             * @view 설명
-             * @example 실 비
-             */
-            Text(
-                text = description,
-                fontWeight = FontWeight.W400,
-                fontSize = 14.sp,
                 color = MgWhite,
             )
         }
