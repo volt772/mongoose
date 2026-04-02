@@ -92,7 +92,7 @@ fun CurrentWeatherScreen(
          * @desc `WeatherID` 아니니 주의!
          */
         if (weatherCode == AppCodes.DataLoad.FAIL) {
-            CurrentErrorDisplay()
+            CurrentErrorDisplay({})
         } else {
             Spacer(modifier = modifier.height(20.dp))
             /**

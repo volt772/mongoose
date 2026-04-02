@@ -3,9 +3,13 @@ package com.apx8.mongoose.presentation.view.display
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,10 +21,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
+import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
+import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.ui.theme.MgYellowTransparent
 
 @Composable
-fun CurrentErrorDisplay() {
+fun CurrentErrorDisplay(
+    refresh: () -> Unit
+) {
     /**
      * @box Root
      */
@@ -49,6 +57,21 @@ fun CurrentErrorDisplay() {
             color = MgYellowTransparent,
             textAlign = TextAlign.Center
         )
+
+        Spacer(modifier = Modifier.height(30.dp))
+        Button(
+            colors = ButtonColors(
+                containerColor = MgSubDarkBlue,
+                contentColor = MgWhite,
+                disabledContainerColor = MgSubDarkBlue,
+                disabledContentColor = MgWhite,
+            ),
+            onClick = {
+                refresh.invoke()
+            }
+        ) {
+            Text(text = stringResource(id = R.string.app_retry))
+        }
     }
 }
 
@@ -56,5 +79,6 @@ fun CurrentErrorDisplay() {
 @Composable
 fun PreviewCurrentErrorDisplay() {
     CurrentErrorDisplay(
+        refresh = {}
     )
 }

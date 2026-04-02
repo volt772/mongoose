@@ -1,7 +1,9 @@
 package com.apx8.mongoose.presentation.view.activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
@@ -11,8 +13,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -75,6 +79,10 @@ class MainActivity: ComponentActivity() {
     private var currentStadium: Stadium = Stadium.NAN
     private var isFirstLaunch: Boolean = false
 
+    /* BackPress (DoubleTap)*/
+    private var backPressedTime: Long = 0
+    private lateinit var backToast: Toast
+
     /**
      * 현재 선택된 경기장 코드
      * @use 경기장 BottomSheet 아이템 선택 시 (고차함수로 호출)
@@ -90,6 +98,9 @@ class MainActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /* 뒤로가기종료(Toast)*/
+        backToast = Toast.makeText(this, getString(R.string.app_backpress), Toast.LENGTH_SHORT)
 
         /* 광고*/
         MobileAds.initialize(this)
@@ -140,6 +151,17 @@ class MainActivity: ComponentActivity() {
         }
 
         setContent {
+            BackHandler() {
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - backPressedTime <= 2000) {
+                    backToast.cancel()
+                    finish()
+                } else {
+                    backPressedTime = currentTime
+                    backToast.show()
+                }
+            }
+
             /* 스크롤 상태*/
             val scrollState = rememberScrollState()
             /* 다이얼로그 상태*/
@@ -173,7 +195,8 @@ class MainActivity: ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MgDarkBlue),
+                        .background(MgDarkBlue)
+                        .navigationBarsPadding() // ⬅️ 하단 네비게이션 바 안 가리게 처리
                 ) {
 
                     /**
@@ -181,6 +204,8 @@ class MainActivity: ComponentActivity() {
                      */
                     Column(
                         modifier = Modifier.background(MgDarkBlue)
+                        .background(MgDarkBlue)
+                        .statusBarsPadding() // ⬅️ 상단 상태바 안 가리게 처리
                     ) {
                         BannersAds()
                     }
@@ -216,13 +241,6 @@ class MainActivity: ComponentActivity() {
                                  */
                                 RenderForecastWeatherScreen()
 
-                                /**
-                                 * @box 안내 및 앱정보
-                                 */
-                                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
-                                Spacer(modifier = Modifier.height(15.dp))
-                                RenderAppInfo()
-                                Spacer(modifier = Modifier.height(15.dp))
                             }
 
                             /**
@@ -231,7 +249,26 @@ class MainActivity: ComponentActivity() {
                              */
                             if (vm.isFailed) {
                                 Spacer(modifier = Modifier.height(150.dp))
-                                CurrentErrorDisplay()
+
+                                CurrentErrorDisplay(
+                                    refresh = {
+                                        vm.fetch(currentStadium)
+                                    }
+                                )
+                            }
+                        }
+
+                        Column(
+                            modifier = Modifier.background(MgDarkBlue)
+                        ) {
+                            if (!vm.isFailed) {
+                                /**
+                                 * @box 안내 및 앱정보
+                                 */
+                                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+                                Spacer(modifier = Modifier.height(15.dp))
+                                RenderAppInfo()
+                                Spacer(modifier = Modifier.height(15.dp))
                             }
                         }
                     }
@@ -363,9 +400,9 @@ private fun LoadingProgressIndicator() {
  * BannerAds
  */
 @Composable
-fun BannersAds() {
+fun BannersAds(modifier: Modifier = Modifier) {
     AndroidView(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         factory = { context ->
             AdView(context).apply {
                 setAdSize(AdSize.BANNER)
