@@ -199,6 +199,7 @@ class MainActivity: ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize()
                         .background(MgDarkBlue)
+                        .navigationBarsPadding() // ⬅️ 하단 네비게이션 바 안 가리게 처리
                 ) {
 
                     // 상단 앱바 (Material3 기준)
