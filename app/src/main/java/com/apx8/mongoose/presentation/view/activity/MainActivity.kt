@@ -156,7 +156,8 @@ class MainActivity: ComponentActivity() {
                 if (currentTime - backPressedTime <= 2000) {
                     backToast.cancel()
                     finish()
-                } else {
+                }
+                else {
                     backPressedTime = currentTime
                     backToast.show()
                 }
