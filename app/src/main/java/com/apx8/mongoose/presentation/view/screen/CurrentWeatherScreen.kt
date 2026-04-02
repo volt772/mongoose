@@ -91,7 +91,6 @@ fun CurrentWeatherScreen(
          * @desc WeatherCode 가 200일 경우와 400일 경우를 분기함.
          * @desc `WeatherID` 아니니 주의!
          */
-        Spacer(modifier = modifier.height(20.dp))
         /**
          * @view 설명
          * @example 맑음

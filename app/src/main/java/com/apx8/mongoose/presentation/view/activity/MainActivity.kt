@@ -6,65 +6,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.apx.apx108.presentation.topbar.TopBarWithSearch
 import com.apx8.mongoose.R
-import com.apx8.mongoose.domain.constants.Stadium
-import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
-import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
-import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
-import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
-import com.apx8.mongoose.presentation.ui.theme.MgWhite
-import com.apx8.mongoose.presentation.ui.theme.MgYellow
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
-import com.apx8.mongoose.presentation.view.dialog.AppInfoDialog
-import com.apx8.mongoose.presentation.view.display.CurrentErrorDisplay
-import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
-import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
+import com.apx8.mongoose.presentation.view.display.MainScreen
 import com.apx8.mongoose.presentation.view.vms.MainViewModel
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -78,7 +30,6 @@ class MainActivity: ComponentActivity() {
     lateinit var prefManager: PrefManager
 
     private val vm: MainViewModel by viewModels()
-    private var currentStadium: Stadium = Stadium.NAN
     private var isFirstLaunch: Boolean = false
 
     /* BackPress (DoubleTap)*/
@@ -146,7 +97,6 @@ class MainActivity: ComponentActivity() {
                  * @use View에서 사용되는 `currentStadium`값도 여기에서 생성
                  */
                 vm.currentStadium.collectLatest { stadium ->
-                    currentStadium = stadium
                     vm.fetch(stadium)
                 }
             }
@@ -165,224 +115,23 @@ class MainActivity: ComponentActivity() {
                 }
             }
 
-            /* 스크롤 상태*/
-            val scrollState = rememberScrollState()
-            /* 다이얼로그 상태*/
-            val openAlertDialog = remember { mutableStateOf(isFirstLaunch) }
-
-            /**
-             * OpenAlertDialog
-             * @desc 첫 실행시 안내문구 (앱 사용중 최초1회만 노출)
-             * @action `확인` Preference에 첫실행여부 플래그 Boolean값 설정
-             */
-            if (openAlertDialog.value) {
-                AppInfoDialog(
-                    onDismissRequest = { },
-                    onConfirmation = {
-                        openAlertDialog.value = false
-                        vm.setIsFirstRun()
-                    },
-                    dialogTitle = stringResource(id = R.string.welcome),
-                    dialogText = stringResource(id = R.string.inaccurate_info1),
-                    icon = Icons.Default.Face,
-                    buttonConfirmLabel = stringResource(id = R.string.confirmed)
-                )
-            }
-
             MongooseTheme {
                 SetStatusBarColor()
 
-                /**
-                 * @box Root
-                 */
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MgDarkBlue)
-                        .navigationBarsPadding() // ⬅️ 하단 네비게이션 바 안 가리게 처리
-                ) {
-
-                    // 상단 앱바 (Material3 기준)
-                    TopBarWithSearch(
-                        isSearching = false,
-                        query = "",
-                        onQueryChange = { },
-                        onSearchClick = { },
-                        onCloseClick = { },
-                        onFilterClick = { },
-                        onRouteManageClick = { },
-                        onInfoClick = {
-                            openActivity(InfoActivity::class.java)
-                        }
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                    ) {
-                        if (vm.isFailed) {
-                            Spacer(modifier = Modifier.height(150.dp))
-
-                            CurrentErrorDisplay(
-                                refresh = {
-                                    vm.fetch(currentStadium)
-                                }
-                            )
-                        } else {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .verticalScroll(rememberScrollState())
-                            ) {
-                                RenderCurrentWeatherScreen()
-                                RenderForecastWeatherScreen()
-                            }
-                        }
+                MainScreen(
+                    vm = vm,
+                    isFirstLaunch = isFirstLaunch,
+                    onConfirmAppInfo = {
+                        vm.setIsFirstRun()
+                    },
+                    onInfoClick = {
+                        openActivity(InfoActivity::class.java)
+                    },
+                    onSelectStadium = { code ->
+                        setCurrentStadium(code)
                     }
-
-                    BannersAds()
-                }
-            }
-        }
-    }
-
-    @Composable
-    fun RenderCurrentWeatherScreen() {
-        /* Column1 : Current Screen*/
-        when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
-            is CommonState.Loading -> {
-                LoadingProgressIndicator()
-            }
-
-            is CommonState.Error -> {
-                vm.isFailed = true
-            }
-            is CommonState.Success -> {
-                vm.onLoading = false
-
-                if (!vm.isFailed) {
-                    /**
-                     * @box Root
-                     */
-                    CurrentWeatherScreen(
-                        info = state.data,
-                        currentStadium = currentStadium,
-                        doSelectStadium = ::setCurrentStadium,
-                        modifier = Modifier
-                    )
-                }
-            }
-        }
-    }
-
-    @Composable
-    fun RenderForecastWeatherScreen() {
-        /* Column2 : Forecast Screen*/
-        when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-            is CommonState.Loading -> { }
-            is CommonState.Error -> { }
-            is CommonState.Success -> {
-                /**
-                 * @box Root
-                 */
-                ForecastWeatherScreen(
-                    info = state.data,
-                    modifier = Modifier
                 )
             }
         }
     }
-
-    @Composable
-    fun RenderAppInfo() {
-        /**
-         * @box Root
-         */
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MgDarkBlue)
-                .padding(end = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            /**
-             * @view 안내문구
-             */
-            Text(
-                modifier = Modifier.padding(horizontal = 10.dp),
-                text = stringResource(id = R.string.inaccurate_info2),
-                fontSize = 16.sp,
-                color = MgYellow,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            /**
-             * @view `앱정보` 버튼
-             * @use `앱정보` 메뉴진입
-             */
-            Button(
-                colors = ButtonColors(
-                    containerColor = MgSubDarkBlue,
-                    contentColor = MgWhite,
-                    disabledContainerColor = MgSubDarkBlue,
-                    disabledContentColor = MgWhite,
-                ),
-                onClick = {
-                    openActivity(InfoActivity::class.java)
-                }
-            ) {
-                Text(text = stringResource(id = R.string.app_info))
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-        }
-    }
-
-    @Preview
-    @Composable
-    fun PreviewAppInfo() {
-        RenderAppInfo()
-    }
-}
-
-
-/**
- * LoadingProgress
- */
-@Composable
-private fun LoadingProgressIndicator() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(300.dp))
-        CircularProgressIndicator(
-            modifier = Modifier.size(30.dp, 30.dp),
-            strokeCap = StrokeCap.Round,
-            color = MgWhite
-        )
-    }
-}
-
-/**
- * BannerAds
- */
-@Composable
-fun BannersAds(modifier: Modifier = Modifier) {
-    AndroidView(
-        modifier = modifier.fillMaxWidth(),
-        factory = { context ->
-            AdView(context).apply {
-                setAdSize(AdSize.BANNER)
-
-                adUnitId = adMobKey
-                loadAd(AdRequest.Builder().build())
-            }
-        },
-        update = { adView ->
-            adView.loadAd(AdRequest.Builder().build())
-        }
-    )
 }

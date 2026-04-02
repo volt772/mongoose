@@ -52,8 +52,8 @@ class MainViewModel @Inject constructor(
      * @data Stadium
      * @desc Flow 중복 호출로 인해, SharedFlow로 Emit함)
      */
-    private val _currentStadium: MutableSharedFlow<Stadium> = MutableSharedFlow(replay = 0)
-    val currentStadium: SharedFlow<Stadium> = _currentStadium
+    private val _currentStadium = MutableStateFlow(Stadium.NAN)
+    val currentStadium: StateFlow<Stadium> = _currentStadium
 
     /* 앱초기실행여부*/
     /**
