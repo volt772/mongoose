@@ -18,7 +18,9 @@ import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -36,11 +38,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apx.apx108.presentation.topbar.TopBarWithSearch
 import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
+import com.apx8.mongoose.presentation.topbar.MyTopBar
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
@@ -53,7 +55,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     vm: MainViewModel,
@@ -62,7 +64,9 @@ fun MainScreen(
     onInfoClick: () -> Unit,
     onSelectStadium: (String) -> Unit
 ) {
+
     val currentStadium = vm.currentStadium.collectAsState().value
+    val isRefreshing = vm.isRefreshing.collectAsState().value
 
     var openAlertDialog by remember { mutableStateOf(false) }
 
@@ -90,36 +94,46 @@ fun MainScreen(
             .background(MgDarkBlue)
             .navigationBarsPadding()
     ) {
-        TopBarWithSearch(
-            onInfoClick = onInfoClick
+        MyTopBar(
+            onInfoClick = onInfoClick,
         )
 
-        Box(
+        PullToRefreshBox(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                vm.refresh(currentStadium)
+            }
         ) {
-            if (vm.isFailed) {
-                CurrentErrorDisplay(
-                    refresh = {
-                        vm.fetch(currentStadium)
-                    }
-                )
-            } else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    RenderCurrentWeatherScreen(
-                        vm = vm,
-                        currentStadium = currentStadium,
-                        onSelectStadium = onSelectStadium
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                if (vm.isFailed) {
+                    CurrentErrorDisplay(
+                        refresh = {
+                            vm.fetch(currentStadium)
+                        }
                     )
-                    RenderForecastWeatherScreen(vm = vm)
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        RenderCurrentWeatherScreen(
+                            vm = vm,
+                            currentStadium = currentStadium,
+                            onSelectStadium = onSelectStadium
+                        )
+                        RenderForecastWeatherScreen(vm = vm)
+                    }
                 }
             }
         }
+
 
         BannersAds()
     }

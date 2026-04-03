@@ -1,34 +1,35 @@
-package com.apx.apx108.presentation.topbar
+package com.apx8.mongoose.presentation.topbar
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.presentation.ui.theme.AxWhite
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarWithSearch(
-    onInfoClick: () -> Unit,
+fun MyTopBar(
+    onInfoClick: () -> Unit
 ) {
 
-    val focusRequester = remember { FocusRequester() }
-
-    SmallTopAppBar(
-        title = { },
+    TopAppBar(
+        title = { Text(text = "") },
+        modifier = Modifier.height(40.dp),
         actions = {
             IconButton(onClick = onInfoClick) {
-                Icon(Icons.Default.Info, contentDescription = "검색 닫기", tint = AxWhite)
+                Icon(Icons.Default.Info, contentDescription = "더보기", tint = AxWhite)
             }
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MgDarkBlue
         )
     )

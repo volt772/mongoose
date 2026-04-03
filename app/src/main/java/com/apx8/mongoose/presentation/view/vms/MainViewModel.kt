@@ -13,9 +13,7 @@ import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -63,8 +61,25 @@ class MainViewModel @Inject constructor(
     private val _isFirstRun: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isFirstRun: StateFlow<Boolean> = _isFirstRun
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
+
     init {
         getIsFirstRun()
+    }
+
+    fun refresh(stadium: Stadium) {
+        if (_isRefreshing.value) return
+
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            try {
+                loadWeatherInfo(stadium)
+            } finally {
+                _isRefreshing.value = false
+            }
+        }
     }
 
     /**
@@ -73,29 +88,31 @@ class MainViewModel @Inject constructor(
      * @fetch2 예보날씨
      */
     fun fetch(stadium: Stadium) {
-        loadWeatherInfo(stadium)
+        viewModelScope.launch {
+            loadWeatherInfo(stadium)
+        }
     }
 
-    private fun loadWeatherInfo(stadium: Stadium) {
-        viewModelScope.launch {
-            weatherRepository.getAllWeatherInfo(
-                lat = stadium.lat, lon = stadium.lon, stadiumCode = stadium.code
-            )
-            .map { resource -> CommonState.fromResource(resource) }
-            .collect { state ->
-                when(state) {
-                    is CommonState.Success -> {
-                        _currentWeather.value = CommonState.Success(state.data.currentWeatherInfo)
-                        _forecastWeather.value = CommonState.Success(state.data.forecastWeatherInfo)
-                    }
-                    is CommonState.Error -> {
-                        _currentWeather.value = CommonState.Error(state.message)
-                        _forecastWeather.value = CommonState.Error(state.message)
-                    }
-                    is CommonState.Loading -> {
-                        _currentWeather.value = CommonState.loading()
-                        _forecastWeather.value = CommonState.loading()
-                    }
+    private suspend fun loadWeatherInfo(stadium: Stadium) {
+        weatherRepository.getAllWeatherInfo(
+            lat = stadium.lat,
+            lon = stadium.lon,
+            stadiumCode = stadium.code
+        )
+        .map { resource -> CommonState.fromResource(resource) }
+        .collect { state ->
+            when(state) {
+                is CommonState.Success -> {
+                    _currentWeather.value = CommonState.Success(state.data.currentWeatherInfo)
+                    _forecastWeather.value = CommonState.Success(state.data.forecastWeatherInfo)
+                }
+                is CommonState.Error -> {
+                    _currentWeather.value = CommonState.Error(state.message)
+                    _forecastWeather.value = CommonState.Error(state.message)
+                }
+                is CommonState.Loading -> {
+                    _currentWeather.value = CommonState.loading()
+                    _forecastWeather.value = CommonState.loading()
                 }
             }
         }
