@@ -30,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
-import com.apx8.mongoose.domain.constants.AppCodes
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
@@ -39,7 +38,6 @@ import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.view.bottomsheet.StadiumBottomSheet
-import com.apx8.mongoose.presentation.view.display.CurrentErrorDisplay
 
 @Composable
 fun CurrentWeatherScreen(

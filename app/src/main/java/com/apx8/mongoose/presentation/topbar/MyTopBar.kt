@@ -1,6 +1,6 @@
 package com.apx8.mongoose.presentation.topbar
 
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,13 +20,19 @@ import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 fun MyTopBar(
     onInfoClick: () -> Unit
 ) {
-
     TopAppBar(
-        title = { Text(text = "") },
-        modifier = Modifier.height(40.dp),
+        title = { Text("") },
         actions = {
-            IconButton(onClick = onInfoClick) {
-                Icon(Icons.Default.Info, contentDescription = "더보기", tint = AxWhite)
+            IconButton(
+                onClick = onInfoClick,
+                modifier = Modifier.size(48.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "info",
+                    tint = AxWhite,
+                    modifier = Modifier.size(26.dp)
+                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
