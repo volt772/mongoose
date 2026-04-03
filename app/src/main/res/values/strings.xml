@@ -20,6 +20,6 @@
     <string name="app_version">앱버전</string>
     <string name="app_version_template">v%s</string>
 
-    <string name="load_data_error">데이터 제공사의 상황에 의해 조회할 수 없습니다. 잠시 후 다시 사용해 주시기 바랍니다.</string>
+    <string name="load_data_error">데이터 제공사의 상황에 의해 조회할 수 없습니다.\n잠시 후 다시 사용해 주시기 바랍니다.</string>
     <string name="temporary_data_error">일시적인 에러로 불러올 수 없습니다.\n잠시후 다시 시도해 주세요.</string>
 </resources>

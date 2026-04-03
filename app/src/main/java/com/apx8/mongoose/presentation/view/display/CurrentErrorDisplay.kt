@@ -44,7 +44,7 @@ fun CurrentErrorDisplay(
         Image(
             painterResource(id = R.drawable.ic_error_cloud),
             contentDescription = null,
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(180.dp)
         )
 
         /**
