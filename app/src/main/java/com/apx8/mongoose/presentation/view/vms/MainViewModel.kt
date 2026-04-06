@@ -1,8 +1,5 @@
 package com.apx8.mongoose.presentation.view.vms
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apx8.mongoose.domain.constants.AppCodes
@@ -16,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -27,18 +23,6 @@ class MainViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
     private val prefManager: PrefManager
 ): ViewModel() {
-
-    /**
-     * Loading Status
-     * @desc 현재날씨 (CurrentWeather) 데이터 로드를 기준으로 로딩이 완료됨을 판단함
-     */
-//    var onLoading by mutableStateOf(true)
-
-    /**
-     * Failed Status
-     * @desc 현재날씨 (CurrentWeather) 데이터 로드를 기준으로 로딩이 실패됨을 판단함
-     */
-//    var isFailed by mutableStateOf(false)
 
     /* 현재 날씨 정보*/
     private val _currentWeather: MutableStateFlow<CommonState<CurrentWeatherInfo>> = MutableStateFlow(CommonState.Loading())
@@ -94,7 +78,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _isRefreshing.value = true
             try {
-//                loadWeatherInfo(stadium)
                 fetchWeather(stadium)
             } finally {
                 _isRefreshing.value = false
@@ -109,7 +92,6 @@ class MainViewModel @Inject constructor(
      */
     fun requestWeather(stadium: Stadium) {
         viewModelScope.launch {
-//            loadWeatherInfo(stadium)
             fetchWeather(stadium)
         }
     }

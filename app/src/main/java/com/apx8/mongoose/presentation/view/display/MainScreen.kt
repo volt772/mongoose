@@ -19,7 +19,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apx8.mongoose.R
-import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
 import com.apx8.mongoose.presentation.topbar.MyTopBar
@@ -51,14 +49,10 @@ import com.google.android.gms.ads.AdView
 @Composable
 fun MainScreen(
     vm: MainViewModel,
-//    isFirstLaunch: Boolean,
     onConfirmAppInfo: () -> Unit,
     onInfoClick: () -> Unit,
     onSelectStadium: (String) -> Unit
 ) {
-
-//    val currentStadium = vm.currentStadium.collectAsState().value
-//    val isRefreshing = vm.isRefreshing.collectAsState().value
 
     val isFirstLaunch = vm.isFirstRun.collectAsStateWithLifecycle().value
     val currentStadium = vm.currentStadium.collectAsStateWithLifecycle().value
@@ -144,28 +138,6 @@ fun MainScreen(
                         }
                     }
                 }
-
-
-//                if (vm.isFailed) {
-//                    CurrentErrorDisplay(
-//                        refresh = {
-//                            vm.fetch(currentStadium)
-//                        }
-//                    )
-//                } else {
-//                    Column(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .verticalScroll(rememberScrollState())
-//                    ) {
-//                        RenderCurrentWeatherScreen(
-//                            vm = vm,
-//                            currentStadium = currentStadium,
-//                            onSelectStadium = onSelectStadium
-//                        )
-//                        RenderForecastWeatherScreen(vm = vm)
-//                    }
-//                }
             }
         }
 
@@ -173,52 +145,6 @@ fun MainScreen(
         BannersAds()
     }
 }
-
-//@Composable
-//fun RenderCurrentWeatherScreen(
-//    vm: MainViewModel,
-//    currentStadium: Stadium,
-//    onSelectStadium: (String) -> Unit
-//) {
-//    when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
-//        is CommonState.Loading -> {
-//            LoadingProgressIndicator()
-//        }
-//
-//        is CommonState.Error -> {
-//            vm.isFailed = true
-//        }
-//
-//        is CommonState.Success -> {
-//            vm.onLoading = false
-//
-//            if (!vm.isFailed) {
-//                CurrentWeatherScreen(
-//                    info = state.data,
-//                    currentStadium = currentStadium,
-//                    doSelectStadium = onSelectStadium,
-//                    modifier = Modifier
-//                )
-//            }
-//        }
-//    }
-//}
-
-//@Composable
-//fun RenderForecastWeatherScreen(
-//    vm: MainViewModel
-//) {
-//    when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-//        is CommonState.Loading -> Unit
-//        is CommonState.Error -> Unit
-//        is CommonState.Success -> {
-//            ForecastWeatherScreen(
-//                info = state.data,
-//                modifier = Modifier
-//            )
-//        }
-//    }
-//}
 
 @Preview
 @Composable
@@ -252,8 +178,5 @@ fun BannersAds(modifier: Modifier = Modifier) {
                 loadAd(AdRequest.Builder().build())
             }
         },
-//        update = { adView ->
-//            adView.loadAd(AdRequest.Builder().build())
-//        }
     )
 }
