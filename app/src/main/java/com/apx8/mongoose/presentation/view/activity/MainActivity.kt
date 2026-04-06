@@ -79,19 +79,19 @@ class MainActivity: ComponentActivity() {
 //                }
 //            }
 
-            launch {
-                /**
-                 * GET : 조회할 경기장 코드
-                 * @flow `내 경기장`코드를 조회한 뒤, `현재 경기장`코드로 대입
-                 * @use 선택 안된 경우, 무조건 `잠실경기장(SOJ)`로 표시
-                 */
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    val myStadium = vm.getMyStadium()
-                    setCurrentStadium(myStadium.code)
-                }
-            }
-            val myStadium = vm.getMyStadium()
-            setCurrentStadium(myStadium.code)
+//            launch {
+//                /**
+//                 * GET : 조회할 경기장 코드
+//                 * @flow `내 경기장`코드를 조회한 뒤, `현재 경기장`코드로 대입
+//                 * @use 선택 안된 경우, 무조건 `잠실경기장(SOJ)`로 표시
+//                 */
+//                repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                    val myStadium = vm.getMyStadium()
+//                    setCurrentStadium(myStadium.code)
+//                }
+//            }
+//            val myStadium = vm.getMyStadium()
+//            setCurrentStadium(myStadium.code)
 
 //            launch {
 //                /**

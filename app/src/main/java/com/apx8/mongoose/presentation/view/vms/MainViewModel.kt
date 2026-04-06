@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -69,7 +70,12 @@ class MainViewModel @Inject constructor(
 
     init {
         getIsFirstRun()
+        initializeCurrentStadium()
         observeCurrentStadium()
+    }
+
+    private fun initializeCurrentStadium() {
+        _currentStadium.value = getMyStadium()
     }
 
     fun observeCurrentStadium() {
@@ -158,7 +164,7 @@ class MainViewModel @Inject constructor(
      * @desc 기본으로 보여줄 경기장의 코드를 가져옴
      * @desc 기본값 == `서울 잠실 야구장(SOJ)`
      */
-    fun getMyStadium(): Stadium {
+    private fun getMyStadium(): Stadium {
         val code = prefManager.getString(AppCodes.Pref.MY_STADIUM, Stadium.NAN.code)
         val savedStadium = Stadium.from(code)
 
