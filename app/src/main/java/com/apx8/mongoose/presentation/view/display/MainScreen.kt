@@ -51,14 +51,20 @@ import com.google.android.gms.ads.AdView
 @Composable
 fun MainScreen(
     vm: MainViewModel,
-    isFirstLaunch: Boolean,
+//    isFirstLaunch: Boolean,
     onConfirmAppInfo: () -> Unit,
     onInfoClick: () -> Unit,
     onSelectStadium: (String) -> Unit
 ) {
 
-    val currentStadium = vm.currentStadium.collectAsState().value
-    val isRefreshing = vm.isRefreshing.collectAsState().value
+//    val currentStadium = vm.currentStadium.collectAsState().value
+//    val isRefreshing = vm.isRefreshing.collectAsState().value
+
+    val isFirstLaunch = vm.isFirstRun.collectAsStateWithLifecycle().value
+    val currentStadium = vm.currentStadium.collectAsStateWithLifecycle().value
+    val isRefreshing = vm.isRefreshing.collectAsStateWithLifecycle().value
+    val currentWeatherState = vm.currentWeather.collectAsStateWithLifecycle().value
+    val forecastWeatherState = vm.forecastWeather.collectAsStateWithLifecycle().value
 
     var openAlertDialog by remember { mutableStateOf(false) }
 
@@ -103,26 +109,63 @@ fun MainScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                if (vm.isFailed) {
-                    CurrentErrorDisplay(
-                        refresh = {
-                            vm.fetch(currentStadium)
-                        }
-                    )
-                } else {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                    ) {
-                        RenderCurrentWeatherScreen(
-                            vm = vm,
-                            currentStadium = currentStadium,
-                            onSelectStadium = onSelectStadium
+                when (currentWeatherState) {
+                    is CommonState.Loading -> {
+                        LoadingProgressIndicator()
+                    }
+
+                    is CommonState.Error -> {
+                        CurrentErrorDisplay(
+                            refresh = {
+                                vm.requestWeather(currentStadium)
+                            }
                         )
-                        RenderForecastWeatherScreen(vm = vm)
+                    }
+
+                    is CommonState.Success -> {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            CurrentWeatherScreen(
+                                info = currentWeatherState.data,
+                                currentStadium = currentStadium,
+                                doSelectStadium = onSelectStadium,
+                                modifier = Modifier
+                            )
+
+                            if (forecastWeatherState is CommonState.Success) {
+                                ForecastWeatherScreen(
+                                    info = forecastWeatherState.data,
+                                    modifier = Modifier
+                                )
+                            }
+                        }
                     }
                 }
+
+
+//                if (vm.isFailed) {
+//                    CurrentErrorDisplay(
+//                        refresh = {
+//                            vm.fetch(currentStadium)
+//                        }
+//                    )
+//                } else {
+//                    Column(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .verticalScroll(rememberScrollState())
+//                    ) {
+//                        RenderCurrentWeatherScreen(
+//                            vm = vm,
+//                            currentStadium = currentStadium,
+//                            onSelectStadium = onSelectStadium
+//                        )
+//                        RenderForecastWeatherScreen(vm = vm)
+//                    }
+//                }
             }
         }
 
@@ -131,51 +174,51 @@ fun MainScreen(
     }
 }
 
-@Composable
-fun RenderCurrentWeatherScreen(
-    vm: MainViewModel,
-    currentStadium: Stadium,
-    onSelectStadium: (String) -> Unit
-) {
-    when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
-        is CommonState.Loading -> {
-            LoadingProgressIndicator()
-        }
+//@Composable
+//fun RenderCurrentWeatherScreen(
+//    vm: MainViewModel,
+//    currentStadium: Stadium,
+//    onSelectStadium: (String) -> Unit
+//) {
+//    when (val state = vm.currentWeather.collectAsStateWithLifecycle().value) {
+//        is CommonState.Loading -> {
+//            LoadingProgressIndicator()
+//        }
+//
+//        is CommonState.Error -> {
+//            vm.isFailed = true
+//        }
+//
+//        is CommonState.Success -> {
+//            vm.onLoading = false
+//
+//            if (!vm.isFailed) {
+//                CurrentWeatherScreen(
+//                    info = state.data,
+//                    currentStadium = currentStadium,
+//                    doSelectStadium = onSelectStadium,
+//                    modifier = Modifier
+//                )
+//            }
+//        }
+//    }
+//}
 
-        is CommonState.Error -> {
-            vm.isFailed = true
-        }
-
-        is CommonState.Success -> {
-            vm.onLoading = false
-
-            if (!vm.isFailed) {
-                CurrentWeatherScreen(
-                    info = state.data,
-                    currentStadium = currentStadium,
-                    doSelectStadium = onSelectStadium,
-                    modifier = Modifier
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun RenderForecastWeatherScreen(
-    vm: MainViewModel
-) {
-    when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
-        is CommonState.Loading -> Unit
-        is CommonState.Error -> Unit
-        is CommonState.Success -> {
-            ForecastWeatherScreen(
-                info = state.data,
-                modifier = Modifier
-            )
-        }
-    }
-}
+//@Composable
+//fun RenderForecastWeatherScreen(
+//    vm: MainViewModel
+//) {
+//    when (val state = vm.forecastWeather.collectAsStateWithLifecycle().value) {
+//        is CommonState.Loading -> Unit
+//        is CommonState.Error -> Unit
+//        is CommonState.Success -> {
+//            ForecastWeatherScreen(
+//                info = state.data,
+//                modifier = Modifier
+//            )
+//        }
+//    }
+//}
 
 @Preview
 @Composable
@@ -209,8 +252,8 @@ fun BannersAds(modifier: Modifier = Modifier) {
                 loadAd(AdRequest.Builder().build())
             }
         },
-        update = { adView ->
-            adView.loadAd(AdRequest.Builder().build())
-        }
+//        update = { adView ->
+//            adView.loadAd(AdRequest.Builder().build())
+//        }
     )
 }

@@ -15,6 +15,8 @@ import com.apx8.mongoose.preference.PrefManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,13 +31,13 @@ class MainViewModel @Inject constructor(
      * Loading Status
      * @desc 현재날씨 (CurrentWeather) 데이터 로드를 기준으로 로딩이 완료됨을 판단함
      */
-    var onLoading by mutableStateOf(true)
+//    var onLoading by mutableStateOf(true)
 
     /**
      * Failed Status
      * @desc 현재날씨 (CurrentWeather) 데이터 로드를 기준으로 로딩이 실패됨을 판단함
      */
-    var isFailed by mutableStateOf(false)
+//    var isFailed by mutableStateOf(false)
 
     /* 현재 날씨 정보*/
     private val _currentWeather: MutableStateFlow<CommonState<CurrentWeatherInfo>> = MutableStateFlow(CommonState.Loading())
@@ -67,6 +69,17 @@ class MainViewModel @Inject constructor(
 
     init {
         getIsFirstRun()
+        observeCurrentStadium()
+    }
+
+    fun observeCurrentStadium() {
+        viewModelScope.launch {
+            currentStadium
+                .filter { it != Stadium.NAN }
+                .collectLatest { stadium ->
+                    requestWeather(stadium)
+                }
+        }
     }
 
     fun refresh(stadium: Stadium) {
@@ -75,7 +88,8 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _isRefreshing.value = true
             try {
-                loadWeatherInfo(stadium)
+//                loadWeatherInfo(stadium)
+                fetchWeather(stadium)
             } finally {
                 _isRefreshing.value = false
             }
@@ -87,13 +101,14 @@ class MainViewModel @Inject constructor(
      * @fetch1 현재날씨
      * @fetch2 예보날씨
      */
-    fun fetch(stadium: Stadium) {
+    fun requestWeather(stadium: Stadium) {
         viewModelScope.launch {
-            loadWeatherInfo(stadium)
+//            loadWeatherInfo(stadium)
+            fetchWeather(stadium)
         }
     }
 
-    private suspend fun loadWeatherInfo(stadium: Stadium) {
+    private suspend fun fetchWeather(stadium: Stadium) {
         weatherRepository.getAllWeatherInfo(
             lat = stadium.lat,
             lon = stadium.lon,
