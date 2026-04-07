@@ -48,3 +48,4 @@ fun MainRoute(
             vm.selectStadium(code)
         }
     )
+}
