@@ -6,12 +6,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.apx8.mongoose.R
 import com.apx8.mongoose.presentation.ext.SetStatusBarColor
-import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.presentation.view.route.MainRoute
+import com.apx8.mongoose.presentation.view.screen.InfoScreen
 import com.apx8.mongoose.presentation.view.vms.MainViewModel
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,27 +49,59 @@ class MainActivity: ComponentActivity() {
         }
 
         setContent {
+            val navController = rememberNavController()
+            val currentBackStackEntry = navController.currentBackStackEntryAsState().value
+            val currentRoute = currentBackStackEntry?.destination?.route
+
             BackHandler() {
-                val currentTime = System.currentTimeMillis()
-                if (currentTime - backPressedTime <= 2000) {
-                    backToast.cancel()
-                    finish()
-                }
-                else {
-                    backPressedTime = currentTime
-                    backToast.show()
+                when(currentRoute) {
+                    "main" -> {
+                        val currentTime = System.currentTimeMillis()
+                        if (currentTime - backPressedTime <= 2000) {
+                            backToast.cancel()
+                            finish()
+                        }
+                        else {
+                            backPressedTime = currentTime
+                            backToast.show()
+                        }
+                    }
+                    "info" -> {
+                        navController.popBackStack()
+                    }
                 }
             }
 
             MongooseTheme {
                 SetStatusBarColor()
 
-                MainRoute(
-                    vm = vm,
-                    onInfoClick = {
-                        openActivity(InfoActivity::class.java)
+                NavHost(
+                    navController = navController,
+                    startDestination = "main"
+                ) {
+                    composable(route = "main") {
+                        MainRoute(
+                            vm = vm,
+                            onInfoClick = {
+                                navController.navigate("info")
+                            }
+                        )
                     }
-                )
+
+                    composable(
+                        route = "info",
+                        enterTransition = { slideInHorizontally { it } + fadeIn() },
+                        exitTransition = { slideOutHorizontally { it } + fadeOut() },
+                        popEnterTransition = { slideInHorizontally { -it } + fadeIn() },
+                        popExitTransition = { slideOutHorizontally { -it } + fadeOut() }
+                    ) {
+                        InfoScreen(
+                            onBackClick = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                }
             }
         }
     }
