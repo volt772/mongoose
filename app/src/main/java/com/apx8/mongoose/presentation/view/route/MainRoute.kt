@@ -15,16 +15,10 @@ import com.apx8.mongoose.presentation.view.vms.MainViewModel
 fun MainRoute(
     vm: MainViewModel,
     onInfoClick: () -> Unit,
-//    onSelectStadium: (String) -> Unit
 ) {
 
     val uiState = vm.uiState.collectAsStateWithLifecycle().value
     var showAppInfoDialog by rememberSaveable { mutableStateOf(false) }
-//    val isFirstLaunch = vm.isFirstRun.collectAsStateWithLifecycle().value
-//    val currentStadium = vm.currentStadium.collectAsStateWithLifecycle().value
-//    val isRefreshing = vm.isRefreshing.collectAsStateWithLifecycle().value
-//    val currentWeatherState = vm.currentWeather.collectAsStateWithLifecycle().value
-//    val forecastWeatherState = vm.forecastWeather.collectAsStateWithLifecycle().value
 
     LaunchedEffect(Unit) {
         vm.event.collect { event ->
@@ -54,23 +48,3 @@ fun MainRoute(
             vm.selectStadium(code)
         }
     )
-
-//    MainScreen(
-//        isFirstLaunch = isFirstLaunch,
-//        currentStadium = currentStadium,
-//        isRefreshing = isRefreshing,
-//        currentWeatherState = currentWeatherState,
-//        forecastWeatherState = forecastWeatherState,
-//        onConfirmAppInfo = {
-//            vm.setIsFirstRun()
-//        },
-//        onInfoClick = onInfoClick,
-//        onRefresh = {
-//            vm.refresh(currentStadium)
-//        },
-//        onRetry = {
-//            vm.requestWeather(currentStadium)
-//        },
-//        onSelectStadium = onSelectStadium
-//    )
-}

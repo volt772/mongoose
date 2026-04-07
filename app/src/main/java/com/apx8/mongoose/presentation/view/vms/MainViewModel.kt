@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apx8.mongoose.domain.constants.AppCodes
 import com.apx8.mongoose.domain.constants.Stadium
-import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
-import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.repository.WeatherRepository
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
@@ -14,7 +12,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -32,34 +29,6 @@ class MainViewModel @Inject constructor(
 
     private val _event = Channel<MainEvent>(Channel.BUFFERED)
     val event = _event.receiveAsFlow()
-
-//    /* 현재 날씨 정보*/
-//    private val _currentWeather: MutableStateFlow<CommonState<CurrentWeatherInfo>> = MutableStateFlow(CommonState.Loading())
-//    val currentWeather: StateFlow<CommonState<CurrentWeatherInfo>> = _currentWeather
-//
-//    /* 예보 날씨 정보*/
-//    private val _forecastWeather: MutableStateFlow<CommonState<ForecastWeatherInfo>> = MutableStateFlow(CommonState.Loading())
-//    val forecastWeather: StateFlow<CommonState<ForecastWeatherInfo>> = _forecastWeather
-//
-//    /**
-//     * 현재 선택된 경기장
-//     * @data Stadium
-//     * @desc Flow 중복 호출로 인해, SharedFlow로 Emit함)
-//     */
-//    private val _currentStadium = MutableStateFlow(Stadium.NAN)
-//    val currentStadium: StateFlow<Stadium> = _currentStadium
-//
-//    /* 앱초기실행여부*/
-//    /**
-//     * 앱초기실행여부
-//     * @desc 앱 초기 실행시, 데이터 관련 안내 팝업을 보여줄 용도로만 사용됨
-//     */
-//    private val _isFirstRun: MutableStateFlow<Boolean> = MutableStateFlow(false)
-//    val isFirstRun: StateFlow<Boolean> = _isFirstRun
-//
-//    private val _isRefreshing = MutableStateFlow(false)
-//    val isRefreshing: StateFlow<Boolean> = _isRefreshing
-
 
     init {
         initializeCurrentStadium()
@@ -88,23 +57,22 @@ class MainViewModel @Inject constructor(
         val stadium = _uiState.value.currentStadium
         if (stadium == Stadium.NAN || _uiState.value.isRefreshing) return
 
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isRefreshing = true)
-            try {
-                fetchWeather(stadium)
-            } finally {
-                _uiState.value = _uiState.value.copy(isRefreshing = false)
-            }
-        }
+        requestWeather(
+            stadium = stadium,
+            showRefreshing = true,
+            blockIfRefreshing = true
+        )
     }
 
     fun retry() {
         val stadium = _uiState.value.currentStadium
         if (stadium == Stadium.NAN) return
 
-        viewModelScope.launch {
-            fetchWeather(stadium)
-        }
+        requestWeather(
+            stadium = stadium,
+            showRefreshing = false,
+            blockIfRefreshing = false
+        )
     }
 
     fun selectStadium(code: String) {
@@ -121,18 +89,27 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Data Fetch Async
-     * @fetch1 현재날씨
-     * @fetch2 예보날씨
-     */
-//    fun requestWeather(stadium: Stadium) {
-//        viewModelScope.launch {
-//            fetchWeather(stadium)
-//        }
-//    }
-    private suspend fun requestWeather(stadium: Stadium) {
-        fetchWeather(stadium)
+    private fun requestWeather(
+        stadium: Stadium = _uiState.value.currentStadium,
+        showRefreshing: Boolean = false,
+        blockIfRefreshing: Boolean = false
+    ) {
+        if (stadium == Stadium.NAN) return
+        if (blockIfRefreshing && _uiState.value.isRefreshing) return
+
+        viewModelScope.launch {
+            if (showRefreshing) {
+                _uiState.value = _uiState.value.copy(isRefreshing = true)
+            }
+
+            try {
+                fetchWeather(stadium)
+            } finally {
+                if (showRefreshing) {
+                    _uiState.value = _uiState.value.copy(isRefreshing = false)
+                }
+            }
+        }
     }
 
     private suspend fun fetchWeather(stadium: Stadium) {
@@ -165,40 +142,6 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }
-//            when(state) {
-//                is CommonState.Success -> {
-//                    _currentWeather.value = CommonState.Success(state.data.currentWeatherInfo)
-//                    _forecastWeather.value = CommonState.Success(state.data.forecastWeatherInfo)
-//                }
-//                is CommonState.Error -> {
-//                    _currentWeather.value = CommonState.Error(state.message)
-//                    _forecastWeather.value = CommonState.Error(state.message)
-//                }
-//                is CommonState.Loading -> {
-//                    _currentWeather.value = CommonState.loading()
-//                    _forecastWeather.value = CommonState.loading()
-//                }
-//            }
-        }
-    }
-
-    /**
-     * 현재 선택된 경기장
-     * @desc 단순 SharedFlow로 데이터 처리하며, 별도의 데이터 저장은 없음
-     */
-//    fun setCurrentStadium(code: String) {
-//        viewModelScope.launch {
-//            _currentStadium.emit(Stadium.from(code))
-//        }
-//    }
-
-    /**
-     * PUT : `내가 선호하는 경기장`
-     * @desc BottomSheet 리스트에서 선택한 경기장 코드를 Pref에 저장
-     */
-    fun setMyStadium(code: String) {
-        viewModelScope.launch {
-            prefManager.setString(AppCodes.Pref.MY_STADIUM, code)
         }
     }
 
@@ -227,14 +170,6 @@ class MainViewModel @Inject constructor(
             prefManager.setBoolean(AppCodes.Pref.IS_FIRST_RUN, false)
         }
     }
-
-    /**
-     * GET : `앱 첫실행 여부`
-     * @desc 첫 실행여부를 저장
-     */
-//    private fun getIsFirstRun() {
-//        _isFirstRun.value = prefManager.getBoolean(AppCodes.Pref.IS_FIRST_RUN)
-//    }
 
     private fun checkFirstRun() {
         if (prefManager.getBoolean(AppCodes.Pref.IS_FIRST_RUN)) {
