@@ -13,6 +13,7 @@ import com.apx8.mongoose.presentation.ext.SetStatusBarColor
 import com.apx8.mongoose.presentation.ext.openActivity
 import com.apx8.mongoose.presentation.ui.theme.MongooseTheme
 import com.apx8.mongoose.presentation.view.display.MainScreen
+import com.apx8.mongoose.presentation.view.route.MainRoute
 import com.apx8.mongoose.presentation.view.vms.MainViewModel
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,8 +22,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
 
-    @Inject
-    lateinit var prefManager: PrefManager
+//    @Inject
+//    lateinit var prefManager: PrefManager
 
     private val vm: MainViewModel by viewModels()
 
@@ -74,18 +75,28 @@ class MainActivity: ComponentActivity() {
             MongooseTheme {
                 SetStatusBarColor()
 
-                MainScreen(
+                MainRoute(
                     vm = vm,
-                    onConfirmAppInfo = {
-                        vm.setIsFirstRun()
-                    },
                     onInfoClick = {
                         openActivity(InfoActivity::class.java)
-                    },
-                    onSelectStadium = { code ->
-                        setCurrentStadium(code)
                     }
+//                    onSelectStadium = { code ->
+//                        setCurrentStadium(code)
+//                    }
                 )
+
+//                MainScreen(
+//                    vm = vm,
+//                    onConfirmAppInfo = {
+//                        vm.setIsFirstRun()
+//                    },
+//                    onInfoClick = {
+//                        openActivity(InfoActivity::class.java)
+//                    },
+//                    onSelectStadium = { code ->
+//                        setCurrentStadium(code)
+//                    }
+//                )
             }
         }
     }

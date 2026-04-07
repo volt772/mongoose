@@ -32,6 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apx8.mongoose.R
+import com.apx8.mongoose.domain.constants.Stadium
+import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
+import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
 import com.apx8.mongoose.presentation.topbar.MyTopBar
@@ -40,6 +43,7 @@ import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.view.dialog.AppInfoDialog
 import com.apx8.mongoose.presentation.view.screen.CurrentWeatherScreen
 import com.apx8.mongoose.presentation.view.screen.ForecastWeatherScreen
+import com.apx8.mongoose.presentation.view.vms.MainUiState
 import com.apx8.mongoose.presentation.view.vms.MainViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -48,37 +52,51 @@ import com.google.android.gms.ads.AdView
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    vm: MainViewModel,
+    uiState: MainUiState,
+    showAppInfoDialog: Boolean,
     onConfirmAppInfo: () -> Unit,
     onInfoClick: () -> Unit,
+    onRefresh: () -> Unit,
+    onRetry: () -> Unit,
     onSelectStadium: (String) -> Unit
 ) {
 
-    val isFirstLaunch = vm.isFirstRun.collectAsStateWithLifecycle().value
-    val currentStadium = vm.currentStadium.collectAsStateWithLifecycle().value
-    val isRefreshing = vm.isRefreshing.collectAsStateWithLifecycle().value
-    val currentWeatherState = vm.currentWeather.collectAsStateWithLifecycle().value
-    val forecastWeatherState = vm.forecastWeather.collectAsStateWithLifecycle().value
+//    val isFirstLaunch = vm.isFirstRun.collectAsStateWithLifecycle().value
+//    val currentStadium = vm.currentStadium.collectAsStateWithLifecycle().value
+//    val isRefreshing = vm.isRefreshing.collectAsStateWithLifecycle().value
+//    val currentWeatherState = vm.currentWeather.collectAsStateWithLifecycle().value
+//    val forecastWeatherState = vm.forecastWeather.collectAsStateWithLifecycle().value
 
-    var openAlertDialog by remember { mutableStateOf(false) }
-
-    LaunchedEffect(isFirstLaunch) {
-        openAlertDialog = isFirstLaunch
-    }
-
-    if (openAlertDialog) {
+    if (showAppInfoDialog) {
         AppInfoDialog(
             onDismissRequest = { },
-            onConfirmation = {
-                openAlertDialog = false
-                onConfirmAppInfo()
-            },
+            onConfirmation = onConfirmAppInfo,
             dialogTitle = stringResource(id = R.string.welcome),
             dialogText = stringResource(id = R.string.inaccurate_info1),
             icon = Icons.Default.Face,
             buttonConfirmLabel = stringResource(id = R.string.confirmed)
         )
     }
+
+//    var openAlertDialog by remember { mutableStateOf(false) }
+//
+//    LaunchedEffect(isFirstLaunch) {
+//        openAlertDialog = isFirstLaunch
+//    }
+//
+//    if (openAlertDialog) {
+//        AppInfoDialog(
+//            onDismissRequest = { },
+//            onConfirmation = {
+//                openAlertDialog = false
+//                onConfirmAppInfo()
+//            },
+//            dialogTitle = stringResource(id = R.string.welcome),
+//            dialogText = stringResource(id = R.string.inaccurate_info1),
+//            icon = Icons.Default.Face,
+//            buttonConfirmLabel = stringResource(id = R.string.confirmed)
+//        )
+//    }
 
     Column(
         modifier = Modifier
@@ -94,25 +112,27 @@ fun MainScreen(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
-            isRefreshing = isRefreshing,
-            onRefresh = {
-                vm.refresh(currentStadium)
-            }
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = onRefresh
+//            onRefresh = {
+//                vm.refresh(currentStadium)
+//            }
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                when (currentWeatherState) {
+                when (uiState.currentWeatherState) {
                     is CommonState.Loading -> {
                         LoadingProgressIndicator()
                     }
 
                     is CommonState.Error -> {
                         CurrentErrorDisplay(
-                            refresh = {
-                                vm.requestWeather(currentStadium)
-                            }
+                            refresh = onRetry
+//                            refresh = {
+//                                vm.requestWeather(currentStadium)
+//                            }
                         )
                     }
 
@@ -123,15 +143,15 @@ fun MainScreen(
                                 .verticalScroll(rememberScrollState())
                         ) {
                             CurrentWeatherScreen(
-                                info = currentWeatherState.data,
-                                currentStadium = currentStadium,
+                                info = uiState.currentWeatherState.data,
+                                currentStadium = uiState.currentStadium,
                                 doSelectStadium = onSelectStadium,
                                 modifier = Modifier
                             )
 
-                            if (forecastWeatherState is CommonState.Success) {
+                            if (uiState.forecastWeatherState is CommonState.Success) {
                                 ForecastWeatherScreen(
-                                    info = forecastWeatherState.data,
+                                    info = uiState.forecastWeatherState.data,
                                     modifier = Modifier
                                 )
                             }
