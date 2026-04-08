@@ -136,7 +136,6 @@ private fun LoadingProgressIndicator() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(300.dp))
         CircularProgressIndicator(
             modifier = Modifier.size(30.dp, 30.dp),
             strokeCap = StrokeCap.Round,
