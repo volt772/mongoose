@@ -11,7 +11,7 @@ plugins {
 }
 
 fun getPropKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir)
+    return gradleLocalProperties(rootDir, providers)
         .getProperty(propertyKey)
 }
 
@@ -23,8 +23,8 @@ android {
         applicationId = "com.apx8.mongoose"
         minSdk = 31
         targetSdk = 35
-        versionCode = 10109
-        versionName = "1.1.9"
+        versionCode = 10110
+        versionName = "1.1.10"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -119,6 +119,7 @@ dependencies {
 
     /* AdMob*/
     implementation("com.google.android.gms:play-services-ads:23.1.0")
+    implementation("com.google.android.gms:play-services-measurement-api:22.0.1")
 
     /* Preference*/
     implementation("androidx.preference:preference-ktx:1.2.1")
