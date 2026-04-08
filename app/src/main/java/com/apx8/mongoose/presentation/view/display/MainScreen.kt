@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +29,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
+import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
 import com.apx8.mongoose.presentation.topbar.MyTopBar
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
@@ -95,10 +97,20 @@ fun MainScreen(
                     }
 
                     is CommonState.Success -> {
+                        val hasTodayForecast = (uiState.forecastWeatherState as? CommonState.Success)
+                            ?.data
+                            ?.forecastList
+                            ?.filter { it.dtTxtDate == getDateAfter2DaysWithToday().first() }
+                            ?.isNotEmpty() == true
+
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .verticalScroll(rememberScrollState())
+                                .padding(
+                                    bottom = if (hasTodayForecast) 0.dp else 180.dp
+                                ),
+                            verticalArrangement = if (hasTodayForecast) Arrangement.Top else Arrangement.Center
                         ) {
                             CurrentWeatherScreen(
                                 info = uiState.currentWeatherState.data,
@@ -107,9 +119,9 @@ fun MainScreen(
                                 modifier = Modifier
                             )
 
-                            if (uiState.forecastWeatherState is CommonState.Success) {
+                            if (hasTodayForecast) {
                                 ForecastWeatherScreen(
-                                    info = uiState.forecastWeatherState.data,
+                                    info = (uiState.forecastWeatherState as CommonState.Success).data,
                                     modifier = Modifier
                                 )
                             }
