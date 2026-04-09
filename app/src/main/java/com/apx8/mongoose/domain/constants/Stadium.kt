@@ -91,7 +91,7 @@ enum class Stadium(
     UMS(
         "울산 문수 야구장",
         "UMS",
-        R.drawable.bg_team_ltg,
+        R.drawable.bg_team_uws,
         35.531,
         129.265
     ),
@@ -108,6 +108,83 @@ enum class Stadium(
         R.drawable.bg_team_hhe,
         36.638,
         127.470
+    ),
+    GNY(
+        "고양 국가대표 야구훈련장",
+        "GNY",
+        R.drawable.bg_team_kwh,
+        37.676,
+        126.742
+    ),
+    BEP(
+        "베어스 파크",
+        "BEP",
+        R.drawable.bg_team_dsb,
+        37.332,
+        127.454
+    ),
+    SSN(
+        "서산전용연습구장",
+        "SSN",
+        R.drawable.bg_team_hhe,
+        36.823,
+        126.455
+    ),
+    LCP(
+        "LG 챔피언스 파크",
+        "LCP",
+        R.drawable.bg_team_lgt,
+        37.229,
+        127.505
+    ),
+    GSF(
+        "강화 SSG 퓨처스필드",
+        "GSF",
+        R.drawable.bg_team_ssg,
+        37.636,
+        126.499
+    ),
+    MGB(
+        "문경 상무 야구장",
+        "MGB",
+        R.drawable.bg_team_msm,
+        36.647,
+        128.161
+    ),
+    SDB(
+        "상동 야구장",
+        "SDB",
+        R.drawable.bg_team_ltg,
+        35.299,
+        128.930
+    ),
+    SLB(
+        "삼성 라이온즈 볼파크",
+        "SLB",
+        R.drawable.bg_team_ssl,
+        35.864,
+        128.806
+    ),
+    KCF(
+        "기아 챌린저스 필드",
+        "KCF",
+        R.drawable.bg_team_kat,
+        34.991,
+        126.556
+    ),
+    IKN(
+        "익산 국가대표 야구훈련장",
+        "IKN",
+        R.drawable.bg_team_ktw,
+        35.967,
+        127.009
+    ),
+    MSB(
+        "마산 야구장",
+        "MSB",
+        R.drawable.bg_team_ncd,
+        35.221,
+        128.579
     ),
     NAN(
         "알수없는 야구장",
@@ -132,6 +209,17 @@ enum class Stadium(
                 "UMS" -> UMS
                 "POH" -> POH
                 "CJB" -> CJB
+                "GNY" -> GNY
+                "BEP" -> BEP
+                "SSN" -> SSN
+                "LCP" -> LCP
+                "GSF" -> GSF
+                "MGB" -> MGB
+                "SDB" -> SDB
+                "SLB" -> SLB
+                "KCF" -> KCF
+                "IKN" -> IKN
+                "MSB" -> MSB
                 else -> NAN
             }
         }
