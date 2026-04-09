@@ -24,12 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apx8.mongoose.R
+import com.apx8.mongoose.domain.constants.League
 import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
@@ -51,14 +50,16 @@ fun CurrentWeatherScreen(
      * BottomSheet 상태
      * @desc show and hide
      */
-    var showSheet by remember { mutableStateOf(false) }
+    var selectedLeague by remember { mutableStateOf<League?>(null) }
 
-    if (showSheet) {
+    val league = selectedLeague
+    if (league != null) {
         StadiumBottomSheet(
             currentStadium = currentStadium,
+            league = league,
             doSelectStadium = doSelectStadium
         ) {
-            showSheet = false
+            selectedLeague = null
         }
     }
 
@@ -166,16 +167,32 @@ fun CurrentWeatherScreen(
             /**
              * @view 다른구장보기
              */
-            Button(
-                colors = ButtonColors(
-                    containerColor = MgSubDarkBlue,
-                    contentColor = MgWhite,
-                    disabledContainerColor = MgSubDarkBlue,
-                    disabledContentColor = MgWhite,
-                ),
-                onClick = { showSheet = true }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = stringResource(id = R.string.show_another_stadium))
+                Button(
+                    colors = ButtonColors(
+                        containerColor = MgSubDarkBlue,
+                        contentColor = MgWhite,
+                        disabledContainerColor = MgSubDarkBlue,
+                        disabledContentColor = MgWhite,
+                    ),
+                    onClick = { selectedLeague = League.KBO }
+                ) {
+                    Text(text = "KBO리그")
+                }
+
+                Button(
+                    colors = ButtonColors(
+                        containerColor = MgSubDarkBlue,
+                        contentColor = MgWhite,
+                        disabledContainerColor = MgSubDarkBlue,
+                        disabledContentColor = MgWhite,
+                    ),
+                    onClick = { selectedLeague = League.FUTURES }
+                ) {
+                    Text(text = "KBO퓨처스리그")
+                }
             }
         }
     }

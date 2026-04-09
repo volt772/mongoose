@@ -23,12 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.apx8.mongoose.R
+import com.apx8.mongoose.domain.constants.League
 import com.apx8.mongoose.domain.constants.Stadium
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StadiumBottomSheet(
     currentStadium: Stadium,
+    league: League,
     doSelectStadium: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -49,19 +51,15 @@ fun StadiumBottomSheet(
          * 경기장 Data Set
          * @desc 'NAN' 상태를 제외한 나머지 구장에 대해서만 표시한다.
          */
-        val stadiums = mutableListOf<StadiumViewDto>().also { list ->
-            Stadium.entries.forEach { entry ->
-                if (entry != Stadium.NAN) {
-                    list.add(
-                        StadiumViewDto(
-                            color = entry.teamColor,
-                            name = entry.signBoard,
-                            code = entry.code
-                        )
-                    )
-                }
+        val stadiums = Stadium.entries
+            .filter { it != Stadium.NAN && it.league == league }
+            .map {
+                StadiumViewDto(
+                    color = it.teamColor,
+                    name = it.signBoard,
+                    code = it.code
+                )
             }
-        }
 
         /**
          * @list 경기장 리스트
