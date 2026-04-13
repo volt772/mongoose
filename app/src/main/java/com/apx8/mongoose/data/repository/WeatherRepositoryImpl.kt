@@ -77,35 +77,38 @@ class WeatherRepositoryImpl @Inject constructor(
             } else {
                 emit(Resource.Failed("CAHE DATA INVALID : NO API, NO DB"))
 
-                /* 최후의 방법 : Direct로 쏘기*/
-                try {
-                    coroutineScope {
-                        val currentDeferred = async {
-                            getCurrentWeatherInfo(lat, lon, apiKey).first()
-                        }
-                        val forecastDeferred = async {
-                            getForecastWeatherInfo(lat, lon, apiKey).first()
-                        }
-
-                        val current = currentDeferred.await()
-                        val forecast = forecastDeferred.await()
-
-                        if (current is Resource.Success && forecast is Resource.Success) {
-                            emit(
-                                Resource.Success(
-                                    AllWeatherInfo(
-                                        currentWeatherInfo = current.data,
-                                        forecastWeatherInfo = forecast.data
-                                    )
-                                )
-                            )
-                        } else {
-                            emit(Resource.Failed("OPENWEATHER 데이터 수신 실패"))
-                        }
-                    }
-                } catch (e: Exception) {
-                    emit(Resource.Failed("OPENWEATHER 호출 실패: ${e.message}"))
-                }
+                /**
+                 * 최후의 방법 : Direct로 쏘기
+                 * Not Use @26.04.13
+                 */
+//                try {
+//                    coroutineScope {
+//                        val currentDeferred = async {
+//                            getCurrentWeatherInfo(lat, lon, apiKey).first()
+//                        }
+//                        val forecastDeferred = async {
+//                            getForecastWeatherInfo(lat, lon, apiKey).first()
+//                        }
+//
+//                        val current = currentDeferred.await()
+//                        val forecast = forecastDeferred.await()
+//
+//                        if (current is Resource.Success && forecast is Resource.Success) {
+//                            emit(
+//                                Resource.Success(
+//                                    AllWeatherInfo(
+//                                        currentWeatherInfo = current.data,
+//                                        forecastWeatherInfo = forecast.data
+//                                    )
+//                                )
+//                            )
+//                        } else {
+//                            emit(Resource.Failed("OPENWEATHER 데이터 수신 실패"))
+//                        }
+//                    }
+//                } catch (e: Exception) {
+//                    emit(Resource.Failed("OPENWEATHER 호출 실패: ${e.message}"))
+//                }
             }
         } else {
             try {
@@ -153,6 +156,7 @@ class WeatherRepositoryImpl @Inject constructor(
 
     /**
      * DIRECT FETCH : 현재날씨
+     * Not Use @26.04.13
      */
     override suspend fun getCurrentWeatherInfo(
         lat: Double,
@@ -174,6 +178,7 @@ class WeatherRepositoryImpl @Inject constructor(
 
     /**
      * DIRCT FETCH : 예보날씨
+     * Not Use @26.04.13
      */
     override suspend fun getForecastWeatherInfo(
         lat: Double,

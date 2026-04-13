@@ -19,12 +19,18 @@ class GetAllWeatherInfo(private val repository: WeatherRepository) {
     }
 }
 
+/**
+ * Not Use @26.04.13
+ */
 class GetCurrentWeatherInfo(private val repository: WeatherRepository) {
     suspend operator fun invoke(lat: Double, lon: Double, appId: String): Flow<Resource<CurrentWeatherInfo>> {
         return repository.getCurrentWeatherInfo(lat, lon, appId)
     }
 }
 
+/**
+ * Not Use @26.04.13
+ */
 class GetForecastWeatherInfo(private val repository: WeatherRepository) {
     suspend operator fun invoke(lat: Double, lon: Double, appId: String): Flow<Resource<ForecastWeatherInfo>> {
         return repository.getForecastWeatherInfo(lat, lon, appId)
