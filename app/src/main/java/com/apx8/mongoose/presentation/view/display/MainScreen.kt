@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +19,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +29,8 @@ import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.presentation.MongooseApp.Companion.adMobKey
 import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
+import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
+import com.apx8.mongoose.presentation.model.WeatherUiColors
 import com.apx8.mongoose.presentation.topbar.MyTopBar
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
@@ -53,6 +54,20 @@ fun MainScreen(
     onSelectStadium: (String) -> Unit
 ) {
 
+    val colors: WeatherUiColors = when (val state = uiState.currentWeatherState) {
+        is CommonState.Success -> {
+            state.data.weatherId
+                .getWeatherConditionCodes()
+                .colors
+        }
+        else -> WeatherUiColors(
+            background = MgDarkBlue,
+            content = MgWhite,
+            secondary = MgWhite
+        )
+    }
+
+
     if (showAppInfoDialog) {
         AppInfoDialog(
             onDismissRequest = { },
@@ -67,11 +82,13 @@ fun MainScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MgDarkBlue)
+            .background(colors.background)
             .navigationBarsPadding()
     ) {
         MyTopBar(
             onInfoClick = onInfoClick,
+            backgroundColor = colors.background,
+            contentColor = colors.content
         )
 
         PullToRefreshBox(
@@ -84,15 +101,18 @@ fun MainScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(colors.background)
             ) {
                 when (uiState.currentWeatherState) {
                     is CommonState.Loading -> {
-                        LoadingProgressIndicator()
+                        LoadingProgressIndicator(colors.content)
                     }
 
                     is CommonState.Error -> {
                         CurrentErrorDisplay(
-                            refresh = onRetry
+                            refresh = onRetry,
+                            contentColor = colors.content,
+                            secondaryColor = colors.secondary
                         )
                     }
 
@@ -116,12 +136,16 @@ fun MainScreen(
                                 info = uiState.currentWeatherState.data,
                                 currentStadium = uiState.currentStadium,
                                 doSelectStadium = onSelectStadium,
+                                contentColor = colors.content,
+                                secondaryColor = colors.secondary,
                                 modifier = Modifier
                             )
 
                             if (hasTodayForecast) {
                                 ForecastWeatherScreen(
                                     info = (uiState.forecastWeatherState as CommonState.Success).data,
+                                    contentColor = colors.content,
+                                    secondaryColor = colors.secondary,
                                     modifier = Modifier
                                 )
                             }
@@ -142,7 +166,7 @@ fun PreviewAppInfo() {
 }
 
 @Composable
-private fun LoadingProgressIndicator() {
+private fun LoadingProgressIndicator(contentColor: Color) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -151,7 +175,7 @@ private fun LoadingProgressIndicator() {
         CircularProgressIndicator(
             modifier = Modifier.size(30.dp, 30.dp),
             strokeCap = StrokeCap.Round,
-            color = MgWhite
+            color = contentColor
         )
     }
 }

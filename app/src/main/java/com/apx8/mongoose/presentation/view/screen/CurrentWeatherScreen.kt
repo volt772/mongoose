@@ -33,8 +33,6 @@ import com.apx8.mongoose.domain.constants.Stadium
 import com.apx8.mongoose.domain.dto.CurrentWeatherInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
-import com.apx8.mongoose.presentation.ui.theme.MgFontWhite
-import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 import com.apx8.mongoose.presentation.view.bottomsheet.StadiumBottomSheet
 
@@ -43,6 +41,8 @@ fun CurrentWeatherScreen(
     info: CurrentWeatherInfo,
     currentStadium: Stadium,
     doSelectStadium: (String) -> Unit,
+    contentColor: Color,
+    secondaryColor: Color,
     modifier: Modifier = Modifier,
 ) {
 
@@ -72,7 +72,7 @@ fun CurrentWeatherScreen(
     /**
      * WeatherCode
      */
-    val weatherCode = info.cod
+//    val weatherCode = info.cod
 
     /**
      * @box Root
@@ -98,7 +98,7 @@ fun CurrentWeatherScreen(
             text = info.weatherDescription,
             fontWeight = FontWeight.W400,
             fontSize = 30.sp,
-            color = MgFontWhite
+            color = contentColor
         )
         Spacer(modifier = modifier.height(20.dp))
 
@@ -108,7 +108,7 @@ fun CurrentWeatherScreen(
         Image(
             painterResource(id = weatherType.mainRes),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(Color.White),
+            colorFilter = ColorFilter.tint(contentColor),
             modifier = Modifier.size(200.dp)
         )
         Spacer(modifier = modifier.height(30.dp))
@@ -128,7 +128,7 @@ fun CurrentWeatherScreen(
                 text = "${info.temp}",
                 fontWeight = FontWeight.W400,
                 fontSize = 50.sp,
-                color = MgFontWhite
+                color = contentColor
             )
             Spacer(modifier = modifier.width(5.dp))
 
@@ -140,7 +140,7 @@ fun CurrentWeatherScreen(
                 text = "°C",
                 fontWeight = FontWeight.W400,
                 fontSize = 20.sp,
-                color = MgFontWhite,
+                color = contentColor,
                 modifier = modifier.align(Alignment.CenterVertically)
             )
         }
@@ -160,7 +160,7 @@ fun CurrentWeatherScreen(
                 text = currentStadium.signBoard,
                 fontWeight = FontWeight.W400,
                 fontSize = 20.sp,
-                color = MgFontWhite
+                color = contentColor
             )
             Spacer(modifier = modifier.height(10.dp))
 
@@ -172,10 +172,10 @@ fun CurrentWeatherScreen(
             ) {
                 Button(
                     colors = ButtonColors(
-                        containerColor = MgSubDarkBlue,
-                        contentColor = MgWhite,
-                        disabledContainerColor = MgSubDarkBlue,
-                        disabledContentColor = MgWhite,
+                        containerColor = secondaryColor,
+                        contentColor = contentColor,
+                        disabledContainerColor = secondaryColor,
+                        disabledContentColor = contentColor,
                     ),
                     onClick = { selectedLeague = League.KBO }
                 ) {
@@ -184,10 +184,10 @@ fun CurrentWeatherScreen(
 
                 Button(
                     colors = ButtonColors(
-                        containerColor = MgSubDarkBlue,
-                        contentColor = MgWhite,
-                        disabledContainerColor = MgSubDarkBlue,
-                        disabledContentColor = MgWhite,
+                        containerColor = secondaryColor,
+                        contentColor = contentColor,
+                        disabledContainerColor = secondaryColor,
+                        disabledContentColor = contentColor,
                     ),
                     onClick = { selectedLeague = League.FUTURES }
                 ) {
@@ -217,5 +217,7 @@ fun PreviewCurrentWeatherScreen() {
         info = state,
         currentStadium = Stadium.SOJ,
         doSelectStadium = {},
+        contentColor = MgWhite,
+        secondaryColor = MgWhite,
     )
 }

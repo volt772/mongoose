@@ -13,10 +13,13 @@ import com.apx8.mongoose.domain.dto.ForecastWeatherInfo
 import com.apx8.mongoose.presentation.ext.getDateAfter2DaysWithToday
 import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.view.display.ForecastTodayDisplay
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ForecastWeatherScreen(
     info: ForecastWeatherInfo,
+    contentColor: Color,
+    secondaryColor: Color,
     modifier: Modifier = Modifier
 ) {
 
@@ -38,7 +41,12 @@ fun ForecastWeatherScreen(
         val days = getDateAfter2DaysWithToday()
 
         forecastByDay[days.first()]?.let { fbd ->
-            ForecastTodayDisplay(fbd, modifier)
+            ForecastTodayDisplay(
+                infoList = fbd,
+                contentColor = contentColor,
+                secondaryColor = secondaryColor,
+                modifier = modifier
+            )
         }
     }
 }

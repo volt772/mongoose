@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -21,13 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
-import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
-import com.apx8.mongoose.presentation.ui.theme.MgYellowTransparent
 
 @Composable
 fun CurrentErrorDisplay(
-    refresh: () -> Unit
+    refresh: () -> Unit,
+    contentColor: Color,
+    secondaryColor: Color
 ) {
     /**
      * @box Root
@@ -44,7 +46,8 @@ fun CurrentErrorDisplay(
         Image(
             painterResource(id = R.drawable.ic_error_cloud),
             contentDescription = null,
-            modifier = Modifier.size(180.dp)
+            modifier = Modifier.size(180.dp),
+            colorFilter = ColorFilter.tint(contentColor)
         )
 
         /**
@@ -54,23 +57,27 @@ fun CurrentErrorDisplay(
             modifier = Modifier.padding(horizontal = 10.dp),
             text = stringResource(id = R.string.load_data_error),
             fontSize = 16.sp,
-            color = MgYellowTransparent,
+            color = contentColor,
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(30.dp))
         Button(
             colors = ButtonColors(
-                containerColor = MgSubDarkBlue,
-                contentColor = MgWhite,
-                disabledContainerColor = MgSubDarkBlue,
-                disabledContentColor = MgWhite,
+                containerColor = secondaryColor,
+                contentColor = contentColor,
+                disabledContainerColor = secondaryColor,
+                disabledContentColor = contentColor,
             ),
             onClick = {
                 refresh.invoke()
             }
         ) {
-            Text(text = stringResource(id = R.string.app_retry))
+            Text(
+                text = stringResource(id = R.string.app_retry),
+                color = contentColor
+            )
+
         }
     }
 }
@@ -79,6 +86,8 @@ fun CurrentErrorDisplay(
 @Composable
 fun PreviewCurrentErrorDisplay() {
     CurrentErrorDisplay(
-        refresh = {}
+        refresh = {},
+        contentColor = MgWhite,
+        secondaryColor = MgWhite
     )
 }

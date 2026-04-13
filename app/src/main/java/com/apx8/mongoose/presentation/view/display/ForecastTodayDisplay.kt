@@ -17,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,11 +30,12 @@ import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
-import com.apx8.mongoose.presentation.ui.theme.MgYellowTransparent
 
 @Composable
 fun ForecastTodayDisplay(
     infoList: List<ForecastListInfo>,
+    contentColor: Color,
+    secondaryColor: Color,
     modifier: Modifier = Modifier
 ) {
 
@@ -60,7 +63,12 @@ fun ForecastTodayDisplay(
              */
             LazyRow {
                 items(infoList.size) {
-                    TodayWeatherItem(index = it, infoList = infoList)
+                    TodayWeatherItem(
+                        index = it,
+                        infoList = infoList,
+                        contentColor = contentColor,
+                        secondaryColor = secondaryColor
+                    )
                 }
             }
         }
@@ -68,7 +76,12 @@ fun ForecastTodayDisplay(
 }
 
 @Composable
-fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
+fun TodayWeatherItem(
+    index: Int,
+    infoList: List<ForecastListInfo>,
+    contentColor: Color,
+    secondaryColor: Color
+) {
     val paddingStart = if (index == 0) 0.dp else 8.dp
     val info = infoList[index]
 
@@ -102,7 +115,7 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
                     time.substring(0, time.length - 6)),
                 fontWeight = FontWeight.W400,
                 fontSize = 16.sp,
-                color = MgWhite,
+                color = contentColor,
             )
             Spacer(modifier = Modifier.height(5.dp))
 
@@ -112,7 +125,8 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
             Image(
                 painterResource(id = weatherType.mainRes),
                 contentDescription = null,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(50.dp),
+                colorFilter = ColorFilter.tint(contentColor)
             )
             Spacer(modifier = Modifier.height(5.dp))
 
@@ -127,8 +141,8 @@ fun TodayWeatherItem(index: Int, infoList: List<ForecastListInfo>) {
                 ),
                 fontWeight = FontWeight.W400,
                 fontSize = 16.sp,
-                color = MgWhite,
-            )
+                color = contentColor,
+                )
         }
     }
 }
@@ -139,6 +153,9 @@ fun PreviewTodayWeatherItem() {
     TodayWeatherItem(
         index = 0,
         infoList = previewInfoList,
+        contentColor = MgWhite,
+        secondaryColor = MgWhite
+
     )
 }
 
@@ -146,7 +163,9 @@ fun PreviewTodayWeatherItem() {
 @Composable
 fun PreviewTodayDisplay() {
     ForecastTodayDisplay(
-        infoList = previewInfoList
+        infoList = previewInfoList,
+        contentColor = MgWhite,
+        secondaryColor = MgWhite
     )
 }
 

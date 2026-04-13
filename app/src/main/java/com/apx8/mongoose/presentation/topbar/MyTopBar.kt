@@ -11,14 +11,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.apx8.mongoose.presentation.ui.theme.AxWhite
-import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopBar(
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    backgroundColor: Color,
+    contentColor: Color
+
 ) {
     TopAppBar(
         title = { Text("") },
@@ -30,13 +32,13 @@ fun MyTopBar(
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = "info",
-                    tint = AxWhite,
+                    tint = contentColor,
                     modifier = Modifier.size(26.dp)
                 )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MgDarkBlue
+            containerColor = backgroundColor
         )
     )
 }
