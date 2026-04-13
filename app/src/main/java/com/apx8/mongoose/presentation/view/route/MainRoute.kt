@@ -21,7 +21,7 @@ fun MainRoute(
     var showAppInfoDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        vm.event.collect { event ->
+        vm.eventAppInfoDialog.collect { event ->
             when (event) {
                 MainEvent.ShowAppInfoDialog -> {
                     showAppInfoDialog = true

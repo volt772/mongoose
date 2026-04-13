@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apx8.mongoose.domain.constants.AppCodes
 import com.apx8.mongoose.domain.constants.Stadium
-import com.apx8.mongoose.domain.repository.WeatherRepository
+import com.apx8.mongoose.domain.usecase.WeatherUseCase
 import com.apx8.mongoose.domain.weather.CommonState
 import com.apx8.mongoose.preference.PrefManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,15 +20,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val weatherRepository: WeatherRepository,
+    private val weatherUseCase: WeatherUseCase,
     private val prefManager: PrefManager
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
-    private val _event = Channel<MainEvent>(Channel.BUFFERED)
-    val event = _event.receiveAsFlow()
+    private val _eventAppInfoDialog = Channel<MainEvent>(Channel.BUFFERED)
+    val eventAppInfoDialog = _eventAppInfoDialog.receiveAsFlow()
 
     init {
         initializeCurrentStadium()
@@ -113,7 +113,7 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun fetchWeather(stadium: Stadium) {
-        weatherRepository.getAllWeatherInfo(
+        weatherUseCase.getAllWeatherInfo(
             lat = stadium.lat,
             lon = stadium.lon,
             stadiumCode = stadium.code
@@ -174,7 +174,7 @@ class MainViewModel @Inject constructor(
     private fun checkFirstRun() {
         if (prefManager.getBoolean(AppCodes.Pref.IS_FIRST_RUN)) {
             viewModelScope.launch {
-                _event.send(MainEvent.ShowAppInfoDialog)
+                _eventAppInfoDialog.send(MainEvent.ShowAppInfoDialog)
             }
         }
     }
