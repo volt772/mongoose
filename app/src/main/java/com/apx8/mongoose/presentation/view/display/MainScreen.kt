@@ -136,6 +136,7 @@ fun MainScreen(
                                 info = uiState.currentWeatherState.data,
                                 currentStadium = uiState.currentStadium,
                                 doSelectStadium = onSelectStadium,
+                                backgroundColor = colors.background,
                                 contentColor = colors.content,
                                 secondaryColor = colors.secondary,
                                 modifier = Modifier
@@ -144,6 +145,7 @@ fun MainScreen(
                             if (hasTodayForecast) {
                                 ForecastWeatherScreen(
                                     info = (uiState.forecastWeatherState as CommonState.Success).data,
+                                    backgroundColor = colors.background,
                                     contentColor = colors.content,
                                     secondaryColor = colors.secondary,
                                     modifier = Modifier

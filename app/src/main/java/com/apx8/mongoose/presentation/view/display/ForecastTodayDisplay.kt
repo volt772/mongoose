@@ -28,12 +28,14 @@ import androidx.compose.ui.unit.sp
 import com.apx8.mongoose.R
 import com.apx8.mongoose.domain.dto.ForecastListInfo
 import com.apx8.mongoose.presentation.ext.getWeatherConditionCodes
+import com.apx8.mongoose.presentation.ui.theme.MgDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgSubDarkBlue
 import com.apx8.mongoose.presentation.ui.theme.MgWhite
 
 @Composable
 fun ForecastTodayDisplay(
     infoList: List<ForecastListInfo>,
+    backgroundColor: Color,
     contentColor: Color,
     secondaryColor: Color,
     modifier: Modifier = Modifier
@@ -66,6 +68,7 @@ fun ForecastTodayDisplay(
                     TodayWeatherItem(
                         index = it,
                         infoList = infoList,
+                        backgroundColor = backgroundColor,
                         contentColor = contentColor,
                         secondaryColor = secondaryColor
                     )
@@ -79,6 +82,7 @@ fun ForecastTodayDisplay(
 fun TodayWeatherItem(
     index: Int,
     infoList: List<ForecastListInfo>,
+    backgroundColor: Color,
     contentColor: Color,
     secondaryColor: Color
 ) {
@@ -98,7 +102,7 @@ fun TodayWeatherItem(
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
-                .background(MgSubDarkBlue)
+                .background(backgroundColor)
                 .size(130.dp)
                 .clickable {}
                 .padding(13.dp),
@@ -153,6 +157,7 @@ fun PreviewTodayWeatherItem() {
     TodayWeatherItem(
         index = 0,
         infoList = previewInfoList,
+        backgroundColor = MgDarkBlue,
         contentColor = MgWhite,
         secondaryColor = MgWhite
 
@@ -164,6 +169,7 @@ fun PreviewTodayWeatherItem() {
 fun PreviewTodayDisplay() {
     ForecastTodayDisplay(
         infoList = previewInfoList,
+        backgroundColor = MgDarkBlue,
         contentColor = MgWhite,
         secondaryColor = MgWhite
     )

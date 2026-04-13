@@ -41,6 +41,7 @@ fun CurrentWeatherScreen(
     info: CurrentWeatherInfo,
     currentStadium: Stadium,
     doSelectStadium: (String) -> Unit,
+    backgroundColor: Color,
     contentColor: Color,
     secondaryColor: Color,
     modifier: Modifier = Modifier,
@@ -80,7 +81,7 @@ fun CurrentWeatherScreen(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MgDarkBlue)
+            .background(backgroundColor)
             .padding(horizontal = 20.dp, vertical = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -217,6 +218,7 @@ fun PreviewCurrentWeatherScreen() {
         info = state,
         currentStadium = Stadium.SOJ,
         doSelectStadium = {},
+        backgroundColor = MgDarkBlue,
         contentColor = MgWhite,
         secondaryColor = MgWhite,
     )

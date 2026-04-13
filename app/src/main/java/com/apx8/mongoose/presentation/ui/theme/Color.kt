@@ -310,3 +310,7 @@ val AxBlueGray900 = Color(0xFF263238)
 
 
 val AxIconGray = AxGray900                                // 아이콘색상
+
+val AxSlate800 = Color(0xFF1E293B)
+val AxSky300 = Color(0xFF7DD3FC)
+val AxSky200 = Color(0xFFBAE6FD)

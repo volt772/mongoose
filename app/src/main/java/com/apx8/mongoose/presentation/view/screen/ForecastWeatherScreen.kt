@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun ForecastWeatherScreen(
     info: ForecastWeatherInfo,
+    backgroundColor: Color,
     contentColor: Color,
     secondaryColor: Color,
     modifier: Modifier = Modifier
@@ -29,7 +30,7 @@ fun ForecastWeatherScreen(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MgDarkBlue)
+            .background(backgroundColor)
             .padding(20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -43,6 +44,7 @@ fun ForecastWeatherScreen(
         forecastByDay[days.first()]?.let { fbd ->
             ForecastTodayDisplay(
                 infoList = fbd,
+                backgroundColor = backgroundColor,
                 contentColor = contentColor,
                 secondaryColor = secondaryColor,
                 modifier = modifier
