@@ -10,7 +10,15 @@ import com.apx8.mongoose.domain.constants.WeatherType
 fun Int.getWeatherConditionCodes(): WeatherType {
     return (this / 100 to this % 100).let {
         if (it.first == 8 && it.second > 0) {
-            WeatherType.from(WeatherType.Clouds.code)
+            /**
+             * 801, 802 (0~50%) → 햇빛이 주도 → 맑음
+             * 803, 804 (50%+) → 구름이 주도 → 흐림
+             */
+            if (it.second in listOf(1, 2)) {
+                WeatherType.from(WeatherType.Clear.code)
+            } else {
+                WeatherType.from(WeatherType.Clouds.code)
+            }
         } else {
             WeatherType.from(it.first)
         }
