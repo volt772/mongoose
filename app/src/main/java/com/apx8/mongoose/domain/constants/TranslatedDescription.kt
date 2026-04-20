@@ -56,6 +56,12 @@ enum class TranslatedDescription(val desc: String) {
     ATMOSPHERE_771("바람 강함"),
     ATMOSPHERE_781("토네이도"),
 
+    /**
+     * 0~25% (800~801) → 맑음 (햇빛 dominant)
+     * 25~50% (802) → 맑지만 구름 느낌 있음
+     * 50~85% (803) → 흐린 느낌 시작
+     * 85%+ (804) → 완전 흐림
+     */
     CLEAR_800("맑음"),                  // 구름 한 점 없는 맑은 하늘
 
     CLOUDS_801("구름조금"),             // 약간의 구름이 낀 하늘

@@ -61,9 +61,9 @@ fun MainScreen(
                 .colors
         }
         else -> WeatherUiColors(
-            background = MgDarkBlue,
-            content = MgWhite,
-            secondary = MgWhite
+            background = MgWhite,
+            content = MgDarkBlue,
+            secondary = MgDarkBlue
         )
     }
 
