@@ -111,46 +111,119 @@ class WeatherRepositoryImpl @Inject constructor(
 //                }
             }
         } else {
-            try {
-                // 2. 캐시 MISS → 서버 호출
-                val weather = api.getAllWeatherData(lat, lon, stadiumCode)
+            /**
+             * APX서버 API사용
+             * 정책변경 : APX서버에서 OPENWEATHER 직접 호출
+             * 변경사유 : volt773.phps.kr 서버 만기 (26.08.25.)
+             * 특이사항 : OPENWEATHER 호출시 분당 최대 60건만 호출가능
+             * 변경일 : 26.08.24.
+             */
+             try {
+                 coroutineScope {
+                     val currentDeferred = async {
+                         directApi.getCurrentWeatherData(
+                             lat = lat,
+                             lon = lon,
+                             appId = apiKey,
+                             units = "metric"
+                         )
+                     }
 
-                // → DB에 저장 (download_log, current, forecast)
-                /* 현재날씨*/
-                val currentEntity = CurrentWeather(
-                    stadiumCode = stadiumCode,
-                    league = league,
-                    weatherJson = currentAdapter.toJson(weather.current),
-                    updatedAt = updatedAt
-                )
-                /* 주간예보*/
-                val forecastEntity = ForecastWeather(
-                    stadiumCode = stadiumCode,
-                    league = league,
-                    weatherJson = forecastAdapter.toJson(weather.forecast),
-                    updatedAt = updatedAt
-                )
-                /* 다운로드 기록*/
-                val log = WeatherDownloadLog(
-                    stadiumCode = stadiumCode,
-                    league = league,
-                    updatedAt = updatedAt
-                )
+                     val forecastDeferred = async {
+                         directApi.getForecastWeatherData(
+                             lat = lat,
+                             lon = lon,
+                             appId = apiKey,
+                             units = "metric"
+                         )
+                     }
 
-                // 삽입 (replace 트랜잭션 포함)
-                currentWeatherDao.replace(stadiumCode, league, currentEntity)
-                forecastWeatherDao.replace(stadiumCode, league, forecastEntity)
-                weatherDownloadLogDao.insert(log)
+                     val current = currentDeferred.await()
+                     val forecast = forecastDeferred.await()
 
-                emit(Resource.Success(
-                    AllWeatherInfo(
-                        currentWeatherInfo = weather.current.toCurrentWeatherInfo(),
-                        forecastWeatherInfo = weather.forecast.toForecastWeatherInfo(defaultDispatcher)
+                    val currentEntity = CurrentWeather(
+                        stadiumCode = stadiumCode,
+                        league = league,
+                        weatherJson = currentAdapter.toJson(current),
+                        updatedAt = updatedAt
                     )
-                ))
-            } catch (e: Exception) {
-                emit(Resource.Failed(e.message ?: "STORMBEAVER 요청 실패"))
-            }
+                    /* 주간예보*/
+                    val forecastEntity = ForecastWeather(
+                        stadiumCode = stadiumCode,
+                        league = league,
+                        weatherJson = forecastAdapter.toJson(forecast),
+                        updatedAt = updatedAt
+                    )
+                    /* 다운로드 기록*/
+                    val log = WeatherDownloadLog(
+                        stadiumCode = stadiumCode,
+                        league = league,
+                        updatedAt = updatedAt
+                    )
+
+                    // 삽입 (replace 트랜잭션 포함)
+                    currentWeatherDao.replace(stadiumCode, league, currentEntity)
+                    forecastWeatherDao.replace(stadiumCode, league, forecastEntity)
+                    weatherDownloadLogDao.insert(log)
+
+                    emit(
+                        Resource.Success(
+                            AllWeatherInfo(
+                                currentWeatherInfo = current.toCurrentWeatherInfo(),
+                                forecastWeatherInfo = forecast.toForecastWeatherInfo(defaultDispatcher)
+                            )
+                        )
+                    )
+                 }
+             } catch (e: Exception) {
+                 emit(Resource.Failed("OPENWEATHER 호출 실패: ${e.message}"))
+             }
+
+
+            /**
+             * ⬇ APX서버 호출부분
+             * Not Use @26.08.25..
+             */
+//            try {
+//                // 2. 캐시 MISS → 서버 호출
+//                val weather = api.getAllWeatherData(lat, lon, stadiumCode)
+//
+//                // → DB에 저장 (download_log, current, forecast)
+//                /* 현재날씨*/
+//                val currentEntity = CurrentWeather(
+//                    stadiumCode = stadiumCode,
+//                    league = league,
+//                    weatherJson = currentAdapter.toJson(weather.current),
+//                    updatedAt = updatedAt
+//                )
+//                /* 주간예보*/
+//                val forecastEntity = ForecastWeather(
+//                    stadiumCode = stadiumCode,
+//                    league = league,
+//                    weatherJson = forecastAdapter.toJson(weather.forecast),
+//                    updatedAt = updatedAt
+//                )
+//                /* 다운로드 기록*/
+//                val log = WeatherDownloadLog(
+//                    stadiumCode = stadiumCode,
+//                    league = league,
+//                    updatedAt = updatedAt
+//                )
+//
+//                // 삽입 (replace 트랜잭션 포함)
+//                currentWeatherDao.replace(stadiumCode, league, currentEntity)
+//                forecastWeatherDao.replace(stadiumCode, league, forecastEntity)
+//                weatherDownloadLogDao.insert(log)
+//
+//                emit(Resource.Success(
+//                    AllWeatherInfo(
+//                        currentWeatherInfo = weather.current.toCurrentWeatherInfo(),
+//                        forecastWeatherInfo = weather.forecast.toForecastWeatherInfo(defaultDispatcher)
+//                    )
+//                ))
+//            } catch (e: Exception) {
+//                emit(Resource.Failed(e.message ?: "STORMBEAVER 요청 실패"))
+//            }
         }
     }
 
